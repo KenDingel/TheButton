@@ -1,19 +1,22 @@
 import os
-import nextcord
-from nextcord.ext import commands, tasks
-from nextcord import File, Guild
 import json
-import mysql.connector
-from mysql.connector.pooling import MySQLConnectionPool
 import asyncio
 import random
 import datetime
 from datetime import timezone
 from io import BytesIO
-from PIL import Image, ImageDraw, ImageFont
 import pytz
 import logging
 import traceback
+
+import nextcord
+from nextcord import File, Guild
+from nextcord.ext import commands, tasks
+
+import mysql.connector
+from mysql.connector.pooling import MySQLConnectionPool
+
+from PIL import Image, ImageDraw, ImageFont
 
 #set directory to where the script is located
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
@@ -443,7 +446,7 @@ class ButtonView(nextcord.ui.View):
 class TimerButton(nextcord.ui.Button):
     def __init__(self, style, label, timer_value):
         super().__init__(style=style, label=label, custom_id="dynamic_button")
-        self.timer_value = timer_value  # Store timer_value if needed for the callback
+        self.timer_value = timer_value  # Store timer_value if needed
 
     def update_button_color(self):
         color = get_color_state(self.timer_value)
@@ -465,6 +468,7 @@ class TimerButton(nextcord.ui.Button):
     async def callback(self, interaction: nextcord.Interaction):
         await interaction.response.defer(ephemeral=True)
         try:
+            await lock.acquire()
             print(f'Button clicked by {interaction.user}!')
             logger.info(f'Button clicked by {interaction.user}!')
             button_channel = bot.get_channel(config['button_channel_id'])
@@ -491,6 +495,7 @@ class TimerButton(nextcord.ui.Button):
 
             if current_timer_value <= 0:
                 await interaction.followup.send("The game has already ended!", ephemeral=True)
+                lock.release() 
                 return
 
             cursor.execute('SELECT COUNT(*) FROM button_clicks WHERE user_id = %s AND click_time >= DATE_SUB(UTC_TIMESTAMP(), INTERVAL 3 HOUR)', (interaction.user.id,))
@@ -510,6 +515,7 @@ class TimerButton(nextcord.ui.Button):
                     await interaction.followup.send(f'You have already clicked the button in the last 3 hours. Please try again in {formatted_cooldown}', ephemeral=True)
                 else:
                     await interaction.followup.send('An error occurred while checking your cooldown time.', ephemeral=True)
+                lock.release()
                 return
 
             color_state = get_color_state(current_timer_value)
@@ -557,12 +563,14 @@ class TimerButton(nextcord.ui.Button):
             
             # Set the cooldown for the user
             cooldown_manager.add_or_update_user(interaction.user.id, datetime.timedelta(hours=3), role_name, current_timer_value)
+            lock.release()
         except Exception as e:
             tb = traceback.format_exc()
             print(f'Error processing button click: {e}, {tb}')
             logger.error(f'Error processing button click: {e}, {tb}')
             await interaction.followup.send("An error occurred while processing the button click.", ephemeral=True)
-
+            lock.release()
+            
 @bot.event
 async def on_message(message):
     if message.author == bot.user:
@@ -571,6 +579,8 @@ async def on_message(message):
     if message.channel.id != config['button_channel_id'] and message.channel.id != config['chat_channel_id']:
         return
 
+    await lock.acquire()
+    
     if message.content.lower() == 'startbutton' or message.content.lower() == 'sb':
         # purge channel
         await message.channel.purge(limit=100, check=lambda m: m.author == bot.user)
@@ -655,6 +665,7 @@ async def on_message(message):
         color = (106, 76, 147)
         embed.color = nextcord.Color.from_rgb(*color)
         await message.channel.send(embed=embed)
+    lock.release()
 
 @bot.event
 async def on_ready():
