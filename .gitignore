@@ -2,3 +2,6 @@
 /myenv
 /timer_images/*
 *.png
+*.png
+/timer_images
+timer_images/timer.png

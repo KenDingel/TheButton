@@ -1,14 +1,1 @@
-{
-  "discord_token": "MTIxODc0NTQyMjE0MzU1Nzc1Mw.GHihAp.D8tsDESHNPd7PecwnBAuWAIpy0aEs44Xj5o3eI",
-  "sql_host": "moonstorage.moondev.dreamhosters.com",
-  "sql_user": "stinky_admin",
-  "sql_password": "ji*r8mDYLt#Dfb",
-  "sql_database": "moondev",
-  "sql_port": 3306,
-  "admin_role_id": 1218738547599872011,
-  "timer_duration": 43200,
-  "guild_id": 974867526129426493,
-  "button_channel_id": 1218747369974403142,
-  "chat_channel_id": 1218747412529676378,
-  "button_message_id": 1219043569399103610
-}
+{"discord_token": "MTIxODc0NTQyMjE0MzU1Nzc1Mw.GHihAp.D8tsDESHNPd7PecwnBAuWAIpy0aEs44Xj5o3eI", "sql_host": "moonstorage.moondev.dreamhosters.com", "sql_user": "stinky_admin", "sql_password": "ji*r8mDYLt#Dfb", "sql_database": "moondev", "sql_port": 3306, "admin_role_id": 1218738547599872011, "timer_duration": 43200, "guild_id": 974867526129426493, "button_channel_id": 1218747369974403142, "chat_channel_id": 1218747412529676378, "button_message_id": 1219168134184042537}
