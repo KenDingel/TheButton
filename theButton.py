@@ -17,15 +17,11 @@ import mysql.connector
 from mysql.connector.pooling import MySQLConnectionPool
 
 from PIL import Image, ImageDraw, ImageFont
-
-#set directory to where the script is located
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
-
-# Logging
-logging.basicConfig(filename='theButton.log', level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+logging.basicConfig(filename='theButton.log', level=logging.INFO,
+                    format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
 
-# Load configuration from config.json
 with open('config.json') as f:
     config = json.load(f)
 
@@ -39,13 +35,14 @@ db_pool = MySQLConnectionPool(
     port=config['sql_port']
 )
 
-# Set up the MySQL connection
+
 def get_db_connection():
     return db_pool.get_connection()
 
-# Create a cursor object to interact with the database
+
 db = get_db_connection()
 cursor = db.cursor()
+
 
 def reconnect_cursor():
     global db, cursor
@@ -53,8 +50,8 @@ def reconnect_cursor():
         global cursor
         db = get_db_connection()
         cursor = db.cursor()
-        
-# Create the necessary tables if they don't exist
+
+
 cursor.execute('''
     CREATE TABLE IF NOT EXISTS button_clicks (
         id INT AUTO_INCREMENT PRIMARY KEY,
@@ -83,7 +80,22 @@ cursor.execute('''
 
 db.commit()
 
-# Set up the bot with the necessary intents
+
+def execute_query(query, params=None, retry_attempts=3):
+    global cursor
+    attempt = 0
+    while attempt < retry_attempts:
+        try:
+            cursor.execute(query, params)
+            return True
+        except mysql.connector.Error as e:
+            print(f'Error executing query: {e}')
+            logger.error(f'Error executing query: {e}')
+            attempt += 1
+            reconnect_cursor()
+    return False
+
+
 intents = nextcord.Intents.default()
 intents.message_content = True
 intents.members = True
@@ -91,98 +103,113 @@ bot = commands.Bot(command_prefix='!', intents=intents)
 
 lock = asyncio.Lock()
 
-# Global variables
 timer_value = config['timer_duration']
 user_name, latest_click_time, start_time, total_clicks, last_timer_value, num_players = None, None, None, None, None, 0
 
-# Define the color states
 COLOR_STATES = [
-    (255, 89, 94),    # 0-2 hours remaining (Red)
-    (255, 146, 76),   # 2-4 hours remaining (Orange)
-    (255, 202, 58),   # 4-6 hours remaining (Yellow)
-    (138, 201, 38),   # 6-8 hours remaining (Green)
-    (25, 130, 196),   # 8-10 hours remaining (Blue)
-    (106, 76, 147)    # 10-12 hours remaining (Purple)
+    (255, 89, 94),
+    (255, 146, 76),
+    (255, 202, 58),
+    (138, 201, 38),
+    (25, 130, 196),
+    (106, 76, 147)
 ]
 
+
 def get_color_state(timer_value):
-    hours_remaining = int(timer_value) // 3600  # Ensure timer_value is int, just in case
-    color_index = min(int(hours_remaining // 2), len(COLOR_STATES) - 1)  # Explicitly ensure integer
+    hours_remaining = int(timer_value) // 3600
+    color_index = min(int(hours_remaining // 2), len(COLOR_STATES) - 1)
     return COLOR_STATES[color_index]
+
 
 def get_color_emoji(timer_value):
     color = get_color_state(timer_value)
-    if color == (255, 89, 94):  # Red
+    if color == (255, 89, 94):
         return "🔴"
-    elif color == (255, 146, 76):  # Orange
+    elif color == (255, 146, 76):
         return "🟠"
-    elif color == (255, 202, 58):  # Yellow
+    elif color == (255, 202, 58):
         return "🟡"
-    elif color == (138, 201, 38):  # Green
+    elif color == (138, 201, 38):
         return "🟢"
-    elif color == (25, 130, 196):  # Blue
+    elif color == (25, 130, 196):
         return "🔵"
-    elif color == (106, 76, 147):  # Purple
+    elif color == (106, 76, 147):
         return "🟣"
+
 
 def generate_timer_image(timer_value):
     try:
-        # Create a new image with the specified color state
+
         color = get_color_state(timer_value)
         image_width = 800
         image_height = 400
         image = Image.new('RGB', (image_width, image_height), color)
 
-        # Draw the timer text on the image
         draw = ImageDraw.Draw(image)
         font_size = 120
         font = ImageFont.truetype('Mercy Christole.ttf', font_size)
         text = format_time(timer_value)
-        # Formatted in H M S labeled format, with seconds formatted to 00 format 
+
         text = f"{format(int(timer_value//3600), '02d')}:{format(int(timer_value%3600//60), '02d')}:{format(int(timer_value%60), '02d')}"
         text_bbox = draw.textbbox((0, 0), text, font=font)
         text_width = text_bbox[2] - text_bbox[0]
         text_height = text_bbox[3] - text_bbox[1]
-        position = ((image_width - text_width) // 2, (image_height - text_height) // 2 + 50)
-        draw.text(position, text, font=font, fill=(0, 0, 0), stroke_width=6, stroke_fill=(255, 255, 255))
+        position = ((image_width - text_width) // 2,
+                    (image_height - text_height) // 2 + 50)
+        draw.text(position, text, font=font, fill=(0, 0, 0),
+                  stroke_width=6, stroke_fill=(255, 255, 255))
 
-        # Draw the additional text above the timer
         additional_text = "Time Left".upper()
         additional_font_size = 100
-        additional_font = ImageFont.truetype('Mercy Christole.ttf', additional_font_size)
-        additional_text_bbox = draw.textbbox((0, 0), additional_text, font=additional_font)
-        additional_text_width = additional_text_bbox[2] - additional_text_bbox[0]
-        additional_text_height = additional_text_bbox[3] - additional_text_bbox[1]
-        additional_position = ((image_width - additional_text_width) // 2, 50, ((image_height - additional_text_height) // 2) - 200)
-        draw.text(additional_position, additional_text, font=additional_font, fill=(0, 0, 0), stroke_width=6, stroke_fill=(255, 255, 255))
+        additional_font = ImageFont.truetype(
+            'Mercy Christole.ttf', additional_font_size)
+        additional_text_bbox = draw.textbbox(
+            (0, 0), additional_text, font=additional_font)
+        additional_text_width = additional_text_bbox[2] - \
+            additional_text_bbox[0]
+        additional_text_height = additional_text_bbox[3] - \
+            additional_text_bbox[1]
+        additional_position = ((image_width - additional_text_width) //
+                               2, 50, ((image_height - additional_text_height) // 2) - 200)
+        draw.text(additional_position, additional_text, font=additional_font, fill=(
+            0, 0, 0), stroke_width=6, stroke_fill=(255, 255, 255))
 
-        # Create a directory to save the timer images if it doesn't exist
-        image_directory = 'timer_images'
-        os.makedirs(image_directory, exist_ok=True)
+        # image_directory = 'timer_images'
+        # os.makedirs(image_directory, exist_ok=True)
 
-        # Generate a unique filename based on the current timestamp
-        image_filename = f'timer.png'
-        image_path = os.path.join(image_directory, image_filename)
+        # image_filename = f'timer.png'
+        # image_path = os.path.join(image_directory, image_filename)
 
-        # Save the image to a file in the specified directory
-        image.save(image_path, 'PNG')
+        # image.save(image_path, 'PNG')
 
-        # Return the image file path
-        return image_path
+        # return image_path
+        
+        # Save the image to an in-memory buffer
+        buffer = BytesIO()
+        image.save(buffer, 'PNG')
+        buffer.seek(0)
+        
+        # Create a Discord File object from the buffer
+        file = File(buffer, filename='timer.png')
+        
+        return file
     except Exception as e:
         tb = traceback.format_exc()
         print(f'Error generating timer image: {e}, {tb}')
         logger.error(f'Error generating timer image: {e}, {tb}')
         return None
 
+
 def format_time(seconds):
     time = str(datetime.timedelta(seconds=seconds))
     return time
 
+
 async def create_button_message():
     global button_message
     try:
-        # Send the game explanation message
+
         explanation = (
             "🚨 THE BUTTON! 🚨\n"
             "Prepare yourselves for **The Button Game**\n"
@@ -203,18 +230,16 @@ async def create_button_message():
         )
         await bot.get_channel(config['button_channel_id']).send(explanation)
 
-        # Create the button message
-        embed = nextcord.Embed(title='🚨 THE BUTTON! 🚨', description='Click the button to start the game!')
+        embed = nextcord.Embed(title='🚨 THE BUTTON! 🚨',
+                               description='Click the button to start the game!')
         message = await bot.get_channel(config['button_channel_id']).send(embed=embed, view=ButtonView(config['timer_duration']))
         config['button_message_id'] = message.id
         button_channel = bot.get_channel(config['button_channel_id'])
         button_message = await button_channel.fetch_message(config['button_message_id'])
 
-        # Save the updated config to config.json
         with open('config.json', 'w') as f:
             json.dump(config, f)
 
-        # Create the color roles if they don't exist
         guild = bot.get_guild(config['guild_id'])
         for color_name, color_value in zip(['Red', 'Orange', 'Yellow', 'Green', 'Blue', 'Purple'], COLOR_STATES):
             role = nextcord.utils.get(guild.roles, name=color_name)
@@ -222,8 +247,7 @@ async def create_button_message():
                 role = await guild.create_role(name=color_name, color=nextcord.Color.from_rgb(*color_value))
             else:
                 await role.edit(color=nextcord.Color.from_rgb(*color_value))
-                
-        # Update the button message embed description
+
         embed.description = '**The game has started! Keep the button alive!**'
         await message.edit(embed=embed)
     except Exception as e:
@@ -234,79 +258,98 @@ async def create_button_message():
 prev_timer_val = None
 timer_loop_count = 0
 
-@tasks.loop(seconds=5)
+
+@tasks.loop(seconds=1)
 async def update_timer():
     global button_message, user_name, latest_click_time, start_time, total_clicks, last_timer_value, timer_value, prev_timer_val, num_players
     global timer_loop_count
     global cursor, db
-        
+
     try:
-        if latest_click_time is None: #(datetime.datetime.now(timezone.utc) - latest_click_time).total_seconds() >= 900:
-            # Reconnect to the database if the connection is lost
+        if latest_click_time is None or prev_timer_val - timer_value > 300:
             reconnect_cursor()
-            
-            cursor.execute('''
+            query = '''
                 SELECT user_name, click_time, (SELECT MIN(click_time) FROM button_clicks) AS start_time, 
                     (SELECT COUNT(*) FROM button_clicks) AS total_clicks, timer_value
                 FROM button_clicks
                 ORDER BY id DESC
                 LIMIT 1
-            ''')
+            '''
+            params = ()
+            success = execute_query(query, params)
+            if success:
+                print('Data retrieved successfully!')
+            else:
+                print('Failed to retrieve data.')
+                logging.error('Failed to retrieve data.')
+                return
             result = cursor.fetchone()
 
             if result:
                 user_name, latest_click_time, start_time, total_clicks, last_timer_value = result
-                latest_click_time = latest_click_time.replace(tzinfo=timezone.utc) if latest_click_time.tzinfo is None else latest_click_time
-                elapsed_time = (datetime.datetime.now(timezone.utc) - latest_click_time).total_seconds()
-                timer_value = int(max(config['timer_duration'] - elapsed_time, 0))
+                latest_click_time = latest_click_time.replace(
+                    tzinfo=timezone.utc) if latest_click_time.tzinfo is None else latest_click_time
+                elapsed_time = (datetime.datetime.now(
+                    timezone.utc) - latest_click_time).total_seconds()
+                timer_value = int(
+                    max(config['timer_duration'] - elapsed_time, 0))
 
                 if start_time:
                     start_time = start_time.replace(tzinfo=timezone.utc)
-                    elapsed_time = (datetime.datetime.now(timezone.utc) - start_time).total_seconds()
-                    
-                    # Count the number of rows in the users table to find the number of players. SQL Explanation: COUNT(*) returns the number of rows in the table
-                    cursor.execute('SELECT COUNT(*) FROM users')
+                    elapsed_time = (datetime.datetime.now(
+                        timezone.utc) - start_time).total_seconds()
+
+                    query = 'SELECT COUNT(*) FROM users'
+                    params = ()
+                    success = execute_query(query, params)
+                    if success:
+                        print('Data retrieved successfully!')
+                    else:
+                        print('Failed to retrieve data.')
+                        logging.error('Failed to retrieve data.')
+                        return
                     num_players = cursor.fetchone()[0]
                 else:
                     logging.error('Start time is None')
                     return
             else:
-                logging.error('Latest click time is None, game not started yet.')
+                logging.error(
+                    'Latest click time is None, game not started yet.')
                 return
         else:
-            # All the data is already available, no need to query the database
+
             '''logging.info('All the data is already available, no need to query the database')
             logging.info(f'Latest click time: {latest_click_time}')
             logging.info(f'Start time: {start_time}')
             logging.info(f'Total clicks: {total_clicks}')
             logging.info(f'Last timer value: {last_timer_value}')'''
-            elapsed_time = (datetime.datetime.now(timezone.utc) - latest_click_time).total_seconds()
+            elapsed_time = (datetime.datetime.now(
+                timezone.utc) - latest_click_time).total_seconds()
             timer_value = max(config['timer_duration'] - elapsed_time, 0)
             logging.info(f'Timer value: {timer_value}')
-            # print(f"Timer value: {timer_value}")
-            
-        # Prevent the timer from skipping by more than 5 minutes, use previous timer value if it does so
+
         if prev_timer_val is not None and abs(timer_value - prev_timer_val) > 300:
             timer_value = prev_timer_val
-            logging.info(f'Prevented timer from skipping, using previous timer value: {timer_value}')
+            logging.info(
+                f'Prevented timer from skipping, using previous timer value: {timer_value}')
         prev_timer_val = timer_value
-        
-        # Get color state and format latest click time for display
+
         color_state = get_color_state(last_timer_value)
         color_index = COLOR_STATES.index(color_state)
-        color_name = ["Red", "Orange", "Yellow", "Green", "Blue", "Purple"][color_index]
+        color_name = ["Red", "Orange", "Yellow",
+                      "Green", "Blue", "Purple"][color_index]
         emoji = ["🔴", "🟠", "🟡", "🟢", "🔵", "🟣"][color_index]
-        
+
         current_color_state = get_color_state(timer_value)
         current_color_index = COLOR_STATES.index(current_color_state)
-        current_color_name = ["Red", "Orange", "Yellow", "Green", "Blue", "Purple"][current_color_index]
+        current_color_name = ["Red", "Orange", "Yellow",
+                              "Green", "Blue", "Purple"][current_color_index]
         current_emoji = ["🔴", "🟠", "🟡", "🟢", "🔵", "🟣"][current_color_index]
-        
+
         formatted_time = f'<t:{int(latest_click_time.timestamp())}:R>'
         time_value_formatted = format_time(timer_value)
-        latest_user_info = f'{formatted_time} {user_name} clicked at  {emoji} {color_name}.'    
-        
-        # See if variable for button message is set and working by testing if can retrieve the message
+        latest_user_info = f'{formatted_time} {user_name} clicked at  {emoji} {color_name}.'
+
         try:
             button_message_text = button_message.content
         except Exception as e:
@@ -316,59 +359,100 @@ async def update_timer():
                 button_channel = bot.get_channel(config['button_channel_id'])
                 button_message = await button_channel.fetch_message(config['button_message_id'])
             except nextcord.NotFound:
-                logging.error('Button message not found, creating a new button message...')
+                logging.error(
+                    'Button message not found, creating a new button message...')
                 await create_button_message()
                 button_channel = bot.get_channel(config['button_channel_id'])
                 button_message = await button_channel.fetch_message(config['button_message_id'])
             except Exception as e:
                 logging.error(f'Error fetching button message: {e}')
                 return
-        
+
         embed = button_message.embeds[0]
-        
+
         if timer_value <= 0:
-            # Timer has reached zero, end the game
-            embed = nextcord.Embed(title='The Button Game', description='Game Ended!')
+            embed = nextcord.Embed(
+                title='The Button Game', description='Game Ended!')
 
-            # Retrieve and add overall game stats to the embed
-            cursor.execute('SELECT COUNT(*) FROM button_clicks')
-            total_clicks = cursor.fetchone()[0]
-            embed.add_field(name='Total Button Clicks', value=str(total_clicks), inline=False)
+            query = 'SELECT COUNT(*) FROM button_clicks'
+            params = ()
+            success, total_clicks = execute_query(query, params)
+            if success:
+                print('Data retrieved successfully!')
+            else:
+                print('Failed to retrieve data.')
+                logging.error('Failed to retrieve data.')
+                return
+            embed.add_field(name='Total Button Clicks',
+                            value=str(total_clicks), inline=False)
 
-            cursor.execute('SELECT MIN(click_time), MAX(click_time) FROM button_clicks')
-            start_time, end_time = cursor.fetchone()
+            query = 'SELECT MIN(click_time), MAX(click_time) FROM button_clicks'
+            params = ()
+            success, result = execute_query(query, params)
+            if success:
+                start_time, end_time = result[0], result[1]
+            else:
+                print('Failed to retrieve data.')
+                logging.error('Failed to retrieve data.')
+                return
             duration = end_time - start_time
-            embed.add_field(name='Game Duration', value=str(duration), inline=False)
+            embed.add_field(name='Game Duration',
+                            value=str(duration), inline=False)
 
-            cursor.execute('SELECT COUNT(DISTINCT user_id) FROM button_clicks')
-            num_participants = cursor.fetchone()[0]
-            embed.add_field(name='Number of Participants', value=str(num_participants), inline=False)
+            query = 'SELECT COUNT(DISTINCT user_id) FROM button_clicks'
+            params = ()
+            success, num_participants = execute_query(query, params)
+            if success:
+                print('Data retrieved successfully!')
+            else:
+                print('Failed to retrieve data.')
+                logging.error('Failed to retrieve data.')
+                return
+            embed.add_field(name='Number of Participants',
+                            value=str(num_participants), inline=False)
 
-            cursor.execute('SELECT user_name, COUNT(*) AS click_count FROM button_clicks GROUP BY user_id ORDER BY click_count DESC LIMIT 1')
-            most_active = cursor.fetchone()
-            embed.add_field(name='Most Active Participant', value=f"{most_active[0]} ({most_active[1]} clicks)", inline=False)
+            query = 'SELECT user_name, COUNT(*) AS click_count FROM button_clicks GROUP BY user_id ORDER BY click_count DESC LIMIT 1'
+            params = ()
+            success, most_active = execute_query(query, params)
+            if success:
+                print('Data retrieved successfully!')
+            else:
+                print('Failed to retrieve data.')
+                logging.error('Failed to retrieve data.')
+                return
+            embed.add_field(name='Most Active Participant',
+                            value=f"{most_active[0]} ({most_active[1]} clicks)", inline=False)
 
-            cursor.execute('SELECT MAX(timer_value) FROM button_clicks')
-            longest_timer = cursor.fetchone()[0]
-            embed.add_field(name='Longest Timer Reached', value=format_time(longest_timer), inline=False)
+            query = 'SELECT MAX(timer_value) FROM button_clicks'
+            params = ()
+            success, longest_timer = execute_query(query, params)
+            if success:
+                print('Data retrieved successfully!')
+            else:
+                print('Failed to retrieve data.')
+                logging.error('Failed to retrieve data.')
+                return
+            embed.add_field(name='Longest Timer Reached',
+                            value=format_time(longest_timer), inline=False)
 
             color_distribution = []
             for color in ['Red', 'Orange', 'Yellow', 'Green', 'Blue', 'Purple']:
                 role = nextcord.utils.get(Guild.roles, name=color)
                 count = len(role.members)
                 color_distribution.append(f"- {color}: {count}")
-            embed.add_field(name='Color Click Distribution', value='\n'.join(color_distribution), inline=False)
+            embed.add_field(name='Color Click Distribution',
+                            value='\n'.join(color_distribution), inline=False)
             update_timer.stop()
             logging.info('Game Ended!')
         else:
             embed.clear_fields()
-            embed.add_field(name='👤 Latest Click', value=latest_user_info, inline=False)
-        
-            # Calculate and display how long the game has been running
-            # Game Started variable of 2024 03 17 12:59:55 UTC
-            start_time = datetime.datetime(2024, 3, 17, 12, 59, 55, tzinfo=timezone.utc)
+            embed.add_field(name='👤 Latest Click',
+                            value=latest_user_info, inline=False)
+
+            start_time = datetime.datetime(
+                2024, 3, 17, 12, 59, 55, tzinfo=timezone.utc)
             elapsed_time = datetime.datetime.now(timezone.utc) - start_time
-            # Estimate the time the game has been running in days, hours, minutes, and seconds
+
             elapsed_days = elapsed_time.days
             elapsed_hours = elapsed_time.seconds // 3600
             elapsed_minutes = (elapsed_time.seconds % 3600) // 60
@@ -376,34 +460,34 @@ async def update_timer():
             elapsed_time_str = f'{elapsed_days} days, {elapsed_hours} hours, {elapsed_minutes} minutes, {elapsed_seconds} seconds'
             total_clicks_msg = f'{total_clicks} clicks'
             total_players_msg = f'{num_players}'
-            # Description area with message of all stats msgs/str concatenated in an adventure game toned wording! Calling players knights or adventurers
-            embed.description = f'The game ends when the timer hits 0.\nClick the button to reset it and keep the game going!\n\nValiant clickers, you have kept the button alive for {elapsed_time_str}! In your pursuit of glory, {total_clicks_msg} have been made by {total_players_msg} adventurers! 🛡️🗡️🏰\n\nWill you join the ranks of the brave and keep the button alive?'
-            embed.set_footer(text=f'The Button Game by Regen2Moon; Inspired by Josh Wardle')
-            
-            # Generate the timer image and set it as the embed image
-            timer_image_path = generate_timer_image(timer_value)
-            embed.set_image(url=f'attachment://{os.path.basename(timer_image_path)}')
 
+            embed.description = f'The game ends when the timer hits 0.\nClick the button to reset it and keep the game going!\n\nValiant clickers, you have kept the button alive for {elapsed_time_str}! In your pursuit of glory, {total_clicks_msg} have been made by {total_players_msg} adventurers! 🛡️🗡️🏰\n\nWill you join the ranks of the brave and keep the button alive?'
+            embed.set_footer(
+                text=f'The Button Game by Regen2Moon; Inspired by Josh Wardle')
+
+            file_buffer = generate_timer_image(timer_value)
+            embed.set_image(url=f'attachment://{file_buffer.filename}')
             pastel_color = get_color_state(timer_value)
             embed.color = nextcord.Color.from_rgb(*pastel_color)
 
             button_view = ButtonView(timer_value)
-            await button_message.edit(embed=embed, file=nextcord.File(timer_image_path), view=button_view)
+            await button_message.edit(embed=embed, file=file_buffer, view=button_view)
     except Exception as e:
         tb = traceback.format_exc()
         print(f'Error updating timer: {e}, {tb}')
         logger.error(f'Error updating timer: {e}, {tb}')
-        
+
+
 class CooldownManager:
     def __init__(self):
         self.db_config = config
         self.add_initial_user_data()
-        
+
     def add_initial_user_data(self):
         reconnect_cursor()
         global cursor, db
 
-        cursor.execute('''
+        query = '''
             INSERT INTO users (user_id, cooldown_expiration, total_clicks, lowest_click_time, last_click_time)
             SELECT user_id, 
                 CASE
@@ -421,21 +505,37 @@ class CooldownManager:
                 total_clicks = VALUES(total_clicks),
                 lowest_click_time = VALUES(lowest_click_time),
                 last_click_time = VALUES(last_click_time)
-        ''')
-        # Additional logic to update cooldown_expiration for existing records
-        cursor.execute('''
+        '''
+        params = ()
+        success = execute_query(query, params)
+        if success:
+            print('Initial user data added successfully!')
+        else:
+            print('Failed to add initial user data.')
+            logging.error('Failed to add initial user data.')
+            return
+
+        query = '''
             UPDATE users
             SET cooldown_expiration = NULL
             WHERE cooldown_expiration IS NOT NULL AND cooldown_expiration < UTC_TIMESTAMP()
-        ''')
+        '''
+        params = ()
+        success = execute_query(query, params)
+        if success:
+            print('Expired cooldowns removed successfully!')
+        else:
+            print('Failed to remove expired cooldowns.')
+            logging.error('Failed to remove expired cooldowns.')
+            return
         db.commit()
-
 
     def add_or_update_user(self, user_id, cooldown_duration, color_rank, timer_value):
         reconnect_cursor()
         global cursor, db
-        cooldown_expiration = datetime.datetime.now(timezone.utc) + cooldown_duration
-        cursor.execute('''
+        cooldown_expiration = datetime.datetime.now(
+            timezone.utc) + cooldown_duration
+        query = '''
             INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, last_click_time)
             VALUES (%s, %s, %s, 1, %s, %s)
             ON DUPLICATE KEY UPDATE
@@ -444,22 +544,45 @@ class CooldownManager:
                 total_clicks = total_clicks + 1,
                 lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
                 last_click_time = VALUES(last_click_time)
-        ''', (user_id, cooldown_expiration, color_rank, timer_value, datetime.datetime.now(timezone.utc)))
+        '''
+
+        params = (user_id, cooldown_expiration, color_rank,
+                  timer_value, datetime.datetime.now(timezone.utc))
+        success = execute_query(query, params)
+        if success:
+            print('Data inserted or updated successfully!')
+        else:
+            print('Failed to insert or update data.')
+            logging.error('Failed to insert or update data.')
+            return
+
         db.commit()
 
     def remove_expired_cooldowns(self):
         reconnect_cursor()
         global cursor, db
-        cursor.execute('UPDATE users SET cooldown_expiration = NULL WHERE cooldown_expiration <= %s', (datetime.datetime.now(timezone.utc),))
+        cursor.execute('UPDATE users SET cooldown_expiration = NULL WHERE cooldown_expiration <= %s',
+                       (datetime.datetime.now(timezone.utc),))
+        query = 'UPDATE users SET cooldown_expiration = NULL WHERE cooldown_expiration <= %s'
+        params = (datetime.datetime.now(timezone.utc),)
+        success = execute_query(query, params)
+        if success:
+            print('Expired cooldowns removed successfully!')
+        else:
+            print('Failed to remove expired cooldowns.')
+            logging.error('Failed to remove expired cooldowns.')
+            return
         db.commit()
+
 
 cooldown_manager = CooldownManager()
 
+
 class ButtonView(nextcord.ui.View):
-    def __init__(self, timer_value): #, user_id: int = None):
-        super().__init__(timeout=None)  # Set timeout=None if you want the buttons to be always active
+    def __init__(self, timer_value):
+        super().__init__(timeout=None)
         self.timer_value = timer_value
-        #self.user_id = user_id
+
         self.add_button()
 
     def add_button(self):
@@ -467,47 +590,59 @@ class ButtonView(nextcord.ui.View):
 
         color = get_color_state(self.timer_value)
         style = nextcord.ButtonStyle.gray
-        if color == (255, 89, 94):  # Red
+        if color == (255, 89, 94):
             style = nextcord.ButtonStyle.danger
-        elif color == (255, 146, 76):  # Orange
+        elif color == (255, 146, 76):
             style = nextcord.ButtonStyle.secondary
-        elif color == (255, 202, 58):  # Yellow
+        elif color == (255, 202, 58):
             style = nextcord.ButtonStyle.secondary
-        elif color == (138, 201, 38):  # Green
+        elif color == (138, 201, 38):
             style = nextcord.ButtonStyle.success
-        elif color == (25, 130, 196):  # Blue
+        elif color == (25, 130, 196):
             style = nextcord.ButtonStyle.primary
-        elif color == (106, 76, 147):  # Purple
+        elif color == (106, 76, 147):
             style = nextcord.ButtonStyle.primary
 
         self.clear_items()
-        button = TimerButton(style=style, label=button_label, timer_value=self.timer_value)
+        button = TimerButton(style=style, label=button_label,
+                             timer_value=self.timer_value)
         self.add_item(button)
+
 
 class TimerButton(nextcord.ui.Button):
     def __init__(self, style, label, timer_value):
         super().__init__(style=style, label=label, custom_id="dynamic_button")
-        self.timer_value = timer_value  # Store timer_value if needed
+        self.timer_value = timer_value
 
     def update_button_color(self):
         color = get_color_state(self.timer_value)
         style = nextcord.ButtonStyle.gray
-        if color == (255, 89, 94):  # Red
+        if color == (255, 89, 94):
             style = nextcord.ButtonStyle.danger
-        elif color == (255, 146, 76):  # Orange
+        elif color == (255, 146, 76):
             style = nextcord.ButtonStyle.secondary
-        elif color == (255, 202, 58):  # Yellow
+        elif color == (255, 202, 58):
             style = nextcord.ButtonStyle.secondary
-        elif color == (138, 201, 38):  # Green
+        elif color == (138, 201, 38):
             style = nextcord.ButtonStyle.success
-        elif color == (25, 130, 196):  # Blue
+        elif color == (25, 130, 196):
             style = nextcord.ButtonStyle.primary
-        elif color == (106, 76, 147):  # Purple
+        elif color == (106, 76, 147):
             style = nextcord.ButtonStyle.primary
         self.style = style
-        
+
     async def callback(self, interaction: nextcord.Interaction):
         await lock.acquire()
+        global latest_click_time
+
+        try:
+            user_id = interaction.user.id
+        except AttributeError:
+            print(f'Invalid interaction: {interaction}')
+            logger.error(f'Invalid interaction: {interaction}')
+            await interaction.followup.send("The button is difficult to press, but feels like its getting looser. Try pushing it again.", ephemeral=True)
+            return
+
         try:
             await interaction.response.defer(ephemeral=True)
             print(f'Button clicked by {interaction.user}!')
@@ -516,93 +651,123 @@ class TimerButton(nextcord.ui.Button):
             print(f'Error processing button click: {e}')
             logger.error(f'Error processing button click: {e}')
             pass
-        
+
         try:
             print(f'Button clicked by {interaction.user}!')
             logger.info(f'Button clicked by {interaction.user}!')
-            button_channel = bot.get_channel(config['button_channel_id'])
-            button_message = await button_channel.fetch_message(config['button_message_id'])
+            try:
+                button_channel = bot.get_channel(config['button_channel_id'])
+                button_message = await button_channel.fetch_message(config['button_message_id'])
+            except nextcord.NotFound:
+                logging.error(
+                    'Button message not found, creating a new button message...')
+                await create_button_message()
+                button_channel = bot.get_channel(config['button_channel_id'])
+                button_message = await button_channel.fetch_message(config['button_message_id'])
 
             embed = button_message.embeds[0]
 
-            # if cursor is not connected
             global cursor, db
             reconnect_cursor()
-            
-            cursor.execute('''
-                SELECT MAX(click_time) AS latest_click_time,
-                    COUNT(*) AS click_count,
-                    MAX(IF(user_id = %s, click_time, NULL)) AS last_click_time
-                FROM button_clicks
-                WHERE click_time >= DATE_SUB(UTC_TIMESTAMP(), INTERVAL 3 HOUR)
-            ''', (interaction.user.id,))
-            
+
+            query = 'SELECT MAX(click_time) AS latest_click_time, COUNT(*) AS click_count, MAX(IF(user_id = %s, click_time, NULL)) AS last_click_time FROM button_clicks WHERE click_time >= DATE_SUB(UTC_TIMESTAMP(), INTERVAL 3 HOUR)'
+            params = (interaction.user.id,)
+            success = execute_query(query, params)
+            if success:
+                print('Data retrieved successfully!')
+            else:
+                print('Failed to retrieve data.')
+                await interaction.followup.send("Alas the button is stuck, try again later. (2*)", ephemeral=True)
+                lock.release()
+
             result = cursor.fetchone()
-            
+
             noclicks = False
-            # if result is None, then the user has not clicked the button in the last 3 hours. So sql again to get the latest click time and click count and if there is no click from the user then grab the last click of any user.
+
             if result[0] is None:
-                cursor.execute('''
+                query = '''
                     SELECT MAX(click_time) AS latest_click_time,
                         COUNT(*) AS click_count,
                         MAX(click_time) AS last_click_time
                     FROM button_clicks
-                ''')
+                '''
+                success = execute_query(query)
+                if success:
+                    print('Data retrieved successfully!')
+                else:
+                    print('Failed to retrieve data.')
+                    await interaction.followup.send("Alas the button is stuck, try again later. (1*)", ephemeral=True)
                 result = cursor.fetchone()
                 noclicks = True
-            
+
             click_count = result[1]
-            
+
             latest_click_time = result[0]
             latest_click_time = latest_click_time.replace(tzinfo=timezone.utc)
-            elapsed_time = (datetime.datetime.now(timezone.utc) - latest_click_time).total_seconds()
-            current_timer_value = max(config['timer_duration'] - elapsed_time, 0)
+            elapsed_time = (datetime.datetime.now(
+                timezone.utc) - latest_click_time).total_seconds()
+            current_timer_value = max(
+                config['timer_duration'] - elapsed_time, 0)
 
             if current_timer_value <= 0:
                 await interaction.followup.send("The game has already ended!", ephemeral=True)
-                lock.release() 
+                lock.release()
                 return
-            
+
             last_click_time = result[2]
-            
-            #print all the data
+
             print(f'latest_click_time: {latest_click_time}', f'elapsed_time: {elapsed_time}', f'current_timer_value: {current_timer_value}', f'click_count: {click_count}', f'last_click_time: {last_click_time}')
             try:
                 if not noclicks and click_count >= 1 and last_click_time is not None:
-                    last_click_time = last_click_time.replace(tzinfo=timezone.utc)
-                    cooldown_remaining = (last_click_time + datetime.timedelta(hours=3)) - datetime.datetime.now(timezone.utc)
-                    cooldown_remaining = int(cooldown_remaining.total_seconds())
-                    formatted_cooldown  = f"{format(int(cooldown_remaining//3600), '02d')}:{format(int(cooldown_remaining%3600//60), '02d')}:{format(int(cooldown_remaining%60), '02d')}"
+                    last_click_time = last_click_time.replace(
+                        tzinfo=timezone.utc)
+                    cooldown_remaining = (
+                        last_click_time + datetime.timedelta(hours=3)) - datetime.datetime.now(timezone.utc)
+                    cooldown_remaining = int(
+                        cooldown_remaining.total_seconds())
+                    formatted_cooldown = f"{format(int(cooldown_remaining//3600), '02d')}:{format(int(cooldown_remaining%3600//60), '02d')}:{format(int(cooldown_remaining%60), '02d')}"
                     await interaction.followup.send(f'You have already clicked the button in the last 3 hours. Please try again in {formatted_cooldown}', ephemeral=True)
-                    print(f'User {interaction.user} is on cooldown for {formatted_cooldown}')
-                    logger.info(f'User {interaction.user} is on cooldown for {formatted_cooldown}')
+                    print(
+                        f'User {interaction.user} is on cooldown for {formatted_cooldown}')
+                    logger.info(
+                        f'User {interaction.user} is on cooldown for {formatted_cooldown}')
                     lock.release()
                     return
             except Exception as e:
                 tb = traceback.format_exc()
                 print(f'Error processing button click: {e}, {tb}')
                 logger.error(f'Error processing button click: {e}, {tb}')
-                #await interaction.followup.send("An error occurred while processing the button click.", ephemeral=True)
+
                 lock.release()
-            
-            # cursor.execute('''
-            #     SELECT COALESCE(MAX(click_time), UTC_TIMESTAMP() - INTERVAL %s SECOND) AS  latest_click_time,
-            #     COUNT(*) AS click_count,
-            #     MAX(click_time) AS last_click_time
-            #     FROM button_clicks
-            # ''', (config['timer_duration']))cur
+
             color_state = get_color_state(current_timer_value)
 
             embed.clear_fields()
-            embed.add_field(name='Time remaining', value=format_time(current_timer_value))
+            embed.add_field(name='Time remaining',
+                            value=format_time(current_timer_value))
 
-            timer_image_path = generate_timer_image(current_timer_value)
-            embed.set_image(url=f'attachment://{os.path.basename(timer_image_path)}')
+            file_buffer = generate_timer_image(current_timer_value)
+            embed.set_image(url=f'attachment://{file_buffer.filename}')
 
-            await button_message.edit(embed=embed, file=nextcord.File(timer_image_path))
+            await button_message.edit(embed=embed, file=file_buffer)
 
-            cursor.execute('INSERT INTO button_clicks (user_id, user_name, click_time, timer_value) VALUES (%s, %s, %s, %s)', (interaction.user.id, str(interaction.user), datetime.datetime.now(timezone.utc), current_timer_value))
-            cursor.execute('INSERT INTO latest_click (click_time) VALUES (%s)', (datetime.datetime.now(timezone.utc),))
+            query = 'INSERT INTO button_clicks (user_id, user_name, click_time, timer_value) VALUES (%s, %s, %s, %s)'
+            params = (interaction.user.id, str(interaction.user),
+                      datetime.datetime.now(timezone.utc), current_timer_value)
+            success = execute_query(query, params)
+            if success:
+                print('Data inserted successfully!')
+            else:
+                print('Failed to insert data.')
+
+            query = 'INSERT INTO latest_click (click_time) VALUES (%s)'
+            params = (datetime.datetime.now(timezone.utc),)
+            success = execute_query(query, params)
+            if success:
+                print('Latest click time inserted successfully!')
+            else:
+                print('Failed to insert latest click time.')
+
             db.commit()
             print(f'Data inserted for {interaction.user}!')
             logger.info(f'Data inserted for {interaction.user}!')
@@ -621,25 +786,29 @@ class TimerButton(nextcord.ui.Button):
 
             self.update_button_color()
             await interaction.followup.send("Button clicked! You have earned a " + role_name + " click!", ephemeral=True)
-            
+
             cooldown_duration = datetime.timedelta(hours=3)
             color_rank = role_name
-            cooldown_manager.add_or_update_user(interaction.user.id, cooldown_duration, color_rank, current_timer_value)
-            
+            cooldown_manager.add_or_update_user(
+                interaction.user.id, cooldown_duration, color_rank, current_timer_value)
+
             color_emoji = get_color_emoji(current_timer_value)
-            # remaining_time = format_time(current_timer_value)
-            # Formatted in H M S labeled format
+
             formatted_remaining_time = f"{format(int(current_timer_value//3600), '02d')} hours {format(int(current_timer_value%3600//60), '02d')} minutes and {format(int(current_timer_value%60), '02d')} seconds"
-            embed = nextcord.Embed(title="", description=f"{color_emoji} {interaction.user.mention} just reset the timer at {formatted_remaining_time} left, for {role_name} rank!", color=nextcord.Color.from_rgb(*color_state))
+            embed = nextcord.Embed(
+                title="", description=f"{color_emoji} {interaction.user.mention} just reset the timer at {formatted_remaining_time} left, for {role_name} rank!", color=nextcord.Color.from_rgb(*color_state))
             chat_channel = bot.get_channel(config['chat_channel_id'])
             display_name = interaction.user.display_name
             if not display_name:
                 display_name = interaction.user.name
             embed.description = f"{color_emoji}! {display_name} ({interaction.user.mention}), the {role_name} rank warrior, has valiantly reset the timer with a mere {formatted_remaining_time} remaining! Let their bravery be celebrated throughout the realm!"
             await chat_channel.send(embed=embed)
+
+            cooldown_manager.add_or_update_user(interaction.user.id, datetime.timedelta(
+                hours=3), role_name, current_timer_value)
             
-            # Set the cooldown for the user
-            cooldown_manager.add_or_update_user(interaction.user.id, datetime.timedelta(hours=3), role_name, current_timer_value)
+            #latest_click_time = None
+            
             if not update_timer.is_running():
                 update_timer.start()
             lock.release()
@@ -650,21 +819,24 @@ class TimerButton(nextcord.ui.Button):
             await interaction.followup.send("An error occurred while processing the button click.", ephemeral=True)
             lock.release()
 
+
 @bot.event
 async def on_message(message):
     global cursor, db
-    if message.author == bot.user and message.content.lower() != "sb": return
-    if message.channel.id != config['button_channel_id'] and message.channel.id != config['chat_channel_id']: return
+    if message.author == bot.user and message.content.lower() != "sb":
+        return
+    if message.channel.id != config['button_channel_id'] and message.channel.id != config['chat_channel_id']:
+        return
 
     await lock.acquire()
     reconnect_cursor()
-    
+
     if message.content.lower() == 'startbutton' or message.content.lower() == 'sb':
-        # purge channel
+
         await message.channel.purge(limit=100, check=lambda m: m.author == bot.user)
         if message.author.guild_permissions.administrator:
             await create_button_message()
-            #await message.channel.send('Button game started!')
+
         else:
             await message.channel.send('You do not have permission to start the button game.')
         try:
@@ -681,19 +853,21 @@ async def on_message(message):
             is_other_user = True
         else:
             user_check_id = message.author.id
-            
+
         try:
-            cursor.execute('''
-                SELECT
-                    timer_value,
-                    click_time
-                FROM button_clicks
-                WHERE user_id = %s
-                ORDER BY click_time
-            ''', (user_check_id,))
-            
+
+            query = 'SELECT timer_value, click_time FROM button_clicks WHERE user_id = %s ORDER BY click_time'
+            params = (user_check_id,)
+            success = execute_query(query, params)
+            if success:
+                print('Data retrieved successfully!')
+            else:
+                print('Failed to retrieve data.')
+                logging.error('Failed to retrieve data.')
+                return
+
             clicks = cursor.fetchall()
-            
+
             def Counter(emojis):
                 counts = {}
                 for emoji in emojis:
@@ -702,16 +876,19 @@ async def on_message(message):
                     else:
                         counts[emoji] = 1
                 return counts
-            
+
             if clicks:
-                color_emojis = [get_color_emoji(timer_value) for timer_value, _ in clicks]
+                color_emojis = [get_color_emoji(
+                    timer_value) for timer_value, _ in clicks]
                 color_counts = Counter(color_emojis)
-                
-                total_claimed_time = sum(config['timer_duration'] - timer_value for timer_value, _ in clicks)
-                
+
+                total_claimed_time = sum(
+                    config['timer_duration'] - timer_value for timer_value, _ in clicks)
+
                 emoji_sequence = ' '.join(color_emojis)
-                color_summary = ', '.join(f'{emoji} x{count}' for emoji, count in color_counts.items())
-                
+                color_summary = ', '.join(
+                    f'{emoji} x{count}' for emoji, count in color_counts.items())
+
                 if not is_other_user:
                     user_check_name = message.author.display_name if message.author.display_name else message.author.name
                     embed = nextcord.Embed(
@@ -739,7 +916,7 @@ async def on_message(message):
                     await message.channel.send('Alas, noble warrior, your journey has yet to begin. Step forth and make your mark upon the button!')
                 else:
                     await message.channel.send('Alas, noble warrior, their journey has yet to begin. Step forth and make your mark upon the button!')
-        
+
         except Exception as e:
             tb = traceback.format_exc()
             print(f'Error retrieving user rank: {e}, {tb}')
@@ -748,20 +925,19 @@ async def on_message(message):
                 await message.channel.send('An error occurred while retrieving your rank. The button spirits are displeased!')
             else:
                 await message.channel.send('An error occurred while retrieving the user rank. The button spirits are displeased!')
-    
+
     elif message.content.lower() in ['leaderboard', 'scores', 'scoreboard', 'top']:
-    # Set the default number of entries to display for each category
+
         num_entries = 5
 
-        # Check if the user provided a custom number of entries
         if len(message.content.split()) > 1:
             try:
                 num_entries = int(message.content.split()[1])
             except ValueError:
-                pass  # If the provided value is not an integer, use the default value
+                pass
 
         try:
-            cursor.execute('''
+            query = '''
                 SELECT 
                     user_name,
                     COUNT(*) AS total_clicks,
@@ -781,27 +957,48 @@ async def on_message(message):
                 GROUP BY user_id
                 ORDER BY total_clicks DESC
                 LIMIT 10
-            ''')
+            '''
+            success = execute_query(query, ())
+            if success:
+                print('Data retrieved successfully!')
+            else:
+                print('Failed to retrieve data.')
+                logging.error('Failed to retrieve data.')
+                return
             most_clicks = cursor.fetchall()
 
-            cursor.execute('''
+            query = '''
                 SELECT user_name, timer_value
                 FROM button_clicks
                 ORDER BY timer_value
                 LIMIT 5
-            ''')
+            '''
+            success = execute_query(query, ())
+            if success:
+                print('Data retrieved successfully!')
+            else:
+                print('Failed to retrieve data.')
+                logging.error('Failed to retrieve data.')
+                return
             lowest_individual_clicks = cursor.fetchall()
 
-            cursor.execute('''
+            query = '''
                 SELECT user_name, MIN(timer_value) AS lowest_click_time
                 FROM button_clicks
                 GROUP BY user_id
                 ORDER BY lowest_click_time
                 LIMIT 5
-            ''')
+            '''
+            success = execute_query(query, ())
+            if success:
+                print('Data retrieved successfully!')
+            else:
+                print('Failed to retrieve data.')
+                logging.error('Failed to retrieve data.')
+                return
             lowest_user_clicks = cursor.fetchall()
 
-            cursor.execute('''
+            query = '''
                 SELECT
                     user_name,
                     SUM(43200 - timer_value) AS total_time_claimed
@@ -809,35 +1006,46 @@ async def on_message(message):
                 GROUP BY user_id
                 ORDER BY total_time_claimed DESC
                 LIMIT %s
-            ''', (num_entries,))
+            '''
+            success = execute_query(query, (num_entries,))
+            if success:
+                print('Data retrieved successfully!')
+            else:
+                print('Failed to retrieve data.')
+                logging.error('Failed to retrieve data.')
+                return
             most_time_claimed = cursor.fetchall()
-            
-            # Title with hella emojis but in the dnd style flavor text
-            embed = nextcord.Embed(title='🏆 The Leaderboard Legends of the Button 🏆')
+
+            embed = nextcord.Embed(
+                title='🏆 The Leaderboard Legends of the Button 🏆')
 
             top_clicks_value = '\n'.join(
                 f'{user.replace(".", "")}: {clicks} clicks ({" ".join(emoji + "x" + str(seq.count(emoji)) for emoji in ["🟣", "🔵", "🟢", "🟡", "🟠", "🔴"] if emoji in seq)})'
                 for user, clicks, seq in most_clicks
             )
-            embed.add_field(name='Mightiest Clickers (Most Clicks)', value=top_clicks_value, inline=False)
+            embed.add_field(name='Mightiest Clickers (Most Clicks)',
+                            value=top_clicks_value, inline=False)
 
             lowest_individual_clicks_value = '\n'.join(
                 f'{get_color_emoji(click_time)} {user.replace(".", "")}: {format_time(click_time)}'
                 for user, click_time in lowest_individual_clicks
             )
-            embed.add_field(name='Swiftest Clicks (Lowest Time When Clicked)', value=lowest_individual_clicks_value, inline=False)
+            embed.add_field(name='Swiftest Clicks (Lowest Time When Clicked)',
+                            value=lowest_individual_clicks_value, inline=False)
 
             lowest_user_clicks_value = '\n'.join(
                 f'{get_color_emoji(click_time)} {user.replace(".", "")}: {format_time(click_time)}'
                 for user, click_time in lowest_user_clicks
             )
-            embed.add_field(name='Nimblest Warriors (Lowest Time Clickers)', value=lowest_user_clicks_value, inline=False)
+            embed.add_field(name='Nimblest Warriors (Lowest Time Clickers)',
+                            value=lowest_user_clicks_value, inline=False)
 
             most_time_claimed_value = '\n'.join(
                 f'{user.replace(".", "")}: {format_time(time_claimed)}'
                 for user, time_claimed in most_time_claimed
             )
-            embed.add_field(name='⌛ Temporal Titans (Most Time Claimed) ⌛', value=most_time_claimed_value, inline=False)
+            embed.add_field(name='⌛ Temporal Titans (Most Time Claimed) ⌛',
+                            value=most_time_claimed_value, inline=False)
 
             color = get_color_state(lowest_individual_clicks[0][1])
             embed.color = nextcord.Color.from_rgb(*color)
@@ -850,55 +1058,69 @@ async def on_message(message):
             print(f'Error retrieving leaderboard: {e}, {tb}')
             logger.error(f'Error retrieving leaderboard: {e}, {tb}')
             await message.channel.send('An error occurred while retrieving the leaderboard. The button archives are in disarray!')
-    
+
     elif message.content.lower() == 'help':
-        # How to use myrank and leaderboard
-        embed = nextcord.Embed(title='Help', description='How to use `myrank` and `leaderboard`')
-        embed.add_field(name='myrank', value='Check your personal stats', inline=False)
-        embed.add_field(name='leaderboard', value='Check the top 10 clickers', inline=False)
-        embed.add_field(name='check', value='Check if you have a click ready', inline=False)
-        embed.add_field(name='lore', value='Read the lore of The Button', inline=False)
-        embed.add_field(name='drunklore', value='Read the drunken lore of The Button', inline=False)
-        embed.add_field(name='blackoutdrunklore', value='Read the blackout drunken lore of The Button', inline=False)
+
+        embed = nextcord.Embed(
+            title='Help', description='How to use `myrank` and `leaderboard`')
+        embed.add_field(
+            name='myrank', value='Check your personal stats', inline=False)
+        embed.add_field(name='leaderboard',
+                        value='Check the top 10 clickers', inline=False)
+        embed.add_field(
+            name='check', value='Check if you have a click ready', inline=False)
+        embed.add_field(
+            name='lore', value='Read the lore of The Button', inline=False)
+        embed.add_field(
+            name='drunklore', value='Read the drunken lore of The Button', inline=False)
+        embed.add_field(name='blackoutdrunklore',
+                        value='Read the blackout drunken lore of The Button', inline=False)
         embed.set_footer(text='May your clicks be swift and true, adventurer!')
-        # purple color
+
         color = (106, 76, 147)
         embed.color = nextcord.Color.from_rgb(*color)
         await message.channel.send(embed=embed)
-    
+
     elif message.content.lower() == 'check':
-        # Check if the user has a click ready   
+
         is_other_user = False
         if len(message.content.split(" ")) > 1:
             user_check_id = int(message.content.split(" ")[1][3:-1])
             is_other_user = True
         else:
             user_check_id = message.author.id
-        
+
         try:
-            cursor.execute('''
-                SELECT COUNT(*) AS click_count
-                FROM button_clicks
-                WHERE user_id = %s AND click_time >= DATE_SUB(UTC_TIMESTAMP(), INTERVAL 3 HOUR)
-            ''', (user_check_id,))
+
+            query = 'SELECT COUNT(*) AS click_count FROM button_clicks WHERE user_id = %s AND click_time >= DATE_SUB(UTC_TIMESTAMP(), INTERVAL 3 HOUR)'
+            params = (user_check_id,)
+            success = execute_query(query, params)
+            if success:
+                print('Data retrieved successfully!')
+            else:
+                print('Failed to retrieve data.')
+                logger.error('Failed to retrieve data.')
+                await message.add_reaction('❌')
+                return
+
             result = cursor.fetchone()
             click_count = result[0]
 
             if not is_other_user:
                 if click_count == 0:
                     response = "Ah, my brave adventurer! Your spirit is ready, and the button awaits your valiant click. Go forth and claim your glory!"
-                    #add check emoji at beginning of response
+
                     response = "✅ " + response
                 else:
                     response = "Alas, noble warrior, you must rest and gather your strength. The button shall beckon you again when the time is right."
-                    # add x
+
                     response = "❌ " + response
-            else: #Referencing another user in dnd style flavor text
+            else:
                 if click_count == 0:
                     response = "Ah, a brave adventurer's spirit is ready, and the button awaits their valiant click. Go forth and claim your glory!"
                 else:
                     response = "Alas, noble warrior, they must rest and gather their strength. The button shall beckon them again when the time is right."
-                    # add x
+
                     response = "❌ " + response
 
             embed = nextcord.Embed(description=response)
@@ -908,7 +1130,7 @@ async def on_message(message):
             print(f'Error checking user cooldown: {e}, {tb}')
             logger.error(f'Error checking user cooldown: {e}, {tb}')
             await message.channel.send('An error occurred while checking your cooldown status.')
-    
+
     elif message.content.lower() == 'lore':
         try:
             lore_text = """
@@ -929,8 +1151,10 @@ async def on_message(message):
                 ***Will you join the ranks of these valiant heroes in Drunk Harpy's virtual tavern and lend your click to the cause?*** ⚔️ **The Button awaits, and the fate of the world hangs in the balance...** 🌍
             """
 
-            embed = nextcord.Embed(title="📜 __The Lore of The Button__ 📜", description=lore_text)
-            embed.set_footer(text="⚡ *May your clicks be swift and true, adventurer!* ⚡")
+            embed = nextcord.Embed(
+                title="📜 __The Lore of The Button__ 📜", description=lore_text)
+            embed.set_footer(
+                text="⚡ *May your clicks be swift and true, adventurer!* ⚡")
 
             await message.channel.send(embed=embed)
         except Exception as e:
@@ -938,7 +1162,7 @@ async def on_message(message):
             print(f'Error retrieving lore: {e}, {tb}')
             logger.error(f'Error retrieving lore: {e}, {tb}')
             await message.channel.send('❌ **An error occurred while retrieving the lore.** *The ancient archives seem to be temporarily sealed!* ❌')
-    
+
     elif message.content.lower() == 'drunklore':
         try:
             lore_text = """
@@ -961,8 +1185,10 @@ async def on_message(message):
                 So, WHAT ARE YOU WAITING FOR? 🕰️ Join the ranks, young ones! 🎖️ Lend your click to the *GREAT CAUSE!* The button *BECKONS!* 🗺️🎉 Adventure awaits! Or was it danger? 🤔 Ah, who cares? Just click the damn thing! 😂🍻
             """
 
-            embed = nextcord.Embed(title="🔮 __Wizzerd Herpy's *ENCHANTING* Button... Thing__ 🧙‍♂️", description=lore_text)
-            embed.set_footer(text="🧪 *MAY YOUR CLICKS BE INFUSED WITH... WITH... MAGIC! Yeah, that's it!* ⚗️🧦")
+            embed = nextcord.Embed(
+                title="🔮 __Wizzerd Herpy's *ENCHANTING* Button... Thing__ 🧙‍♂️", description=lore_text)
+            embed.set_footer(
+                text="🧪 *MAY YOUR CLICKS BE INFUSED WITH... WITH... MAGIC! Yeah, that's it!* ⚗️🧦")
 
             await message.channel.send(embed=embed)
         except Exception as e:
@@ -970,7 +1196,7 @@ async def on_message(message):
             print(f'Error retrieving drunk wizard lore: {e}, {tb}')
             logger.error(f'Error retrieving drunk wizard lore: {e}, {tb}')
             await message.channel.send('🍄 **Oh dear, Wizzerd Herpy had too much of the... the... *ENCHANTED ELIXIR!*** 🍾💊 *The drunk wizard lore is temporarily lost in the astral plane!* 🌀🧻')
-    
+
     elif message.content.lower() == 'blackoutdrunklore':
         try:
             lore_text = """
@@ -999,17 +1225,21 @@ async def on_message(message):
                 zzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz
             """
 
-            embed = nextcord.Embed(title="🔮 __Wizzerd Herpy's *ENCHANTING* Butt... Thing__ 🧙‍♂️", description=lore_text)
-            embed.set_footer(text="🧪 *MAY YOUR CLOCKS BE INFUSED WITH... WITH... TRAGIC! Yeah, that's it!* ⚗️🧦")
+            embed = nextcord.Embed(
+                title="🔮 __Wizzerd Herpy's *ENCHANTING* Butt... Thing__ 🧙‍♂️", description=lore_text)
+            embed.set_footer(
+                text="🧪 *MAY YOUR CLOCKS BE INFUSED WITH... WITH... TRAGIC! Yeah, that's it!* ⚗️🧦")
 
             await message.channel.send(embed=embed)
         except Exception as e:
             tb = traceback.format_exc()
             print(f'Error retrieving blackout drunk wizard lore: {e}, {tb}')
-            logger.error(f'Error retrieving blackout drunk wizard lore: {e}, {tb}')
+            logger.error(
+                f'Error retrieving blackout drunk wizard lore: {e}, {tb}')
             await message.channel.send('🍄 **Oh dear, Wizzerd Herpy had too much of the... the... *ENCHANTED ELIXIR!*** 🍾💊 *The blackout drunk wizard lore is temporarily lost in the astral plane!* 🌀🧻 hfjksdhfdshf 🍔 jfhdsajfhkjads 🍕')
-    
+
     lock.release()
+
 
 @bot.event
 async def on_error(event, *args, **kwargs):
@@ -1018,14 +1248,15 @@ async def on_error(event, *args, **kwargs):
         logger.error(f"Unhandled message: {args[0]}")
 
     if isinstance(args[0], nextcord.HTTPException):
-        if args[0].status == 429:  # Rate limit status code
+        if args[0].status == 429:
             retry_after = args[0].response.headers["Retry-After"]
             print(f"Rate limited. Retrying in {retry_after} seconds.")
             logger.warning(f"Rate limited. Retrying in {retry_after} seconds.")
             await asyncio.sleep(float(retry_after))
             return
-        
+
     raise
+
 
 @bot.event
 async def on_ready():
@@ -1034,17 +1265,19 @@ async def on_ready():
     for guild in bot.guilds:
         print(f'Connected to guild: {guild.name}')
         logger.info(f'Connected to guild: {guild.name}')
-        # Send "sb" to the game channel to start the game
+
         game_channel = bot.get_channel(config['button_channel_id'])
         await game_channel.send('sb')
-        
+        if not update_timer.is_running():
+            update_timer.start()
+
 
 @bot.event
 async def on_disconnect():
     print(f'Bot disconnected')
     logger.info(f'Bot disconnected')
-    #reconnect bot
+
     await bot.connect(reconnect=True)
-    
-    
+
+
 bot.run(config['discord_token'])
