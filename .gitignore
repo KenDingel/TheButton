@@ -1,11 +1,9 @@
 
 /myenv
 /timer_images/*
-*.png
-*.png
-/timer_images
 timer_images/timer.png
 theButton.log
-timer_images/timer.png
 config.json
 /.history
+.vscode/settings.json
+/bot_code/__pycache__
