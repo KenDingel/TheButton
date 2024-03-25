@@ -12,7 +12,8 @@ import os
 lock = asyncio.Lock()
 
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
-logging.basicConfig(filename='..\\logs\\theButton.log', level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+log_file_name = f'..\\logs\\theButton-{datetime.datetime.now().strftime("%Y-%m-%d")}.log'
+logging.basicConfig(filename=log_file_name, level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
 
 def get_config():
@@ -87,29 +88,31 @@ def get_color_emoji(timer_value):
 def generate_timer_image(timer_value):
     try:
         color = get_color_state(timer_value)
-        image_width = 800
-        image_height = 400
-        image = Image.new('RGB', (image_width, image_height), color)
+        image_number = 6 - (COLOR_STATES.index(color))
+        image_path = f"..\\assets\\TheButtonTemplate{image_number:02d}.png"
+        image = Image.open(image_path)
+        
+        # image_width = 800
+        # image_height = 400
+        # image = Image.new('RGB', (image_width, image_height), color)
 
         draw = ImageDraw.Draw(image)
-        font_size = 120
+        font_size = int(120 * 0.32)
         font = ImageFont.truetype('..\\assets\\Mercy Christole.ttf', font_size)
-        text = format_time(timer_value)
-
         text = f"{format(int(timer_value//3600), '02d')}:{format(int(timer_value%3600//60), '02d')}:{format(int(timer_value%60), '02d')}"
         text_bbox = draw.textbbox((0, 0), text, font=font)
         text_width = text_bbox[2] - text_bbox[0]
         text_height = text_bbox[3] - text_bbox[1]
-        position = ((image_width - text_width) // 2, (image_height - text_height) // 2 + 50)
+        position = ((image.width - text_width) // 2, (image.height - text_height) // 2 + 35)
         draw.text(position, text, font=font, fill=(0, 0, 0), stroke_width=6, stroke_fill=(255, 255, 255))
 
         additional_text = "Time Left".upper()
-        additional_font_size = 100
+        additional_font_size = int(100 * 0.32) 
         additional_font = ImageFont.truetype('..\\assets\\Mercy Christole.ttf', additional_font_size)
         additional_text_bbox = draw.textbbox((0, 0), additional_text, font=additional_font)
         additional_text_width = additional_text_bbox[2] - additional_text_bbox[0]
         additional_text_height = additional_text_bbox[3] - additional_text_bbox[1]
-        additional_position = ((image_width - additional_text_width) // 2, 50, ((image_height - additional_text_height) // 2) - 200)
+        additional_position = ((image.width - additional_text_width) // 2, 70, ((image.height - additional_text_height) // 2) + 50)
         draw.text(additional_position, additional_text, font=additional_font, fill=(0, 0, 0), stroke_width=6, stroke_fill=(255, 255, 255))
 
         # Save the image to an in-memory buffer
