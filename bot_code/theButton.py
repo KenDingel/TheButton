@@ -103,7 +103,6 @@ async def update_timer():
             continue
         game_id = str(game_id)
         #logger.info(f'Updating timer for game {game_id}...')
-        await lock.acquire()
         task_start_run_time = datetime.datetime.now(timezone.utc)
         try:
             cache_data = game_cache.get_game_cache(game_id)
@@ -240,19 +239,18 @@ async def update_timer():
         except Exception as e:
             tb = traceback.format_exc()
             logger.error(f'Error updating timer: {e}, {tb}')
-        finally:
-            lock.release()
 
 class UserManager:
     def __init__(self):
         self.status = None
+        self.user_cache = {}
 
     def add_or_update_user(self, user_id, cooldown_expiration, color_rank, timer_value, user_name, game_id, latest_click_var=None):
         global cursor, db
         try:
             #cooldown_expiration = datetime.datetime.now(timezone.utc) + cooldown_duration
             query = '''
-                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id)
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
                 VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
                 ON DUPLICATE KEY UPDATE
                     cooldown_expiration = VALUES(cooldown_expiration),
@@ -266,6 +264,17 @@ class UserManager:
             success = execute_query(query, params, commit=True)
             if not success:
                 return False
+            
+            # Update the user cache
+            self.user_cache[user_id] = {
+                'cooldown_expiration': cooldown_expiration,
+                'color_rank': color_rank,
+                'timer_value': timer_value,
+                'user_name': user_name,
+                'game_id': game_id,
+                'latest_click_time': latest_click_time
+            }
+            
             return True
         except Exception as e:
             tb = traceback.format_exc()
@@ -284,6 +293,9 @@ class UserManager:
         except Exception as e:
             tb = traceback.format_exc()
             logger.error(f'Error removing expired cooldowns: {e}, {tb}')
+            
+    def get_user_from_cache(self, user_id):
+        return self.user_cache.get(user_id)
 
 user_manager = UserManager()
 
@@ -314,12 +326,11 @@ class TimerButton(nextcord.ui.Button):
             logger.warning("Interaction not found. Retrying...")
             await asyncio.sleep(1)  # Wait for a short duration before retrying
             try:
-                await interaction.response.defer(ephemeral=True)
+                await interaction.send("Adventurer! You attempt to click the button...", ephemeral=True)
             except nextcord.errors.NotFound:
                 logger.error("Interaction not found after retry. Skipping...")
                 return
-            
-        await lock.acquire()
+        
         task_run_time = datetime.datetime.now(timezone.utc)
         try:
             click_time = datetime.datetime.now(timezone.utc)
@@ -330,6 +341,26 @@ class TimerButton(nextcord.ui.Button):
                 button_message = await get_button_message(game_id)
                 embed = button_message.embeds[0]
 
+                # Check the user cache first
+                user_data = user_manager.get_user_from_cache(interaction.user.id)
+                if user_data:
+                    cooldown_expiration = user_data['cooldown_expiration']
+                    if cooldown_expiration is not None:
+                        # Time from now to the expiration time
+                        cooldown_remaining = int((cooldown_expiration - click_time).total_seconds())
+                        
+                        if cooldown_remaining > 0:
+                            formatted_cooldown = f"{format(int(cooldown_remaining//3600), '02d')}:{format(int(cooldown_remaining%3600//60), '02d')}:{format(int(cooldown_remaining%60), '02d')}"
+                            await interaction.followup.send(f'You have already clicked the button in the last 6 hours. Please try again in {formatted_cooldown}', ephemeral=True)
+                            logger.info(f'Button click rejected. User {interaction.user} is on cooldown for {formatted_cooldown}')
+                            current_expiration_end = latest_click_time_user + datetime.timedelta(hours=6)
+                            display_name = interaction.user.display_name
+                            if not display_name: display_name = interaction.user.name
+                            await lock.acquire()
+                            user_manager.add_or_update_user(interaction.user.id, current_expiration_end, user_data['color_rank'], user_data['timer_value'], display_name, user_data['game_id'])
+                            lock.release()
+                            return
+                
                 query = f'''
                     SELECT
                         (SELECT MAX(click_time) FROM button_clicks WHERE game_id = {game_id}) AS latest_click_time_overall,
@@ -343,7 +374,6 @@ class TimerButton(nextcord.ui.Button):
                 success = execute_query(query, params)
                 if not success:
                     await interaction.followup.send("Alas the button is stuck, try again later.", ephemeral=True)
-                    lock.release()
                     return
                 
                 result = success[0]
@@ -358,7 +388,6 @@ class TimerButton(nextcord.ui.Button):
                 
                 if current_timer_value <= 0:
                     await interaction.followup.send("The game has already ended!", ephemeral=True)
-                    lock.release()
                     return
 
                 try:
@@ -371,15 +400,16 @@ class TimerButton(nextcord.ui.Button):
                         current_expiration_end = latest_click_time_user + datetime.timedelta(hours=6)
                         display_name = interaction.user.display_name
                         if not display_name: display_name = interaction.user.name
+                        await lock.acquire()
                         user_manager.add_or_update_user(interaction.user.id, current_expiration_end, color_name, current_timer_value, display_name, game_id, latest_click_var=latest_click_time_user)
                         lock.release()
                         return
                 except Exception as e:
                     tb = traceback.format_exc()
                     logger.error(f'Error processing button click: {e}, {tb}')
-                    lock.release()
                     return
                 
+                await lock.acquire()
                 query = 'INSERT INTO button_clicks (user_id, click_time, timer_value, game_id) VALUES (%s, %s, %s, %s)'
                 params = (interaction.user.id, click_time, current_timer_value, game_id)
                 success = execute_query(query, params, commit=True)
@@ -388,6 +418,7 @@ class TimerButton(nextcord.ui.Button):
                     lock.release()
                     return
                 
+                lock.release()
                 logger.info(f'Data inserted for {interaction.user}!')
 
                 guild = interaction.guild
@@ -411,7 +442,7 @@ class TimerButton(nextcord.ui.Button):
                 await chat_channel.send(embed=embed)
                 current_expiration_end = click_time + datetime.timedelta(hours=6)
                 # Update user data
-                user_manager.add_or_update_user(interaction.user.id, current_expiration_end, timer_color_name, current_timer_value, display_name, game_id)
+                user_manager.add_or_update_user(interaction.user.id, current_expiration_end, timer_color_name, current_timer_value, display_name, game_id, latest_click_var=click_time)
                 game_cache.update_game_cache(game_id, click_time, total_clicks, total_players, display_name, current_timer_value)
                 if paused_games and game_id in paused_games:
                     paused_games.remove(game_id)

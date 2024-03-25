@@ -7,3 +7,4 @@ config.json
 /.history
 .vscode/settings.json
 /bot_code/__pycache__
+*.log

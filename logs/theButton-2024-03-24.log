@@ -1633,3 +1633,1606 @@ nextcord.errors.ConnectionClosed: Shard ID None WebSocket closed with 1000
 2024-03-24 19:56:04,214 - INFO - Query executed successfully
 2024-03-24 19:56:04,437 - INFO - Query executed successfully
 2024-03-24 19:56:04,669 - INFO - Query executed successfully
+2024-03-24 20:10:20,875 - INFO - Query executed successfully
+2024-03-24 20:10:21,300 - WARNING - Interaction not found. Retrying...
+2024-03-24 20:10:21,331 - INFO - Button click rejected. User genkeisprincess is on cooldown for 03:25:16
+2024-03-24 20:10:40,963 - INFO - Query executed successfully
+2024-03-24 20:10:41,409 - WARNING - Interaction not found. Retrying...
+2024-03-24 20:10:41,419 - WARNING - Interaction not found. Retrying...
+2024-03-24 20:10:41,436 - WARNING - Interaction not found. Retrying...
+2024-03-24 20:10:41,436 - ERROR - Interaction not found after retry. Skipping...
+2024-03-24 20:10:42,528 - ERROR - Interaction not found after retry. Skipping...
+2024-03-24 20:10:42,542 - ERROR - Interaction not found after retry. Skipping...
+2024-03-24 20:10:42,574 - ERROR - Interaction not found after retry. Skipping...
+2024-03-24 20:11:01,776 - INFO - Clearing cache for game 1, since last update was more than 15 minutes ago...
+2024-03-24 20:11:01,776 - INFO - Clearing game cache for game 1
+2024-03-24 20:11:01,776 - INFO - Game cache cleared for game 1, {}
+2024-03-24 20:11:31,401 - INFO - Query executed successfully
+2024-03-24 20:11:31,543 - INFO - Updating game cache for game 1
+2024-03-24 20:11:31,543 - INFO - Game cache updated for game 1, {1: {'latest_click_time': datetime.datetime(2024, 3, 24, 23, 55, 53, tzinfo=datetime.timezone.utc), 'total_clicks': 81, 'total_players': 22, 'last_update_time': datetime.datetime(2024, 3, 25, 0, 11, 31, 543381, tzinfo=datetime.timezone.utc), 'latest_player_name': 'beersenpai', 'last_timer_value': 43198}}
+2024-03-24 20:26:07,735 - INFO - Connection pools set up successfully.
+2024-03-24 20:26:07,735 - INFO - Connection pools set up successfully
+2024-03-24 20:26:07,932 - INFO - Updating local game sessions
+2024-03-24 20:26:07,952 - INFO - Game sessions updated: [(1, 1218738547599872011, 974867526129426493, 1218747369974403142, 1218747412529676378, datetime.datetime(2024, 3, 23, 2, 4, 24), None, 43200, 6)]
+2024-03-24 20:26:08,185 - INFO - Missing users: []
+2024-03-24 20:26:08,185 - WARNING - PyNaCl is not installed, voice will NOT be supported
+2024-03-24 20:26:08,185 - INFO - logging in using static token
+2024-03-24 20:26:08,830 - INFO - Shard ID None has sent the IDENTIFY payload.
+2024-03-24 20:26:08,997 - INFO - Shard ID None has connected to Gateway: ["gateway-prd-us-east1-c-s81z",{"micros":89207,"calls":["id_created",{"micros":1197,"calls":[]},"session_lookup_time",{"micros":553,"calls":[]},"session_lookup_finished",{"micros":18,"calls":[]},"discord-sessions-prd-2-89",{"micros":86895,"calls":["start_session",{"micros":47071,"calls":["discord-api-7c46887f44-227dr",{"micros":41984,"calls":["get_user",{"micros":6828},"get_guilds",{"micros":6940},"send_scheduled_deletion_message",{"micros":8},"guild_join_requests",{"micros":4494},"authorized_ip_coro",{"micros":9}]}]},"starting_guild_connect",{"micros":75,"calls":[]},"presence_started",{"micros":14520,"calls":[]},"guilds_started",{"micros":120,"calls":[]},"guilds_connect",{"micros":2,"calls":[]},"presence_connect",{"micros":25043,"calls":[]},"connect_finished",{"micros":25050,"calls":[]},"build_ready",{"micros":20,"calls":[]},"clean_ready",{"micros":1,"calls":[]},"optimize_ready",{"micros":32,"calls":[]},"split_ready",{"micros":0,"calls":[]}]}]}] (Session ID: f6e69d9d4576fe92fadd4192b11bdea5). Resume URL specified as wss://gateway-us-east1-c.discord.gg
+2024-03-24 20:26:11,166 - INFO - Connection pools set up successfully.
+2024-03-24 20:26:11,166 - INFO - Bot started as The Button Game#4283
+2024-03-24 20:26:11,166 - INFO - Number of guilds: 1
+2024-03-24 20:26:11,166 - INFO - Connected to guild: The Astral Apothecary
+2024-03-24 20:26:13,245 - INFO - In The Astral Apothecary, roles have been set up.
+2024-03-24 20:26:13,369 - INFO - Message received in The Astral Apothecary: sb
+2024-03-24 20:26:13,369 - INFO - Starting button game in The Astral Apothecary
+2024-03-24 20:26:16,353 - INFO - Bot ready!
+2024-03-24 20:26:16,636 - WARNING - HTTP Rate limited.
+2024-03-24 20:26:16,636 - WARNING - limit=1 remaining=0 reset_after=3.0 bucket='395d6cf0674e9291d994fd56de77ef96' scope=None
+2024-03-24 20:26:16,791 - INFO - Creating button message for game 1...
+2024-03-24 20:26:17,603 - INFO - Updating message cache for message 1221616721689968761
+2024-03-24 20:26:17,603 - INFO - Message cache updated for message 1221616721689968761, {1: <Message id=1221616721689968761 channel=<TextChannel id=1218747369974403142 name='the-button-game' position=41 nsfw=False news=False category_id=974871210972282920> type=<MessageType.default: 0> author=<Member id=1218745422143557753 name='The Button Game' global_name=None discriminator='4283' bot=True nick=None guild=<Guild id=974867526129426493 name='The Astral Apothecary' shard_id=0 chunked=True member_count=1113>> flags=<MessageFlags value=0>>}
+2024-03-24 20:26:17,603 - INFO - Button game already started in The Astral Apothecary
+2024-03-24 20:26:17,603 - INFO - Starting update timer task...
+2024-03-24 20:26:17,619 - INFO - Creating game sessions dict, lengths - game_sessions: 1, game_sessions_as_dict: 0
+2024-03-24 20:26:17,700 - INFO - Query executed successfully
+2024-03-24 20:26:17,851 - INFO - Updating game cache for game 1
+2024-03-24 20:26:17,851 - INFO - Game cache updated for game 1, {1: {'latest_click_time': datetime.datetime(2024, 3, 24, 23, 55, 53, tzinfo=datetime.timezone.utc), 'total_clicks': 81, 'total_players': 22, 'last_update_time': datetime.datetime(2024, 3, 25, 0, 26, 17, 851306, tzinfo=datetime.timezone.utc), 'latest_player_name': 'beersenpai', 'last_timer_value': 43198}}
+2024-03-24 20:26:35,716 - INFO - Query executed successfully
+2024-03-24 20:26:36,021 - INFO - Button click rejected. User regen2moon is on cooldown for 00:38:41
+2024-03-24 20:26:36,255 - ERROR - Error executing query: Exception: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '=None)
+                VALUES (692926265405079632, '2024-03-25 01:05:17', 'Purpl' at line 1, Query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            , Params: (692926265405079632, datetime.datetime(2024, 3, 25, 1, 5, 17, tzinfo=datetime.timezone.utc), 'Purple', 41357.483109, datetime.datetime(2024, 3, 24, 19, 5, 17, tzinfo=datetime.timezone.utc), 'Ken, Father of 13*', 1)
+2024-03-24 20:26:36,485 - ERROR - Error executing query: Exception: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '=None)
+                VALUES (692926265405079632, '2024-03-25 01:05:17', 'Purpl' at line 1, Query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            , Params: (692926265405079632, datetime.datetime(2024, 3, 25, 1, 5, 17, tzinfo=datetime.timezone.utc), 'Purple', 41357.483109, datetime.datetime(2024, 3, 24, 19, 5, 17, tzinfo=datetime.timezone.utc), 'Ken, Father of 13*', 1)
+2024-03-24 20:26:36,701 - ERROR - Error executing query: Exception: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '=None)
+                VALUES (692926265405079632, '2024-03-25 01:05:17', 'Purpl' at line 1, Query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            , Params: (692926265405079632, datetime.datetime(2024, 3, 25, 1, 5, 17, tzinfo=datetime.timezone.utc), 'Purple', 41357.483109, datetime.datetime(2024, 3, 24, 19, 5, 17, tzinfo=datetime.timezone.utc), 'Ken, Father of 13*', 1)
+2024-03-24 20:26:36,701 - ERROR - Failed to execute query after 3 attempts, query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            
+2024-03-24 20:26:37,635 - INFO - Query executed successfully
+2024-03-24 20:26:37,916 - INFO - Button click rejected. User regen2moon is on cooldown for 00:38:39
+2024-03-24 20:26:38,136 - ERROR - Error executing query: Exception: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '=None)
+                VALUES (692926265405079632, '2024-03-25 01:05:17', 'Purpl' at line 1, Query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            , Params: (692926265405079632, datetime.datetime(2024, 3, 25, 1, 5, 17, tzinfo=datetime.timezone.utc), 'Purple', 41355.596267, datetime.datetime(2024, 3, 24, 19, 5, 17, tzinfo=datetime.timezone.utc), 'Ken, Father of 13*', 1)
+2024-03-24 20:26:38,376 - ERROR - Error executing query: Exception: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '=None)
+                VALUES (692926265405079632, '2024-03-25 01:05:17', 'Purpl' at line 1, Query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            , Params: (692926265405079632, datetime.datetime(2024, 3, 25, 1, 5, 17, tzinfo=datetime.timezone.utc), 'Purple', 41355.596267, datetime.datetime(2024, 3, 24, 19, 5, 17, tzinfo=datetime.timezone.utc), 'Ken, Father of 13*', 1)
+2024-03-24 20:26:38,609 - ERROR - Error executing query: Exception: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '=None)
+                VALUES (692926265405079632, '2024-03-25 01:05:17', 'Purpl' at line 1, Query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            , Params: (692926265405079632, datetime.datetime(2024, 3, 25, 1, 5, 17, tzinfo=datetime.timezone.utc), 'Purple', 41355.596267, datetime.datetime(2024, 3, 24, 19, 5, 17, tzinfo=datetime.timezone.utc), 'Ken, Father of 13*', 1)
+2024-03-24 20:26:38,609 - ERROR - Failed to execute query after 3 attempts, query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            
+2024-03-24 20:26:40,437 - INFO - Query executed successfully
+2024-03-24 20:26:40,734 - INFO - Button click rejected. User regen2moon is on cooldown for 00:38:36
+2024-03-24 20:26:40,963 - ERROR - Error executing query: Exception: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '=None)
+                VALUES (692926265405079632, '2024-03-25 01:05:17', 'Purpl' at line 1, Query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            , Params: (692926265405079632, datetime.datetime(2024, 3, 25, 1, 5, 17, tzinfo=datetime.timezone.utc), 'Purple', 41352.751953, datetime.datetime(2024, 3, 24, 19, 5, 17, tzinfo=datetime.timezone.utc), 'Ken, Father of 13*', 1)
+2024-03-24 20:26:41,198 - ERROR - Error executing query: Exception: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '=None)
+                VALUES (692926265405079632, '2024-03-25 01:05:17', 'Purpl' at line 1, Query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            , Params: (692926265405079632, datetime.datetime(2024, 3, 25, 1, 5, 17, tzinfo=datetime.timezone.utc), 'Purple', 41352.751953, datetime.datetime(2024, 3, 24, 19, 5, 17, tzinfo=datetime.timezone.utc), 'Ken, Father of 13*', 1)
+2024-03-24 20:26:41,422 - ERROR - Error executing query: Exception: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '=None)
+                VALUES (692926265405079632, '2024-03-25 01:05:17', 'Purpl' at line 1, Query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            , Params: (692926265405079632, datetime.datetime(2024, 3, 25, 1, 5, 17, tzinfo=datetime.timezone.utc), 'Purple', 41352.751953, datetime.datetime(2024, 3, 24, 19, 5, 17, tzinfo=datetime.timezone.utc), 'Ken, Father of 13*', 1)
+2024-03-24 20:26:41,422 - ERROR - Failed to execute query after 3 attempts, query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            
+2024-03-24 20:26:42,173 - INFO - Query executed successfully
+2024-03-24 20:26:42,454 - INFO - Button click rejected. User regen2moon is on cooldown for 00:38:35
+2024-03-24 20:26:42,669 - ERROR - Error executing query: Exception: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '=None)
+                VALUES (692926265405079632, '2024-03-25 01:05:17', 'Purpl' at line 1, Query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            , Params: (692926265405079632, datetime.datetime(2024, 3, 25, 1, 5, 17, tzinfo=datetime.timezone.utc), 'Purple', 41351.019048, datetime.datetime(2024, 3, 24, 19, 5, 17, tzinfo=datetime.timezone.utc), 'Ken, Father of 13*', 1)
+2024-03-24 20:26:42,906 - ERROR - Error executing query: Exception: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '=None)
+                VALUES (692926265405079632, '2024-03-25 01:05:17', 'Purpl' at line 1, Query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            , Params: (692926265405079632, datetime.datetime(2024, 3, 25, 1, 5, 17, tzinfo=datetime.timezone.utc), 'Purple', 41351.019048, datetime.datetime(2024, 3, 24, 19, 5, 17, tzinfo=datetime.timezone.utc), 'Ken, Father of 13*', 1)
+2024-03-24 20:26:43,137 - ERROR - Error executing query: Exception: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '=None)
+                VALUES (692926265405079632, '2024-03-25 01:05:17', 'Purpl' at line 1, Query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            , Params: (692926265405079632, datetime.datetime(2024, 3, 25, 1, 5, 17, tzinfo=datetime.timezone.utc), 'Purple', 41351.019048, datetime.datetime(2024, 3, 24, 19, 5, 17, tzinfo=datetime.timezone.utc), 'Ken, Father of 13*', 1)
+2024-03-24 20:26:43,137 - ERROR - Failed to execute query after 3 attempts, query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            
+2024-03-24 20:28:48,938 - INFO - Connection pools set up successfully.
+2024-03-24 20:28:48,938 - INFO - Connection pools set up successfully
+2024-03-24 20:28:49,152 - INFO - Updating local game sessions
+2024-03-24 20:28:49,190 - INFO - Game sessions updated: [(1, 1218738547599872011, 974867526129426493, 1218747369974403142, 1218747412529676378, datetime.datetime(2024, 3, 23, 2, 4, 24), None, 43200, 6)]
+2024-03-24 20:28:49,422 - INFO - Missing users: []
+2024-03-24 20:28:49,433 - WARNING - PyNaCl is not installed, voice will NOT be supported
+2024-03-24 20:28:49,433 - INFO - logging in using static token
+2024-03-24 20:28:49,980 - INFO - Shard ID None has sent the IDENTIFY payload.
+2024-03-24 20:28:50,183 - INFO - Shard ID None has connected to Gateway: ["gateway-prd-us-east1-b-bvh2",{"micros":130857,"calls":["id_created",{"micros":1294,"calls":[]},"session_lookup_time",{"micros":4823,"calls":[]},"session_lookup_finished",{"micros":18,"calls":[]},"discord-sessions-prd-2-250",{"micros":124107,"calls":["start_session",{"micros":93273,"calls":["discord-api-7c46887f44-fltvv",{"micros":85497,"calls":["get_user",{"micros":17501},"get_guilds",{"micros":14321},"send_scheduled_deletion_message",{"micros":8},"guild_join_requests",{"micros":1},"authorized_ip_coro",{"micros":8}]}]},"starting_guild_connect",{"micros":73,"calls":[]},"presence_started",{"micros":341,"calls":[]},"guilds_started",{"micros":107,"calls":[]},"guilds_connect",{"micros":2,"calls":[]},"presence_connect",{"micros":30259,"calls":[]},"connect_finished",{"micros":30266,"calls":[]},"build_ready",{"micros":22,"calls":[]},"clean_ready",{"micros":1,"calls":[]},"optimize_ready",{"micros":20,"calls":[]},"split_ready",{"micros":1,"calls":[]}]}]}] (Session ID: 6f3a7828545449ca50cb279b4b8ada01). Resume URL specified as wss://gateway-us-east1-b.discord.gg
+2024-03-24 20:28:52,214 - INFO - Connection pools set up successfully.
+2024-03-24 20:28:52,214 - INFO - Bot started as The Button Game#4283
+2024-03-24 20:28:52,214 - INFO - Number of guilds: 1
+2024-03-24 20:28:52,214 - INFO - Connected to guild: The Astral Apothecary
+2024-03-24 20:28:53,405 - INFO - In The Astral Apothecary, roles have been set up.
+2024-03-24 20:28:53,557 - INFO - Message received in The Astral Apothecary: sb
+2024-03-24 20:28:53,557 - INFO - Starting button game in The Astral Apothecary
+2024-03-24 20:28:54,027 - INFO - Bot ready!
+2024-03-24 20:28:54,284 - WARNING - HTTP Rate limited.
+2024-03-24 20:28:54,284 - WARNING - limit=1 remaining=0 reset_after=3.0 bucket='395d6cf0674e9291d994fd56de77ef96' scope=None
+2024-03-24 20:28:54,421 - INFO - Creating button message for game 1...
+2024-03-24 20:28:55,173 - INFO - Updating message cache for message 1221617382645170336
+2024-03-24 20:28:55,173 - INFO - Message cache updated for message 1221617382645170336, {1: <Message id=1221617382645170336 channel=<TextChannel id=1218747369974403142 name='the-button-game' position=41 nsfw=False news=False category_id=974871210972282920> type=<MessageType.default: 0> author=<Member id=1218745422143557753 name='The Button Game' global_name=None discriminator='4283' bot=True nick=None guild=<Guild id=974867526129426493 name='The Astral Apothecary' shard_id=0 chunked=True member_count=1113>> flags=<MessageFlags value=0>>}
+2024-03-24 20:28:55,173 - INFO - Button game already started in The Astral Apothecary
+2024-03-24 20:28:55,173 - INFO - Starting update timer task...
+2024-03-24 20:28:55,173 - INFO - Creating game sessions dict, lengths - game_sessions: 1, game_sessions_as_dict: 0
+2024-03-24 20:28:55,262 - INFO - Query executed successfully
+2024-03-24 20:28:55,406 - INFO - Updating game cache for game 1
+2024-03-24 20:28:55,406 - INFO - Game cache updated for game 1, {1: {'latest_click_time': datetime.datetime(2024, 3, 24, 23, 55, 53, tzinfo=datetime.timezone.utc), 'total_clicks': 81, 'total_players': 22, 'last_update_time': datetime.datetime(2024, 3, 25, 0, 28, 55, 406768, tzinfo=datetime.timezone.utc), 'latest_player_name': 'beersenpai', 'last_timer_value': 43198}}
+2024-03-24 20:28:58,906 - INFO - Query executed successfully
+2024-03-24 20:28:59,201 - INFO - Button click rejected. User regen2moon is on cooldown for 00:36:18
+2024-03-24 20:28:59,432 - ERROR - Error executing query: Exception: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '=None)
+                VALUES (692926265405079632, '2024-03-25 01:05:17', 'Purpl' at line 1, Query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            , Params: (692926265405079632, datetime.datetime(2024, 3, 25, 1, 5, 17, tzinfo=datetime.timezone.utc), 'Purple', 41214.317752, datetime.datetime(2024, 3, 24, 19, 5, 17, tzinfo=datetime.timezone.utc), 'Ken, Father of 13*', 1)
+2024-03-24 20:28:59,651 - ERROR - Error executing query: Exception: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '=None)
+                VALUES (692926265405079632, '2024-03-25 01:05:17', 'Purpl' at line 1, Query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            , Params: (692926265405079632, datetime.datetime(2024, 3, 25, 1, 5, 17, tzinfo=datetime.timezone.utc), 'Purple', 41214.317752, datetime.datetime(2024, 3, 24, 19, 5, 17, tzinfo=datetime.timezone.utc), 'Ken, Father of 13*', 1)
+2024-03-24 20:28:59,881 - ERROR - Error executing query: Exception: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '=None)
+                VALUES (692926265405079632, '2024-03-25 01:05:17', 'Purpl' at line 1, Query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            , Params: (692926265405079632, datetime.datetime(2024, 3, 25, 1, 5, 17, tzinfo=datetime.timezone.utc), 'Purple', 41214.317752, datetime.datetime(2024, 3, 24, 19, 5, 17, tzinfo=datetime.timezone.utc), 'Ken, Father of 13*', 1)
+2024-03-24 20:28:59,881 - ERROR - Failed to execute query after 3 attempts, query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            
+2024-03-24 20:29:00,818 - INFO - Query executed successfully
+2024-03-24 20:29:01,239 - INFO - Button click rejected. User regen2moon is on cooldown for 00:36:16
+2024-03-24 20:29:01,464 - ERROR - Error executing query: Exception: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '=None)
+                VALUES (692926265405079632, '2024-03-25 01:05:17', 'Purpl' at line 1, Query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            , Params: (692926265405079632, datetime.datetime(2024, 3, 25, 1, 5, 17, tzinfo=datetime.timezone.utc), 'Purple', 41212.423465, datetime.datetime(2024, 3, 24, 19, 5, 17, tzinfo=datetime.timezone.utc), 'Ken, Father of 13*', 1)
+2024-03-24 20:29:01,683 - ERROR - Error executing query: Exception: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '=None)
+                VALUES (692926265405079632, '2024-03-25 01:05:17', 'Purpl' at line 1, Query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            , Params: (692926265405079632, datetime.datetime(2024, 3, 25, 1, 5, 17, tzinfo=datetime.timezone.utc), 'Purple', 41212.423465, datetime.datetime(2024, 3, 24, 19, 5, 17, tzinfo=datetime.timezone.utc), 'Ken, Father of 13*', 1)
+2024-03-24 20:29:01,922 - ERROR - Error executing query: Exception: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '=None)
+                VALUES (692926265405079632, '2024-03-25 01:05:17', 'Purpl' at line 1, Query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            , Params: (692926265405079632, datetime.datetime(2024, 3, 25, 1, 5, 17, tzinfo=datetime.timezone.utc), 'Purple', 41212.423465, datetime.datetime(2024, 3, 24, 19, 5, 17, tzinfo=datetime.timezone.utc), 'Ken, Father of 13*', 1)
+2024-03-24 20:29:01,922 - ERROR - Failed to execute query after 3 attempts, query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            
+2024-03-24 20:29:03,454 - INFO - Query executed successfully
+2024-03-24 20:29:03,714 - INFO - Button click rejected. User regen2moon is on cooldown for 00:36:13
+2024-03-24 20:29:03,949 - ERROR - Error executing query: Exception: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '=None)
+                VALUES (692926265405079632, '2024-03-25 01:05:17', 'Purpl' at line 1, Query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            , Params: (692926265405079632, datetime.datetime(2024, 3, 25, 1, 5, 17, tzinfo=datetime.timezone.utc), 'Purple', 41209.7553, datetime.datetime(2024, 3, 24, 19, 5, 17, tzinfo=datetime.timezone.utc), 'Ken, Father of 13*', 1)
+2024-03-24 20:29:04,167 - ERROR - Error executing query: Exception: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '=None)
+                VALUES (692926265405079632, '2024-03-25 01:05:17', 'Purpl' at line 1, Query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            , Params: (692926265405079632, datetime.datetime(2024, 3, 25, 1, 5, 17, tzinfo=datetime.timezone.utc), 'Purple', 41209.7553, datetime.datetime(2024, 3, 24, 19, 5, 17, tzinfo=datetime.timezone.utc), 'Ken, Father of 13*', 1)
+2024-03-24 20:29:04,400 - ERROR - Error executing query: Exception: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '=None)
+                VALUES (692926265405079632, '2024-03-25 01:05:17', 'Purpl' at line 1, Query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            , Params: (692926265405079632, datetime.datetime(2024, 3, 25, 1, 5, 17, tzinfo=datetime.timezone.utc), 'Purple', 41209.7553, datetime.datetime(2024, 3, 24, 19, 5, 17, tzinfo=datetime.timezone.utc), 'Ken, Father of 13*', 1)
+2024-03-24 20:29:04,400 - ERROR - Failed to execute query after 3 attempts, query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            
+2024-03-24 20:29:06,057 - INFO - Query executed successfully
+2024-03-24 20:29:06,370 - INFO - Button click rejected. User regen2moon is on cooldown for 00:36:11
+2024-03-24 20:29:06,609 - ERROR - Error executing query: Exception: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '=None)
+                VALUES (692926265405079632, '2024-03-25 01:05:17', 'Purpl' at line 1, Query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            , Params: (692926265405079632, datetime.datetime(2024, 3, 25, 1, 5, 17, tzinfo=datetime.timezone.utc), 'Purple', 41207.158087, datetime.datetime(2024, 3, 24, 19, 5, 17, tzinfo=datetime.timezone.utc), 'Ken, Father of 13*', 1)
+2024-03-24 20:29:06,828 - ERROR - Error executing query: Exception: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '=None)
+                VALUES (692926265405079632, '2024-03-25 01:05:17', 'Purpl' at line 1, Query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            , Params: (692926265405079632, datetime.datetime(2024, 3, 25, 1, 5, 17, tzinfo=datetime.timezone.utc), 'Purple', 41207.158087, datetime.datetime(2024, 3, 24, 19, 5, 17, tzinfo=datetime.timezone.utc), 'Ken, Father of 13*', 1)
+2024-03-24 20:29:07,047 - ERROR - Error executing query: Exception: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '=None)
+                VALUES (692926265405079632, '2024-03-25 01:05:17', 'Purpl' at line 1, Query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            , Params: (692926265405079632, datetime.datetime(2024, 3, 25, 1, 5, 17, tzinfo=datetime.timezone.utc), 'Purple', 41207.158087, datetime.datetime(2024, 3, 24, 19, 5, 17, tzinfo=datetime.timezone.utc), 'Ken, Father of 13*', 1)
+2024-03-24 20:29:07,047 - ERROR - Failed to execute query after 3 attempts, query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            
+2024-03-24 20:29:09,139 - INFO - Query executed successfully
+2024-03-24 20:29:09,416 - INFO - Button click rejected. User regen2moon is on cooldown for 00:36:08
+2024-03-24 20:29:09,672 - ERROR - Error executing query: Exception: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '=None)
+                VALUES (692926265405079632, '2024-03-25 01:05:17', 'Purpl' at line 1, Query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            , Params: (692926265405079632, datetime.datetime(2024, 3, 25, 1, 5, 17, tzinfo=datetime.timezone.utc), 'Purple', 41204.049067, datetime.datetime(2024, 3, 24, 19, 5, 17, tzinfo=datetime.timezone.utc), 'Ken, Father of 13*', 1)
+2024-03-24 20:29:09,901 - ERROR - Error executing query: Exception: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '=None)
+                VALUES (692926265405079632, '2024-03-25 01:05:17', 'Purpl' at line 1, Query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            , Params: (692926265405079632, datetime.datetime(2024, 3, 25, 1, 5, 17, tzinfo=datetime.timezone.utc), 'Purple', 41204.049067, datetime.datetime(2024, 3, 24, 19, 5, 17, tzinfo=datetime.timezone.utc), 'Ken, Father of 13*', 1)
+2024-03-24 20:29:10,127 - ERROR - Error executing query: Exception: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '=None)
+                VALUES (692926265405079632, '2024-03-25 01:05:17', 'Purpl' at line 1, Query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            , Params: (692926265405079632, datetime.datetime(2024, 3, 25, 1, 5, 17, tzinfo=datetime.timezone.utc), 'Purple', 41204.049067, datetime.datetime(2024, 3, 24, 19, 5, 17, tzinfo=datetime.timezone.utc), 'Ken, Father of 13*', 1)
+2024-03-24 20:29:10,127 - ERROR - Failed to execute query after 3 attempts, query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            
+2024-03-24 20:31:31,418 - INFO - Query executed successfully
+2024-03-24 20:31:31,744 - INFO - Button click rejected. User regen2moon is on cooldown for 00:33:46
+2024-03-24 20:31:31,987 - ERROR - Error executing query: Exception: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '=None)
+                VALUES (692926265405079632, '2024-03-25 01:05:17', 'Purpl' at line 1, Query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            , Params: (692926265405079632, datetime.datetime(2024, 3, 25, 1, 5, 17, tzinfo=datetime.timezone.utc), 'Purple', 41062.845232, datetime.datetime(2024, 3, 24, 19, 5, 17, tzinfo=datetime.timezone.utc), 'Ken, Father of 13*', 1)
+2024-03-24 20:31:32,222 - ERROR - Error executing query: Exception: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '=None)
+                VALUES (692926265405079632, '2024-03-25 01:05:17', 'Purpl' at line 1, Query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            , Params: (692926265405079632, datetime.datetime(2024, 3, 25, 1, 5, 17, tzinfo=datetime.timezone.utc), 'Purple', 41062.845232, datetime.datetime(2024, 3, 24, 19, 5, 17, tzinfo=datetime.timezone.utc), 'Ken, Father of 13*', 1)
+2024-03-24 20:31:32,450 - ERROR - Error executing query: Exception: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '=None)
+                VALUES (692926265405079632, '2024-03-25 01:05:17', 'Purpl' at line 1, Query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            , Params: (692926265405079632, datetime.datetime(2024, 3, 25, 1, 5, 17, tzinfo=datetime.timezone.utc), 'Purple', 41062.845232, datetime.datetime(2024, 3, 24, 19, 5, 17, tzinfo=datetime.timezone.utc), 'Ken, Father of 13*', 1)
+2024-03-24 20:31:32,450 - ERROR - Failed to execute query after 3 attempts, query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            
+2024-03-24 20:31:34,042 - INFO - Query executed successfully
+2024-03-24 20:31:34,355 - INFO - Button click rejected. User regen2moon is on cooldown for 00:33:43
+2024-03-24 20:31:34,581 - ERROR - Error executing query: Exception: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '=None)
+                VALUES (692926265405079632, '2024-03-25 01:05:17', 'Purpl' at line 1, Query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            , Params: (692926265405079632, datetime.datetime(2024, 3, 25, 1, 5, 17, tzinfo=datetime.timezone.utc), 'Purple', 41059.140133, datetime.datetime(2024, 3, 24, 19, 5, 17, tzinfo=datetime.timezone.utc), 'Ken, Father of 13*', 1)
+2024-03-24 20:31:34,800 - ERROR - Error executing query: Exception: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '=None)
+                VALUES (692926265405079632, '2024-03-25 01:05:17', 'Purpl' at line 1, Query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            , Params: (692926265405079632, datetime.datetime(2024, 3, 25, 1, 5, 17, tzinfo=datetime.timezone.utc), 'Purple', 41059.140133, datetime.datetime(2024, 3, 24, 19, 5, 17, tzinfo=datetime.timezone.utc), 'Ken, Father of 13*', 1)
+2024-03-24 20:31:35,028 - ERROR - Error executing query: Exception: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '=None)
+                VALUES (692926265405079632, '2024-03-25 01:05:17', 'Purpl' at line 1, Query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            , Params: (692926265405079632, datetime.datetime(2024, 3, 25, 1, 5, 17, tzinfo=datetime.timezone.utc), 'Purple', 41059.140133, datetime.datetime(2024, 3, 24, 19, 5, 17, tzinfo=datetime.timezone.utc), 'Ken, Father of 13*', 1)
+2024-03-24 20:31:35,028 - ERROR - Failed to execute query after 3 attempts, query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            
+2024-03-24 20:31:35,388 - INFO - Query executed successfully
+2024-03-24 20:31:35,724 - INFO - Button click rejected. User regen2moon is on cooldown for 00:33:41
+2024-03-24 20:31:35,966 - ERROR - Error executing query: Exception: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '=None)
+                VALUES (692926265405079632, '2024-03-25 01:05:17', 'Purpl' at line 1, Query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            , Params: (692926265405079632, datetime.datetime(2024, 3, 25, 1, 5, 17, tzinfo=datetime.timezone.utc), 'Purple', 41057.812814, datetime.datetime(2024, 3, 24, 19, 5, 17, tzinfo=datetime.timezone.utc), 'Ken, Father of 13*', 1)
+2024-03-24 20:31:36,183 - ERROR - Error executing query: Exception: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '=None)
+                VALUES (692926265405079632, '2024-03-25 01:05:17', 'Purpl' at line 1, Query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            , Params: (692926265405079632, datetime.datetime(2024, 3, 25, 1, 5, 17, tzinfo=datetime.timezone.utc), 'Purple', 41057.812814, datetime.datetime(2024, 3, 24, 19, 5, 17, tzinfo=datetime.timezone.utc), 'Ken, Father of 13*', 1)
+2024-03-24 20:31:36,419 - ERROR - Error executing query: Exception: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '=None)
+                VALUES (692926265405079632, '2024-03-25 01:05:17', 'Purpl' at line 1, Query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            , Params: (692926265405079632, datetime.datetime(2024, 3, 25, 1, 5, 17, tzinfo=datetime.timezone.utc), 'Purple', 41057.812814, datetime.datetime(2024, 3, 24, 19, 5, 17, tzinfo=datetime.timezone.utc), 'Ken, Father of 13*', 1)
+2024-03-24 20:31:36,419 - ERROR - Failed to execute query after 3 attempts, query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            
+2024-03-24 20:31:40,322 - INFO - Query executed successfully
+2024-03-24 20:31:40,838 - INFO - Button click rejected. User regen2moon is on cooldown for 00:33:36
+2024-03-24 20:31:41,081 - ERROR - Error executing query: Exception: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '=None)
+                VALUES (692926265405079632, '2024-03-25 01:05:17', 'Purpl' at line 1, Query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            , Params: (692926265405079632, datetime.datetime(2024, 3, 25, 1, 5, 17, tzinfo=datetime.timezone.utc), 'Purple', 41052.864863, datetime.datetime(2024, 3, 24, 19, 5, 17, tzinfo=datetime.timezone.utc), 'Ken, Father of 13*', 1)
+2024-03-24 20:31:41,292 - ERROR - Error executing query: Exception: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '=None)
+                VALUES (692926265405079632, '2024-03-25 01:05:17', 'Purpl' at line 1, Query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            , Params: (692926265405079632, datetime.datetime(2024, 3, 25, 1, 5, 17, tzinfo=datetime.timezone.utc), 'Purple', 41052.864863, datetime.datetime(2024, 3, 24, 19, 5, 17, tzinfo=datetime.timezone.utc), 'Ken, Father of 13*', 1)
+2024-03-24 20:31:41,534 - ERROR - Error executing query: Exception: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '=None)
+                VALUES (692926265405079632, '2024-03-25 01:05:17', 'Purpl' at line 1, Query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            , Params: (692926265405079632, datetime.datetime(2024, 3, 25, 1, 5, 17, tzinfo=datetime.timezone.utc), 'Purple', 41052.864863, datetime.datetime(2024, 3, 24, 19, 5, 17, tzinfo=datetime.timezone.utc), 'Ken, Father of 13*', 1)
+2024-03-24 20:31:41,534 - ERROR - Failed to execute query after 3 attempts, query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            
+2024-03-24 20:31:43,948 - INFO - Query executed successfully
+2024-03-24 20:31:44,264 - INFO - Button click rejected. User regen2moon is on cooldown for 00:33:33
+2024-03-24 20:31:44,500 - ERROR - Error executing query: Exception: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '=None)
+                VALUES (692926265405079632, '2024-03-25 01:05:17', 'Purpl' at line 1, Query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            , Params: (692926265405079632, datetime.datetime(2024, 3, 25, 1, 5, 17, tzinfo=datetime.timezone.utc), 'Purple', 41049.30167, datetime.datetime(2024, 3, 24, 19, 5, 17, tzinfo=datetime.timezone.utc), 'Ken, Father of 13*', 1)
+2024-03-24 20:31:44,718 - ERROR - Error executing query: Exception: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '=None)
+                VALUES (692926265405079632, '2024-03-25 01:05:17', 'Purpl' at line 1, Query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            , Params: (692926265405079632, datetime.datetime(2024, 3, 25, 1, 5, 17, tzinfo=datetime.timezone.utc), 'Purple', 41049.30167, datetime.datetime(2024, 3, 24, 19, 5, 17, tzinfo=datetime.timezone.utc), 'Ken, Father of 13*', 1)
+2024-03-24 20:31:44,935 - ERROR - Error executing query: Exception: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '=None)
+                VALUES (692926265405079632, '2024-03-25 01:05:17', 'Purpl' at line 1, Query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            , Params: (692926265405079632, datetime.datetime(2024, 3, 25, 1, 5, 17, tzinfo=datetime.timezone.utc), 'Purple', 41049.30167, datetime.datetime(2024, 3, 24, 19, 5, 17, tzinfo=datetime.timezone.utc), 'Ken, Father of 13*', 1)
+2024-03-24 20:31:44,935 - ERROR - Failed to execute query after 3 attempts, query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            
+2024-03-24 20:31:46,223 - INFO - Query executed successfully
+2024-03-24 20:31:46,566 - INFO - Button click rejected. User regen2moon is on cooldown for 00:33:30
+2024-03-24 20:31:46,795 - ERROR - Error executing query: Exception: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '=None)
+                VALUES (692926265405079632, '2024-03-25 01:05:17', 'Purpl' at line 1, Query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            , Params: (692926265405079632, datetime.datetime(2024, 3, 25, 1, 5, 17, tzinfo=datetime.timezone.utc), 'Purple', 41046.95835, datetime.datetime(2024, 3, 24, 19, 5, 17, tzinfo=datetime.timezone.utc), 'Ken, Father of 13*', 1)
+2024-03-24 20:31:47,019 - ERROR - Error executing query: Exception: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '=None)
+                VALUES (692926265405079632, '2024-03-25 01:05:17', 'Purpl' at line 1, Query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            , Params: (692926265405079632, datetime.datetime(2024, 3, 25, 1, 5, 17, tzinfo=datetime.timezone.utc), 'Purple', 41046.95835, datetime.datetime(2024, 3, 24, 19, 5, 17, tzinfo=datetime.timezone.utc), 'Ken, Father of 13*', 1)
+2024-03-24 20:31:47,260 - ERROR - Error executing query: Exception: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '=None)
+                VALUES (692926265405079632, '2024-03-25 01:05:17', 'Purpl' at line 1, Query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            , Params: (692926265405079632, datetime.datetime(2024, 3, 25, 1, 5, 17, tzinfo=datetime.timezone.utc), 'Purple', 41046.95835, datetime.datetime(2024, 3, 24, 19, 5, 17, tzinfo=datetime.timezone.utc), 'Ken, Father of 13*', 1)
+2024-03-24 20:31:47,260 - ERROR - Failed to execute query after 3 attempts, query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            
+2024-03-24 20:31:49,027 - INFO - Query executed successfully
+2024-03-24 20:31:49,324 - INFO - Button click rejected. User regen2moon is on cooldown for 00:33:28
+2024-03-24 20:31:49,560 - ERROR - Error executing query: Exception: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '=None)
+                VALUES (692926265405079632, '2024-03-25 01:05:17', 'Purpl' at line 1, Query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            , Params: (692926265405079632, datetime.datetime(2024, 3, 25, 1, 5, 17, tzinfo=datetime.timezone.utc), 'Purple', 41044.188628, datetime.datetime(2024, 3, 24, 19, 5, 17, tzinfo=datetime.timezone.utc), 'Ken, Father of 13*', 1)
+2024-03-24 20:31:49,778 - ERROR - Error executing query: Exception: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '=None)
+                VALUES (692926265405079632, '2024-03-25 01:05:17', 'Purpl' at line 1, Query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            , Params: (692926265405079632, datetime.datetime(2024, 3, 25, 1, 5, 17, tzinfo=datetime.timezone.utc), 'Purple', 41044.188628, datetime.datetime(2024, 3, 24, 19, 5, 17, tzinfo=datetime.timezone.utc), 'Ken, Father of 13*', 1)
+2024-03-24 20:31:50,011 - ERROR - Error executing query: Exception: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '=None)
+                VALUES (692926265405079632, '2024-03-25 01:05:17', 'Purpl' at line 1, Query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            , Params: (692926265405079632, datetime.datetime(2024, 3, 25, 1, 5, 17, tzinfo=datetime.timezone.utc), 'Purple', 41044.188628, datetime.datetime(2024, 3, 24, 19, 5, 17, tzinfo=datetime.timezone.utc), 'Ken, Father of 13*', 1)
+2024-03-24 20:31:50,011 - ERROR - Failed to execute query after 3 attempts, query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            
+2024-03-24 20:31:51,888 - INFO - Query executed successfully
+2024-03-24 20:31:52,183 - INFO - Button click rejected. User regen2moon is on cooldown for 00:33:25
+2024-03-24 20:31:52,420 - ERROR - Error executing query: Exception: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '=None)
+                VALUES (692926265405079632, '2024-03-25 01:05:17', 'Purpl' at line 1, Query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            , Params: (692926265405079632, datetime.datetime(2024, 3, 25, 1, 5, 17, tzinfo=datetime.timezone.utc), 'Purple', 41041.314502, datetime.datetime(2024, 3, 24, 19, 5, 17, tzinfo=datetime.timezone.utc), 'Ken, Father of 13*', 1)
+2024-03-24 20:31:52,647 - ERROR - Error executing query: Exception: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '=None)
+                VALUES (692926265405079632, '2024-03-25 01:05:17', 'Purpl' at line 1, Query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            , Params: (692926265405079632, datetime.datetime(2024, 3, 25, 1, 5, 17, tzinfo=datetime.timezone.utc), 'Purple', 41041.314502, datetime.datetime(2024, 3, 24, 19, 5, 17, tzinfo=datetime.timezone.utc), 'Ken, Father of 13*', 1)
+2024-03-24 20:31:52,888 - ERROR - Error executing query: Exception: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '=None)
+                VALUES (692926265405079632, '2024-03-25 01:05:17', 'Purpl' at line 1, Query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            , Params: (692926265405079632, datetime.datetime(2024, 3, 25, 1, 5, 17, tzinfo=datetime.timezone.utc), 'Purple', 41041.314502, datetime.datetime(2024, 3, 24, 19, 5, 17, tzinfo=datetime.timezone.utc), 'Ken, Father of 13*', 1)
+2024-03-24 20:31:52,888 - ERROR - Failed to execute query after 3 attempts, query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            
+2024-03-24 20:31:54,074 - INFO - Query executed successfully
+2024-03-24 20:31:54,441 - INFO - Button click rejected. User regen2moon is on cooldown for 00:33:23
+2024-03-24 20:31:54,669 - ERROR - Error executing query: Exception: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '=None)
+                VALUES (692926265405079632, '2024-03-25 01:05:17', 'Purpl' at line 1, Query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            , Params: (692926265405079632, datetime.datetime(2024, 3, 25, 1, 5, 17, tzinfo=datetime.timezone.utc), 'Purple', 41039.127506, datetime.datetime(2024, 3, 24, 19, 5, 17, tzinfo=datetime.timezone.utc), 'Ken, Father of 13*', 1)
+2024-03-24 20:31:54,917 - ERROR - Error executing query: Exception: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '=None)
+                VALUES (692926265405079632, '2024-03-25 01:05:17', 'Purpl' at line 1, Query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            , Params: (692926265405079632, datetime.datetime(2024, 3, 25, 1, 5, 17, tzinfo=datetime.timezone.utc), 'Purple', 41039.127506, datetime.datetime(2024, 3, 24, 19, 5, 17, tzinfo=datetime.timezone.utc), 'Ken, Father of 13*', 1)
+2024-03-24 20:31:55,137 - ERROR - Error executing query: Exception: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '=None)
+                VALUES (692926265405079632, '2024-03-25 01:05:17', 'Purpl' at line 1, Query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            , Params: (692926265405079632, datetime.datetime(2024, 3, 25, 1, 5, 17, tzinfo=datetime.timezone.utc), 'Purple', 41039.127506, datetime.datetime(2024, 3, 24, 19, 5, 17, tzinfo=datetime.timezone.utc), 'Ken, Father of 13*', 1)
+2024-03-24 20:31:55,137 - ERROR - Failed to execute query after 3 attempts, query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            
+2024-03-24 20:31:57,860 - INFO - Query executed successfully
+2024-03-24 20:31:58,150 - INFO - Button click rejected. User regen2moon is on cooldown for 00:33:19
+2024-03-24 20:31:58,377 - ERROR - Error executing query: Exception: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '=None)
+                VALUES (692926265405079632, '2024-03-25 01:05:17', 'Purpl' at line 1, Query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            , Params: (692926265405079632, datetime.datetime(2024, 3, 25, 1, 5, 17, tzinfo=datetime.timezone.utc), 'Purple', 41035.34881, datetime.datetime(2024, 3, 24, 19, 5, 17, tzinfo=datetime.timezone.utc), 'Ken, Father of 13*', 1)
+2024-03-24 20:31:58,590 - ERROR - Error executing query: Exception: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '=None)
+                VALUES (692926265405079632, '2024-03-25 01:05:17', 'Purpl' at line 1, Query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            , Params: (692926265405079632, datetime.datetime(2024, 3, 25, 1, 5, 17, tzinfo=datetime.timezone.utc), 'Purple', 41035.34881, datetime.datetime(2024, 3, 24, 19, 5, 17, tzinfo=datetime.timezone.utc), 'Ken, Father of 13*', 1)
+2024-03-24 20:31:58,828 - ERROR - Error executing query: Exception: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '=None)
+                VALUES (692926265405079632, '2024-03-25 01:05:17', 'Purpl' at line 1, Query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            , Params: (692926265405079632, datetime.datetime(2024, 3, 25, 1, 5, 17, tzinfo=datetime.timezone.utc), 'Purple', 41035.34881, datetime.datetime(2024, 3, 24, 19, 5, 17, tzinfo=datetime.timezone.utc), 'Ken, Father of 13*', 1)
+2024-03-24 20:31:58,828 - ERROR - Failed to execute query after 3 attempts, query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            
+2024-03-24 20:32:00,664 - INFO - Query executed successfully
+2024-03-24 20:32:00,963 - INFO - Button click rejected. User regen2moon is on cooldown for 00:33:16
+2024-03-24 20:32:01,197 - ERROR - Error executing query: Exception: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '=None)
+                VALUES (692926265405079632, '2024-03-25 01:05:17', 'Purpl' at line 1, Query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            , Params: (692926265405079632, datetime.datetime(2024, 3, 25, 1, 5, 17, tzinfo=datetime.timezone.utc), 'Purple', 41032.545048, datetime.datetime(2024, 3, 24, 19, 5, 17, tzinfo=datetime.timezone.utc), 'Ken, Father of 13*', 1)
+2024-03-24 20:32:01,434 - ERROR - Error executing query: Exception: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '=None)
+                VALUES (692926265405079632, '2024-03-25 01:05:17', 'Purpl' at line 1, Query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            , Params: (692926265405079632, datetime.datetime(2024, 3, 25, 1, 5, 17, tzinfo=datetime.timezone.utc), 'Purple', 41032.545048, datetime.datetime(2024, 3, 24, 19, 5, 17, tzinfo=datetime.timezone.utc), 'Ken, Father of 13*', 1)
+2024-03-24 20:32:01,653 - ERROR - Error executing query: Exception: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '=None)
+                VALUES (692926265405079632, '2024-03-25 01:05:17', 'Purpl' at line 1, Query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            , Params: (692926265405079632, datetime.datetime(2024, 3, 25, 1, 5, 17, tzinfo=datetime.timezone.utc), 'Purple', 41032.545048, datetime.datetime(2024, 3, 24, 19, 5, 17, tzinfo=datetime.timezone.utc), 'Ken, Father of 13*', 1)
+2024-03-24 20:32:01,653 - ERROR - Failed to execute query after 3 attempts, query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            
+2024-03-24 20:32:03,466 - INFO - Query executed successfully
+2024-03-24 20:32:03,747 - INFO - Button click rejected. User regen2moon is on cooldown for 00:33:13
+2024-03-24 20:32:03,979 - ERROR - Error executing query: Exception: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '=None)
+                VALUES (692926265405079632, '2024-03-25 01:05:17', 'Purpl' at line 1, Query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            , Params: (692926265405079632, datetime.datetime(2024, 3, 25, 1, 5, 17, tzinfo=datetime.timezone.utc), 'Purple', 41029.738443, datetime.datetime(2024, 3, 24, 19, 5, 17, tzinfo=datetime.timezone.utc), 'Ken, Father of 13*', 1)
+2024-03-24 20:32:04,199 - ERROR - Error executing query: Exception: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '=None)
+                VALUES (692926265405079632, '2024-03-25 01:05:17', 'Purpl' at line 1, Query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            , Params: (692926265405079632, datetime.datetime(2024, 3, 25, 1, 5, 17, tzinfo=datetime.timezone.utc), 'Purple', 41029.738443, datetime.datetime(2024, 3, 24, 19, 5, 17, tzinfo=datetime.timezone.utc), 'Ken, Father of 13*', 1)
+2024-03-24 20:32:04,424 - ERROR - Error executing query: Exception: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '=None)
+                VALUES (692926265405079632, '2024-03-25 01:05:17', 'Purpl' at line 1, Query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            , Params: (692926265405079632, datetime.datetime(2024, 3, 25, 1, 5, 17, tzinfo=datetime.timezone.utc), 'Purple', 41029.738443, datetime.datetime(2024, 3, 24, 19, 5, 17, tzinfo=datetime.timezone.utc), 'Ken, Father of 13*', 1)
+2024-03-24 20:32:04,424 - ERROR - Failed to execute query after 3 attempts, query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            
+2024-03-24 20:32:10,418 - INFO - Query executed successfully
+2024-03-24 20:32:10,674 - INFO - Button click rejected. User regen2moon is on cooldown for 00:33:06
+2024-03-24 20:32:10,902 - ERROR - Error executing query: Exception: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '=None)
+                VALUES (692926265405079632, '2024-03-25 01:05:17', 'Purpl' at line 1, Query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            , Params: (692926265405079632, datetime.datetime(2024, 3, 25, 1, 5, 17, tzinfo=datetime.timezone.utc), 'Purple', 41022.798395, datetime.datetime(2024, 3, 24, 19, 5, 17, tzinfo=datetime.timezone.utc), 'Ken, Father of 13*', 1)
+2024-03-24 20:32:11,135 - ERROR - Error executing query: Exception: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '=None)
+                VALUES (692926265405079632, '2024-03-25 01:05:17', 'Purpl' at line 1, Query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            , Params: (692926265405079632, datetime.datetime(2024, 3, 25, 1, 5, 17, tzinfo=datetime.timezone.utc), 'Purple', 41022.798395, datetime.datetime(2024, 3, 24, 19, 5, 17, tzinfo=datetime.timezone.utc), 'Ken, Father of 13*', 1)
+2024-03-24 20:32:11,354 - ERROR - Error executing query: Exception: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '=None)
+                VALUES (692926265405079632, '2024-03-25 01:05:17', 'Purpl' at line 1, Query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            , Params: (692926265405079632, datetime.datetime(2024, 3, 25, 1, 5, 17, tzinfo=datetime.timezone.utc), 'Purple', 41022.798395, datetime.datetime(2024, 3, 24, 19, 5, 17, tzinfo=datetime.timezone.utc), 'Ken, Father of 13*', 1)
+2024-03-24 20:32:11,354 - ERROR - Failed to execute query after 3 attempts, query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            
+2024-03-24 20:32:12,848 - INFO - Query executed successfully
+2024-03-24 20:32:13,150 - INFO - Button click rejected. User regen2moon is on cooldown for 00:33:04
+2024-03-24 20:32:13,420 - ERROR - Error executing query: Exception: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '=None)
+                VALUES (692926265405079632, '2024-03-25 01:05:17', 'Purpl' at line 1, Query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            , Params: (692926265405079632, datetime.datetime(2024, 3, 25, 1, 5, 17, tzinfo=datetime.timezone.utc), 'Purple', 41020.379867, datetime.datetime(2024, 3, 24, 19, 5, 17, tzinfo=datetime.timezone.utc), 'Ken, Father of 13*', 1)
+2024-03-24 20:32:13,640 - ERROR - Error executing query: Exception: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '=None)
+                VALUES (692926265405079632, '2024-03-25 01:05:17', 'Purpl' at line 1, Query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            , Params: (692926265405079632, datetime.datetime(2024, 3, 25, 1, 5, 17, tzinfo=datetime.timezone.utc), 'Purple', 41020.379867, datetime.datetime(2024, 3, 24, 19, 5, 17, tzinfo=datetime.timezone.utc), 'Ken, Father of 13*', 1)
+2024-03-24 20:32:13,854 - ERROR - Error executing query: Exception: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '=None)
+                VALUES (692926265405079632, '2024-03-25 01:05:17', 'Purpl' at line 1, Query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            , Params: (692926265405079632, datetime.datetime(2024, 3, 25, 1, 5, 17, tzinfo=datetime.timezone.utc), 'Purple', 41020.379867, datetime.datetime(2024, 3, 24, 19, 5, 17, tzinfo=datetime.timezone.utc), 'Ken, Father of 13*', 1)
+2024-03-24 20:32:13,854 - ERROR - Failed to execute query after 3 attempts, query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            
+2024-03-24 20:32:15,545 - INFO - Query executed successfully
+2024-03-24 20:32:15,872 - INFO - Button click rejected. User regen2moon is on cooldown for 00:33:01
+2024-03-24 20:32:16,089 - ERROR - Error executing query: Exception: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '=None)
+                VALUES (692926265405079632, '2024-03-25 01:05:17', 'Purpl' at line 1, Query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            , Params: (692926265405079632, datetime.datetime(2024, 3, 25, 1, 5, 17, tzinfo=datetime.timezone.utc), 'Purple', 41017.660919, datetime.datetime(2024, 3, 24, 19, 5, 17, tzinfo=datetime.timezone.utc), 'Ken, Father of 13*', 1)
+2024-03-24 20:32:16,324 - ERROR - Error executing query: Exception: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '=None)
+                VALUES (692926265405079632, '2024-03-25 01:05:17', 'Purpl' at line 1, Query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            , Params: (692926265405079632, datetime.datetime(2024, 3, 25, 1, 5, 17, tzinfo=datetime.timezone.utc), 'Purple', 41017.660919, datetime.datetime(2024, 3, 24, 19, 5, 17, tzinfo=datetime.timezone.utc), 'Ken, Father of 13*', 1)
+2024-03-24 20:32:16,542 - ERROR - Error executing query: Exception: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '=None)
+                VALUES (692926265405079632, '2024-03-25 01:05:17', 'Purpl' at line 1, Query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            , Params: (692926265405079632, datetime.datetime(2024, 3, 25, 1, 5, 17, tzinfo=datetime.timezone.utc), 'Purple', 41017.660919, datetime.datetime(2024, 3, 24, 19, 5, 17, tzinfo=datetime.timezone.utc), 'Ken, Father of 13*', 1)
+2024-03-24 20:32:16,542 - ERROR - Failed to execute query after 3 attempts, query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            
+2024-03-24 20:32:18,295 - INFO - Query executed successfully
+2024-03-24 20:32:18,579 - INFO - Button click rejected. User regen2moon is on cooldown for 00:32:58
+2024-03-24 20:32:18,810 - ERROR - Error executing query: Exception: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '=None)
+                VALUES (692926265405079632, '2024-03-25 01:05:17', 'Purpl' at line 1, Query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            , Params: (692926265405079632, datetime.datetime(2024, 3, 25, 1, 5, 17, tzinfo=datetime.timezone.utc), 'Purple', 41014.966908, datetime.datetime(2024, 3, 24, 19, 5, 17, tzinfo=datetime.timezone.utc), 'Ken, Father of 13*', 1)
+2024-03-24 20:32:19,049 - ERROR - Error executing query: Exception: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '=None)
+                VALUES (692926265405079632, '2024-03-25 01:05:17', 'Purpl' at line 1, Query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            , Params: (692926265405079632, datetime.datetime(2024, 3, 25, 1, 5, 17, tzinfo=datetime.timezone.utc), 'Purple', 41014.966908, datetime.datetime(2024, 3, 24, 19, 5, 17, tzinfo=datetime.timezone.utc), 'Ken, Father of 13*', 1)
+2024-03-24 20:32:19,280 - ERROR - Error executing query: Exception: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '=None)
+                VALUES (692926265405079632, '2024-03-25 01:05:17', 'Purpl' at line 1, Query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            , Params: (692926265405079632, datetime.datetime(2024, 3, 25, 1, 5, 17, tzinfo=datetime.timezone.utc), 'Purple', 41014.966908, datetime.datetime(2024, 3, 24, 19, 5, 17, tzinfo=datetime.timezone.utc), 'Ken, Father of 13*', 1)
+2024-03-24 20:32:19,280 - ERROR - Failed to execute query after 3 attempts, query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            
+2024-03-24 20:32:20,559 - INFO - Query executed successfully
+2024-03-24 20:32:20,894 - INFO - Button click rejected. User regen2moon is on cooldown for 00:32:56
+2024-03-24 20:32:21,120 - ERROR - Error executing query: Exception: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '=None)
+                VALUES (692926265405079632, '2024-03-25 01:05:17', 'Purpl' at line 1, Query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            , Params: (692926265405079632, datetime.datetime(2024, 3, 25, 1, 5, 17, tzinfo=datetime.timezone.utc), 'Purple', 41012.646021, datetime.datetime(2024, 3, 24, 19, 5, 17, tzinfo=datetime.timezone.utc), 'Ken, Father of 13*', 1)
+2024-03-24 20:32:21,345 - ERROR - Error executing query: Exception: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '=None)
+                VALUES (692926265405079632, '2024-03-25 01:05:17', 'Purpl' at line 1, Query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            , Params: (692926265405079632, datetime.datetime(2024, 3, 25, 1, 5, 17, tzinfo=datetime.timezone.utc), 'Purple', 41012.646021, datetime.datetime(2024, 3, 24, 19, 5, 17, tzinfo=datetime.timezone.utc), 'Ken, Father of 13*', 1)
+2024-03-24 20:32:21,578 - ERROR - Error executing query: Exception: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '=None)
+                VALUES (692926265405079632, '2024-03-25 01:05:17', 'Purpl' at line 1, Query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            , Params: (692926265405079632, datetime.datetime(2024, 3, 25, 1, 5, 17, tzinfo=datetime.timezone.utc), 'Purple', 41012.646021, datetime.datetime(2024, 3, 24, 19, 5, 17, tzinfo=datetime.timezone.utc), 'Ken, Father of 13*', 1)
+2024-03-24 20:32:21,578 - ERROR - Failed to execute query after 3 attempts, query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            
+2024-03-24 20:32:22,633 - INFO - Query executed successfully
+2024-03-24 20:32:22,948 - INFO - Button click rejected. User regen2moon is on cooldown for 00:32:54
+2024-03-24 20:32:23,182 - ERROR - Error executing query: Exception: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '=None)
+                VALUES (692926265405079632, '2024-03-25 01:05:17', 'Purpl' at line 1, Query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            , Params: (692926265405079632, datetime.datetime(2024, 3, 25, 1, 5, 17, tzinfo=datetime.timezone.utc), 'Purple', 41010.621317, datetime.datetime(2024, 3, 24, 19, 5, 17, tzinfo=datetime.timezone.utc), 'Ken, Father of 13*', 1)
+2024-03-24 20:32:23,400 - ERROR - Error executing query: Exception: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '=None)
+                VALUES (692926265405079632, '2024-03-25 01:05:17', 'Purpl' at line 1, Query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            , Params: (692926265405079632, datetime.datetime(2024, 3, 25, 1, 5, 17, tzinfo=datetime.timezone.utc), 'Purple', 41010.621317, datetime.datetime(2024, 3, 24, 19, 5, 17, tzinfo=datetime.timezone.utc), 'Ken, Father of 13*', 1)
+2024-03-24 20:32:23,629 - ERROR - Error executing query: Exception: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '=None)
+                VALUES (692926265405079632, '2024-03-25 01:05:17', 'Purpl' at line 1, Query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            , Params: (692926265405079632, datetime.datetime(2024, 3, 25, 1, 5, 17, tzinfo=datetime.timezone.utc), 'Purple', 41010.621317, datetime.datetime(2024, 3, 24, 19, 5, 17, tzinfo=datetime.timezone.utc), 'Ken, Father of 13*', 1)
+2024-03-24 20:32:23,629 - ERROR - Failed to execute query after 3 attempts, query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            
+2024-03-24 20:32:26,400 - INFO - Query executed successfully
+2024-03-24 20:32:26,763 - INFO - Button click rejected. User regen2moon is on cooldown for 00:32:50
+2024-03-24 20:32:27,002 - ERROR - Error executing query: Exception: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '=None)
+                VALUES (692926265405079632, '2024-03-25 01:05:17', 'Purpl' at line 1, Query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            , Params: (692926265405079632, datetime.datetime(2024, 3, 25, 1, 5, 17, tzinfo=datetime.timezone.utc), 'Purple', 41006.969896, datetime.datetime(2024, 3, 24, 19, 5, 17, tzinfo=datetime.timezone.utc), 'Ken, Father of 13*', 1)
+2024-03-24 20:32:27,218 - ERROR - Error executing query: Exception: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '=None)
+                VALUES (692926265405079632, '2024-03-25 01:05:17', 'Purpl' at line 1, Query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            , Params: (692926265405079632, datetime.datetime(2024, 3, 25, 1, 5, 17, tzinfo=datetime.timezone.utc), 'Purple', 41006.969896, datetime.datetime(2024, 3, 24, 19, 5, 17, tzinfo=datetime.timezone.utc), 'Ken, Father of 13*', 1)
+2024-03-24 20:32:27,447 - ERROR - Error executing query: Exception: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '=None)
+                VALUES (692926265405079632, '2024-03-25 01:05:17', 'Purpl' at line 1, Query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            , Params: (692926265405079632, datetime.datetime(2024, 3, 25, 1, 5, 17, tzinfo=datetime.timezone.utc), 'Purple', 41006.969896, datetime.datetime(2024, 3, 24, 19, 5, 17, tzinfo=datetime.timezone.utc), 'Ken, Father of 13*', 1)
+2024-03-24 20:32:27,447 - ERROR - Failed to execute query after 3 attempts, query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            
+2024-03-24 20:32:28,910 - INFO - Query executed successfully
+2024-03-24 20:32:29,183 - INFO - Button click rejected. User regen2moon is on cooldown for 00:32:48
+2024-03-24 20:32:29,420 - ERROR - Error executing query: Exception: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '=None)
+                VALUES (692926265405079632, '2024-03-25 01:05:17', 'Purpl' at line 1, Query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            , Params: (692926265405079632, datetime.datetime(2024, 3, 25, 1, 5, 17, tzinfo=datetime.timezone.utc), 'Purple', 41004.374833, datetime.datetime(2024, 3, 24, 19, 5, 17, tzinfo=datetime.timezone.utc), 'Ken, Father of 13*', 1)
+2024-03-24 20:32:29,645 - ERROR - Error executing query: Exception: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '=None)
+                VALUES (692926265405079632, '2024-03-25 01:05:17', 'Purpl' at line 1, Query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            , Params: (692926265405079632, datetime.datetime(2024, 3, 25, 1, 5, 17, tzinfo=datetime.timezone.utc), 'Purple', 41004.374833, datetime.datetime(2024, 3, 24, 19, 5, 17, tzinfo=datetime.timezone.utc), 'Ken, Father of 13*', 1)
+2024-03-24 20:32:29,870 - ERROR - Error executing query: Exception: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '=None)
+                VALUES (692926265405079632, '2024-03-25 01:05:17', 'Purpl' at line 1, Query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            , Params: (692926265405079632, datetime.datetime(2024, 3, 25, 1, 5, 17, tzinfo=datetime.timezone.utc), 'Purple', 41004.374833, datetime.datetime(2024, 3, 24, 19, 5, 17, tzinfo=datetime.timezone.utc), 'Ken, Father of 13*', 1)
+2024-03-24 20:32:29,870 - ERROR - Failed to execute query after 3 attempts, query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            
+2024-03-24 20:32:31,387 - INFO - Query executed successfully
+2024-03-24 20:32:31,692 - INFO - Button click rejected. User regen2moon is on cooldown for 00:32:45
+2024-03-24 20:32:31,919 - ERROR - Error executing query: Exception: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '=None)
+                VALUES (692926265405079632, '2024-03-25 01:05:17', 'Purpl' at line 1, Query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            , Params: (692926265405079632, datetime.datetime(2024, 3, 25, 1, 5, 17, tzinfo=datetime.timezone.utc), 'Purple', 41001.798261, datetime.datetime(2024, 3, 24, 19, 5, 17, tzinfo=datetime.timezone.utc), 'Ken, Father of 13*', 1)
+2024-03-24 20:32:32,137 - ERROR - Error executing query: Exception: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '=None)
+                VALUES (692926265405079632, '2024-03-25 01:05:17', 'Purpl' at line 1, Query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            , Params: (692926265405079632, datetime.datetime(2024, 3, 25, 1, 5, 17, tzinfo=datetime.timezone.utc), 'Purple', 41001.798261, datetime.datetime(2024, 3, 24, 19, 5, 17, tzinfo=datetime.timezone.utc), 'Ken, Father of 13*', 1)
+2024-03-24 20:32:32,373 - ERROR - Error executing query: Exception: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '=None)
+                VALUES (692926265405079632, '2024-03-25 01:05:17', 'Purpl' at line 1, Query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            , Params: (692926265405079632, datetime.datetime(2024, 3, 25, 1, 5, 17, tzinfo=datetime.timezone.utc), 'Purple', 41001.798261, datetime.datetime(2024, 3, 24, 19, 5, 17, tzinfo=datetime.timezone.utc), 'Ken, Father of 13*', 1)
+2024-03-24 20:32:32,373 - ERROR - Failed to execute query after 3 attempts, query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            
+2024-03-24 20:32:33,692 - INFO - Query executed successfully
+2024-03-24 20:32:33,985 - INFO - Button click rejected. User regen2moon is on cooldown for 00:32:43
+2024-03-24 20:32:34,214 - ERROR - Error executing query: Exception: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '=None)
+                VALUES (692926265405079632, '2024-03-25 01:05:17', 'Purpl' at line 1, Query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            , Params: (692926265405079632, datetime.datetime(2024, 3, 25, 1, 5, 17, tzinfo=datetime.timezone.utc), 'Purple', 40999.519393, datetime.datetime(2024, 3, 24, 19, 5, 17, tzinfo=datetime.timezone.utc), 'Ken, Father of 13*', 1)
+2024-03-24 20:32:34,432 - ERROR - Error executing query: Exception: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '=None)
+                VALUES (692926265405079632, '2024-03-25 01:05:17', 'Purpl' at line 1, Query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            , Params: (692926265405079632, datetime.datetime(2024, 3, 25, 1, 5, 17, tzinfo=datetime.timezone.utc), 'Purple', 40999.519393, datetime.datetime(2024, 3, 24, 19, 5, 17, tzinfo=datetime.timezone.utc), 'Ken, Father of 13*', 1)
+2024-03-24 20:32:34,650 - ERROR - Error executing query: Exception: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '=None)
+                VALUES (692926265405079632, '2024-03-25 01:05:17', 'Purpl' at line 1, Query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            , Params: (692926265405079632, datetime.datetime(2024, 3, 25, 1, 5, 17, tzinfo=datetime.timezone.utc), 'Purple', 40999.519393, datetime.datetime(2024, 3, 24, 19, 5, 17, tzinfo=datetime.timezone.utc), 'Ken, Father of 13*', 1)
+2024-03-24 20:32:34,650 - ERROR - Failed to execute query after 3 attempts, query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            
+2024-03-24 20:32:36,380 - INFO - Query executed successfully
+2024-03-24 20:32:37,775 - INFO - Button click rejected. User regen2moon is on cooldown for 00:32:40
+2024-03-24 20:32:38,002 - ERROR - Error executing query: Exception: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '=None)
+                VALUES (692926265405079632, '2024-03-25 01:05:17', 'Purpl' at line 1, Query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            , Params: (692926265405079632, datetime.datetime(2024, 3, 25, 1, 5, 17, tzinfo=datetime.timezone.utc), 'Purple', 40996.917004, datetime.datetime(2024, 3, 24, 19, 5, 17, tzinfo=datetime.timezone.utc), 'Ken, Father of 13*', 1)
+2024-03-24 20:32:38,239 - ERROR - Error executing query: Exception: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '=None)
+                VALUES (692926265405079632, '2024-03-25 01:05:17', 'Purpl' at line 1, Query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            , Params: (692926265405079632, datetime.datetime(2024, 3, 25, 1, 5, 17, tzinfo=datetime.timezone.utc), 'Purple', 40996.917004, datetime.datetime(2024, 3, 24, 19, 5, 17, tzinfo=datetime.timezone.utc), 'Ken, Father of 13*', 1)
+2024-03-24 20:32:38,473 - ERROR - Error executing query: Exception: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '=None)
+                VALUES (692926265405079632, '2024-03-25 01:05:17', 'Purpl' at line 1, Query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            , Params: (692926265405079632, datetime.datetime(2024, 3, 25, 1, 5, 17, tzinfo=datetime.timezone.utc), 'Purple', 40996.917004, datetime.datetime(2024, 3, 24, 19, 5, 17, tzinfo=datetime.timezone.utc), 'Ken, Father of 13*', 1)
+2024-03-24 20:32:38,473 - ERROR - Failed to execute query after 3 attempts, query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            
+2024-03-24 20:32:38,670 - INFO - Query executed successfully
+2024-03-24 20:32:39,166 - INFO - Button click rejected. User regen2moon is on cooldown for 00:32:38
+2024-03-24 20:32:39,413 - ERROR - Error executing query: Exception: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '=None)
+                VALUES (692926265405079632, '2024-03-25 01:05:17', 'Purpl' at line 1, Query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            , Params: (692926265405079632, datetime.datetime(2024, 3, 25, 1, 5, 17, tzinfo=datetime.timezone.utc), 'Purple', 40994.526207, datetime.datetime(2024, 3, 24, 19, 5, 17, tzinfo=datetime.timezone.utc), 'Ken, Father of 13*', 1)
+2024-03-24 20:32:39,627 - ERROR - Error executing query: Exception: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '=None)
+                VALUES (692926265405079632, '2024-03-25 01:05:17', 'Purpl' at line 1, Query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            , Params: (692926265405079632, datetime.datetime(2024, 3, 25, 1, 5, 17, tzinfo=datetime.timezone.utc), 'Purple', 40994.526207, datetime.datetime(2024, 3, 24, 19, 5, 17, tzinfo=datetime.timezone.utc), 'Ken, Father of 13*', 1)
+2024-03-24 20:32:39,855 - ERROR - Error executing query: Exception: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '=None)
+                VALUES (692926265405079632, '2024-03-25 01:05:17', 'Purpl' at line 1, Query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            , Params: (692926265405079632, datetime.datetime(2024, 3, 25, 1, 5, 17, tzinfo=datetime.timezone.utc), 'Purple', 40994.526207, datetime.datetime(2024, 3, 24, 19, 5, 17, tzinfo=datetime.timezone.utc), 'Ken, Father of 13*', 1)
+2024-03-24 20:32:39,855 - ERROR - Failed to execute query after 3 attempts, query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            
+2024-03-24 20:32:41,557 - INFO - Query executed successfully
+2024-03-24 20:32:41,846 - INFO - Button click rejected. User regen2moon is on cooldown for 00:32:35
+2024-03-24 20:32:42,088 - ERROR - Error executing query: Exception: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '=None)
+                VALUES (692926265405079632, '2024-03-25 01:05:17', 'Purpl' at line 1, Query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            , Params: (692926265405079632, datetime.datetime(2024, 3, 25, 1, 5, 17, tzinfo=datetime.timezone.utc), 'Purple', 40991.755306, datetime.datetime(2024, 3, 24, 19, 5, 17, tzinfo=datetime.timezone.utc), 'Ken, Father of 13*', 1)
+2024-03-24 20:32:42,291 - ERROR - Error executing query: Exception: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '=None)
+                VALUES (692926265405079632, '2024-03-25 01:05:17', 'Purpl' at line 1, Query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            , Params: (692926265405079632, datetime.datetime(2024, 3, 25, 1, 5, 17, tzinfo=datetime.timezone.utc), 'Purple', 40991.755306, datetime.datetime(2024, 3, 24, 19, 5, 17, tzinfo=datetime.timezone.utc), 'Ken, Father of 13*', 1)
+2024-03-24 20:32:42,534 - ERROR - Error executing query: Exception: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '=None)
+                VALUES (692926265405079632, '2024-03-25 01:05:17', 'Purpl' at line 1, Query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            , Params: (692926265405079632, datetime.datetime(2024, 3, 25, 1, 5, 17, tzinfo=datetime.timezone.utc), 'Purple', 40991.755306, datetime.datetime(2024, 3, 24, 19, 5, 17, tzinfo=datetime.timezone.utc), 'Ken, Father of 13*', 1)
+2024-03-24 20:32:42,534 - ERROR - Failed to execute query after 3 attempts, query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            
