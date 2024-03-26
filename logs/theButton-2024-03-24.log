@@ -3236,3 +3236,1449 @@ nextcord.errors.ConnectionClosed: Shard ID None WebSocket closed with 1000
                     lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
                     latest_click_time = VALUES(latest_click_time)
             
+2024-03-24 20:43:56,786 - INFO - Clearing cache for game 1, since last update was more than 15 minutes ago...
+2024-03-24 20:43:56,786 - INFO - Clearing game cache for game 1
+2024-03-24 20:43:56,786 - INFO - Game cache cleared for game 1, {}
+2024-03-24 20:44:26,406 - INFO - Query executed successfully
+2024-03-24 20:44:26,547 - INFO - Updating game cache for game 1
+2024-03-24 20:44:26,547 - INFO - Game cache updated for game 1, {1: {'latest_click_time': datetime.datetime(2024, 3, 24, 23, 55, 53, tzinfo=datetime.timezone.utc), 'total_clicks': 81, 'total_players': 22, 'last_update_time': datetime.datetime(2024, 3, 25, 0, 44, 26, 547139, tzinfo=datetime.timezone.utc), 'latest_player_name': 'beersenpai', 'last_timer_value': 43198}}
+2024-03-24 20:53:04,733 - INFO - Query executed successfully
+2024-03-24 20:53:24,135 - WARNING - Shard ID None heartbeat blocked for more than 10 seconds.
+Loop thread traceback (most recent call last):
+  File "Z:\\WubHub\\TheButton\\bot_code\\theButton.py", line 849, in <module>
+  File "C:\Users\Bot 00\AppData\Local\Programs\Python\Python311\Lib\site-packages\nextcord\client.py", line 868, in run
+    loop.run_forever()
+  File "C:\Users\Bot 00\AppData\Local\Programs\Python\Python311\Lib\asyncio\windows_events.py", line 321, in run_forever
+    super().run_forever()
+  File "C:\Users\Bot 00\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 607, in run_forever
+    self._run_once()
+  File "C:\Users\Bot 00\AppData\Local\Programs\Python\Python311\Lib\asyncio\base_events.py", line 1922, in _run_once
+    handle._run()
+  File "C:\Users\Bot 00\AppData\Local\Programs\Python\Python311\Lib\asyncio\events.py", line 80, in _run
+    self._context.run(self._callback, *self._args)
+  File "C:\Users\Bot 00\AppData\Local\Programs\Python\Python311\Lib\site-packages\nextcord\ui\view.py", line 375, in _scheduled_task
+    await item.callback(interaction)
+  File "Z:\\WubHub\\TheButton\\bot_code\\theButton.py", line 415, in callback
+    except Exception as e:
+  File "Z:\WubHub\TheButton\bot_code\database.py", line 165, in execute_query
+    with db_pool.get_connection() as connection:
+  File "C:\Users\Bot 00\AppData\Local\Programs\Python\Python311\Lib\site-packages\mysql\connector\pooling.py", line 659, in get_connection
+    not cnx.is_connected()
+  File "C:\Users\Bot 00\AppData\Local\Programs\Python\Python311\Lib\site-packages\mysql\connector\connection_cext.py", line 365, in is_connected
+    return self._cmysql.ping()
+
+2024-03-24 20:53:24,452 - INFO - Query executed successfully
+2024-03-24 20:53:24,631 - INFO - Data inserted for vbaby2343!
+2024-03-24 20:53:24,635 - INFO - Websocket closed with 1000, cannot reconnect.
+2024-03-24 20:53:24,635 - ERROR - Attempting a reconnect in 1.96s
+Traceback (most recent call last):
+  File "C:\Users\Bot 00\AppData\Local\Programs\Python\Python311\Lib\site-packages\nextcord\client.py", line 696, in connect
+    await self.ws.poll_event()
+  File "C:\Users\Bot 00\AppData\Local\Programs\Python\Python311\Lib\site-packages\nextcord\gateway.py", line 629, in poll_event
+    raise ConnectionClosed(self.socket, shard_id=self.shard_id, code=code) from None
+nextcord.errors.ConnectionClosed: Shard ID None WebSocket closed with 1000
+2024-03-24 20:53:24,635 - INFO - Bot disconnected
+2024-03-24 20:53:24,635 - INFO - Cursor closed successfully.
+2024-03-24 20:53:46,078 - INFO - Connection pools set up successfully.
+2024-03-24 20:53:46,078 - INFO - Connection pools set up successfully
+2024-03-24 20:53:46,281 - INFO - Updating local game sessions
+2024-03-24 20:53:46,311 - INFO - Game sessions updated: [(1, 1218738547599872011, 974867526129426493, 1218747369974403142, 1218747412529676378, datetime.datetime(2024, 3, 23, 2, 4, 24), None, 43200, 6)]
+2024-03-24 20:53:46,544 - INFO - Missing users: [416346814086643728]
+2024-03-24 20:53:46,544 - WARNING - PyNaCl is not installed, voice will NOT be supported
+2024-03-24 20:53:46,544 - INFO - logging in using static token
+2024-03-24 20:53:47,091 - INFO - Shard ID None has sent the IDENTIFY payload.
+2024-03-24 20:53:47,279 - INFO - Shard ID None has connected to Gateway: ["gateway-prd-us-east1-c-gp2f",{"micros":132874,"calls":["id_created",{"micros":946,"calls":[]},"session_lookup_time",{"micros":7786,"calls":[]},"session_lookup_finished",{"micros":17,"calls":[]},"discord-sessions-prd-2-77",{"micros":123050,"calls":["start_session",{"micros":97899,"calls":["discord-api-7c46887f44-h28kz",{"micros":90165,"calls":["get_user",{"micros":27346},"get_guilds",{"micros":14030},"send_scheduled_deletion_message",{"micros":10},"guild_join_requests",{"micros":282},"authorized_ip_coro",{"micros":10}]}]},"starting_guild_connect",{"micros":69,"calls":[]},"presence_started",{"micros":336,"calls":[]},"guilds_started",{"micros":109,"calls":[]},"guilds_connect",{"micros":2,"calls":[]},"presence_connect",{"micros":24558,"calls":[]},"connect_finished",{"micros":24565,"calls":[]},"build_ready",{"micros":22,"calls":[]},"clean_ready",{"micros":1,"calls":[]},"optimize_ready",{"micros":24,"calls":[]},"split_ready",{"micros":1,"calls":[]}]}]}] (Session ID: 5f78c2f264c188b88c839cd36d70c10e). Resume URL specified as wss://gateway-us-east1-c.discord.gg
+2024-03-24 20:53:49,294 - INFO - Connection pools set up successfully.
+2024-03-24 20:53:49,294 - INFO - Bot started as The Button Game#4283
+2024-03-24 20:53:49,294 - INFO - Number of guilds: 1
+2024-03-24 20:53:49,294 - INFO - Connected to guild: The Astral Apothecary
+2024-03-24 20:53:50,604 - INFO - In The Astral Apothecary, roles have been set up.
+2024-03-24 20:53:50,760 - INFO - Message received in The Astral Apothecary: sb
+2024-03-24 20:53:50,760 - INFO - Starting button game in The Astral Apothecary
+2024-03-24 20:53:51,077 - INFO - Bot ready!
+2024-03-24 20:53:51,380 - WARNING - HTTP Rate limited.
+2024-03-24 20:53:51,380 - WARNING - limit=1 remaining=0 reset_after=3.0 bucket='395d6cf0674e9291d994fd56de77ef96' scope=None
+2024-03-24 20:53:51,547 - INFO - Creating button message for game 1...
+2024-03-24 20:53:52,479 - INFO - Updating message cache for message 1221623663003041963
+2024-03-24 20:53:52,479 - INFO - Message cache updated for message 1221623663003041963, {1: <Message id=1221623663003041963 channel=<TextChannel id=1218747369974403142 name='the-button-game' position=41 nsfw=False news=False category_id=974871210972282920> type=<MessageType.default: 0> author=<Member id=1218745422143557753 name='The Button Game' global_name=None discriminator='4283' bot=True nick=None guild=<Guild id=974867526129426493 name='The Astral Apothecary' shard_id=0 chunked=True member_count=1114>> flags=<MessageFlags value=0>>}
+2024-03-24 20:53:52,479 - INFO - Button game already started in The Astral Apothecary
+2024-03-24 20:53:52,479 - INFO - Starting update timer task...
+2024-03-24 20:53:52,479 - INFO - Creating game sessions dict, lengths - game_sessions: 1, game_sessions_as_dict: 0
+2024-03-24 20:53:52,573 - INFO - Query executed successfully
+2024-03-24 20:53:52,705 - INFO - Updating game cache for game 1
+2024-03-24 20:53:52,705 - INFO - Game cache updated for game 1, {1: {'latest_click_time': datetime.datetime(2024, 3, 24, 23, 55, 53, tzinfo=datetime.timezone.utc), 'total_clicks': 82, 'total_players': 23, 'last_update_time': datetime.datetime(2024, 3, 25, 0, 53, 52, 705047, tzinfo=datetime.timezone.utc), 'latest_player_name': 'beersenpai', 'last_timer_value': 43198}}
+2024-03-24 20:54:01,980 - INFO - Query executed successfully
+2024-03-24 20:54:02,307 - INFO - Button click rejected. User vbaby2343 is on cooldown for 05:58:43
+2024-03-24 20:54:02,527 - ERROR - Error executing query: Exception: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '=None)
+                VALUES (416346814086643728, '2024-03-25 06:52:45', 'Purpl' at line 1, Query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            , Params: (416346814086643728, datetime.datetime(2024, 3, 25, 6, 52, 45, tzinfo=datetime.timezone.utc), 'Purple', 43123.302179, datetime.datetime(2024, 3, 25, 0, 52, 45, tzinfo=datetime.timezone.utc), 'vbaby2343', 1)
+2024-03-24 20:54:02,760 - ERROR - Error executing query: Exception: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '=None)
+                VALUES (416346814086643728, '2024-03-25 06:52:45', 'Purpl' at line 1, Query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            , Params: (416346814086643728, datetime.datetime(2024, 3, 25, 6, 52, 45, tzinfo=datetime.timezone.utc), 'Purple', 43123.302179, datetime.datetime(2024, 3, 25, 0, 52, 45, tzinfo=datetime.timezone.utc), 'vbaby2343', 1)
+2024-03-24 20:54:02,994 - ERROR - Error executing query: Exception: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '=None)
+                VALUES (416346814086643728, '2024-03-25 06:52:45', 'Purpl' at line 1, Query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            , Params: (416346814086643728, datetime.datetime(2024, 3, 25, 6, 52, 45, tzinfo=datetime.timezone.utc), 'Purple', 43123.302179, datetime.datetime(2024, 3, 25, 0, 52, 45, tzinfo=datetime.timezone.utc), 'vbaby2343', 1)
+2024-03-24 20:54:02,994 - ERROR - Failed to execute query after 3 attempts, query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            
+2024-03-24 20:55:11,213 - INFO - Query executed successfully
+2024-03-24 20:55:11,440 - INFO - Query executed successfully
+2024-03-24 20:55:11,607 - INFO - Data inserted for vbaby2343!
+2024-03-24 20:55:12,723 - ERROR - Error executing query: Exception: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '=None)
+                VALUES (416346814086643728, '2024-03-25 06:55:11.017079',' at line 1, Query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            , Params: (416346814086643728, datetime.datetime(2024, 3, 25, 6, 55, 11, 17079, tzinfo=datetime.timezone.utc), 'Purple', 39641, datetime.datetime(2024, 3, 25, 0, 55, 11, 17079, tzinfo=datetime.timezone.utc), 'vbaby2343', 1)
+2024-03-24 20:55:12,969 - ERROR - Error executing query: Exception: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '=None)
+                VALUES (416346814086643728, '2024-03-25 06:55:11.017079',' at line 1, Query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            , Params: (416346814086643728, datetime.datetime(2024, 3, 25, 6, 55, 11, 17079, tzinfo=datetime.timezone.utc), 'Purple', 39641, datetime.datetime(2024, 3, 25, 0, 55, 11, 17079, tzinfo=datetime.timezone.utc), 'vbaby2343', 1)
+2024-03-24 20:55:13,182 - ERROR - Error executing query: Exception: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '=None)
+                VALUES (416346814086643728, '2024-03-25 06:55:11.017079',' at line 1, Query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            , Params: (416346814086643728, datetime.datetime(2024, 3, 25, 6, 55, 11, 17079, tzinfo=datetime.timezone.utc), 'Purple', 39641, datetime.datetime(2024, 3, 25, 0, 55, 11, 17079, tzinfo=datetime.timezone.utc), 'vbaby2343', 1)
+2024-03-24 20:55:13,182 - ERROR - Failed to execute query after 3 attempts, query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            
+2024-03-24 20:55:13,182 - INFO - Updating game cache for game 1
+2024-03-24 20:55:13,182 - INFO - Game cache updated for game 1, {1: {'latest_click_time': datetime.datetime(2024, 3, 25, 0, 55, 11, 17079, tzinfo=datetime.timezone.utc), 'total_clicks': 81, 'total_players': 22, 'last_update_time': datetime.datetime(2024, 3, 25, 0, 55, 13, 182121, tzinfo=datetime.timezone.utc), 'latest_player_name': 'vbaby2343', 'last_timer_value': 39641}}
+2024-03-24 20:55:13,182 - INFO - Callback run time: 2.165042 seconds
+2024-03-24 20:57:19,604 - INFO - Connection pools set up successfully.
+2024-03-24 20:57:19,604 - INFO - Connection pools set up successfully
+2024-03-24 20:57:19,824 - INFO - Updating local game sessions
+2024-03-24 20:57:19,854 - INFO - Game sessions updated: [(1, 1218738547599872011, 974867526129426493, 1218747369974403142, 1218747412529676378, datetime.datetime(2024, 3, 23, 2, 4, 24), None, 43200, 6)]
+2024-03-24 20:57:20,080 - INFO - Missing users: [416346814086643728]
+2024-03-24 20:57:20,090 - WARNING - PyNaCl is not installed, voice will NOT be supported
+2024-03-24 20:57:20,090 - INFO - logging in using static token
+2024-03-24 20:57:20,668 - INFO - Shard ID None has sent the IDENTIFY payload.
+2024-03-24 20:57:20,885 - INFO - Shard ID None has connected to Gateway: ["gateway-prd-us-east1-c-1l23",{"micros":139185,"calls":["id_created",{"micros":1188,"calls":[]},"session_lookup_time",{"micros":2521,"calls":[]},"session_lookup_finished",{"micros":18,"calls":[]},"discord-sessions-prd-2-5",{"micros":134407,"calls":["start_session",{"micros":56961,"calls":["discord-api-7c46887f44-4q6cr",{"micros":39659,"calls":["get_user",{"micros":5566},"get_guilds",{"micros":4193},"send_scheduled_deletion_message",{"micros":11},"guild_join_requests",{"micros":2},"authorized_ip_coro",{"micros":11}]}]},"starting_guild_connect",{"micros":80,"calls":[]},"presence_started",{"micros":29352,"calls":[]},"guilds_started",{"micros":90,"calls":[]},"guilds_connect",{"micros":2,"calls":[]},"presence_connect",{"micros":47874,"calls":[]},"connect_finished",{"micros":47879,"calls":[]},"build_ready",{"micros":15,"calls":[]},"clean_ready",{"micros":1,"calls":[]},"optimize_ready",{"micros":25,"calls":[]},"split_ready",{"micros":1,"calls":[]}]}]}] (Session ID: e1e6f99a77f7f81311e7c1cce3836895). Resume URL specified as wss://gateway-us-east1-c.discord.gg
+2024-03-24 20:57:22,911 - INFO - Connection pools set up successfully.
+2024-03-24 20:57:22,911 - INFO - Bot started as The Button Game#4283
+2024-03-24 20:57:22,911 - INFO - Number of guilds: 1
+2024-03-24 20:57:22,911 - INFO - Connected to guild: The Astral Apothecary
+2024-03-24 20:57:23,980 - INFO - In The Astral Apothecary, roles have been set up.
+2024-03-24 20:57:24,146 - INFO - Message received in The Astral Apothecary: sb
+2024-03-24 20:57:24,146 - INFO - Starting button game in The Astral Apothecary
+2024-03-24 20:57:24,643 - INFO - Bot ready!
+2024-03-24 20:57:24,981 - WARNING - HTTP Rate limited.
+2024-03-24 20:57:24,981 - WARNING - limit=1 remaining=0 reset_after=3.0 bucket='395d6cf0674e9291d994fd56de77ef96' scope=None
+2024-03-24 20:57:25,213 - INFO - Creating button message for game 1...
+2024-03-24 20:57:26,089 - INFO - Updating message cache for message 1221624558805581934
+2024-03-24 20:57:26,089 - INFO - Message cache updated for message 1221624558805581934, {1: <Message id=1221624558805581934 channel=<TextChannel id=1218747369974403142 name='the-button-game' position=41 nsfw=False news=False category_id=974871210972282920> type=<MessageType.default: 0> author=<Member id=1218745422143557753 name='The Button Game' global_name=None discriminator='4283' bot=True nick=None guild=<Guild id=974867526129426493 name='The Astral Apothecary' shard_id=0 chunked=True member_count=1114>> flags=<MessageFlags value=0>>}
+2024-03-24 20:57:26,089 - INFO - Button game already started in The Astral Apothecary
+2024-03-24 20:57:26,089 - INFO - Starting update timer task...
+2024-03-24 20:57:26,089 - INFO - Creating game sessions dict, lengths - game_sessions: 1, game_sessions_as_dict: 0
+2024-03-24 20:57:26,183 - INFO - Query executed successfully
+2024-03-24 20:57:26,323 - INFO - Updating game cache for game 1
+2024-03-24 20:57:26,323 - INFO - Game cache updated for game 1, {1: {'latest_click_time': datetime.datetime(2024, 3, 24, 23, 55, 53, tzinfo=datetime.timezone.utc), 'total_clicks': 82, 'total_players': 23, 'last_update_time': datetime.datetime(2024, 3, 25, 0, 57, 26, 323719, tzinfo=datetime.timezone.utc), 'latest_player_name': 'beersenpai', 'last_timer_value': 43198}}
+2024-03-24 20:59:48,968 - INFO - Query executed successfully
+2024-03-24 20:59:49,292 - INFO - Button click rejected. User drunk_harpy is on cooldown for 00:04:23
+2024-03-24 20:59:49,516 - ERROR - Error executing query: Exception: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '=None)
+                VALUES (244241156232183808, '2024-03-25 01:04:12', 'Purpl' at line 1, Query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            , Params: (244241156232183808, datetime.datetime(2024, 3, 25, 1, 4, 12, tzinfo=datetime.timezone.utc), 'Purple', 42922.233961, datetime.datetime(2024, 3, 24, 19, 4, 12, tzinfo=datetime.timezone.utc), 'Ky, Mother of 13*', 1)
+2024-03-24 20:59:49,732 - ERROR - Error executing query: Exception: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '=None)
+                VALUES (244241156232183808, '2024-03-25 01:04:12', 'Purpl' at line 1, Query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            , Params: (244241156232183808, datetime.datetime(2024, 3, 25, 1, 4, 12, tzinfo=datetime.timezone.utc), 'Purple', 42922.233961, datetime.datetime(2024, 3, 24, 19, 4, 12, tzinfo=datetime.timezone.utc), 'Ky, Mother of 13*', 1)
+2024-03-24 20:59:49,970 - ERROR - Error executing query: Exception: 1064 (42000): You have an error in your SQL syntax; check the manual that corresponds to your MySQL server version for the right syntax to use near '=None)
+                VALUES (244241156232183808, '2024-03-25 01:04:12', 'Purpl' at line 1, Query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            , Params: (244241156232183808, datetime.datetime(2024, 3, 25, 1, 4, 12, tzinfo=datetime.timezone.utc), 'Purple', 42922.233961, datetime.datetime(2024, 3, 24, 19, 4, 12, tzinfo=datetime.timezone.utc), 'Ky, Mother of 13*', 1)
+2024-03-24 20:59:49,970 - ERROR - Failed to execute query after 3 attempts, query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var=None)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            
+2024-03-24 21:03:21,413 - INFO - Connection pools set up successfully.
+2024-03-24 21:03:21,413 - INFO - Connection pools set up successfully
+2024-03-24 21:03:21,610 - INFO - Updating local game sessions
+2024-03-24 21:03:21,639 - INFO - Game sessions updated: [(1, 1218738547599872011, 974867526129426493, 1218747369974403142, 1218747412529676378, datetime.datetime(2024, 3, 23, 2, 4, 24), None, 43200, 6)]
+2024-03-24 21:03:21,870 - INFO - Missing users: [416346814086643728]
+2024-03-24 21:03:21,870 - WARNING - PyNaCl is not installed, voice will NOT be supported
+2024-03-24 21:03:21,870 - INFO - logging in using static token
+2024-03-24 21:03:22,448 - INFO - Shard ID None has sent the IDENTIFY payload.
+2024-03-24 21:03:22,620 - INFO - Shard ID None has connected to Gateway: ["gateway-prd-us-east1-b-4pbf",{"micros":85786,"calls":["id_created",{"micros":1235,"calls":[]},"session_lookup_time",{"micros":325,"calls":[]},"session_lookup_finished",{"micros":15,"calls":[]},"discord-sessions-prd-2-190",{"micros":83538,"calls":["start_session",{"micros":55646,"calls":["discord-api-7c46887f44-2h5rl",{"micros":50990,"calls":["get_user",{"micros":5943},"get_guilds",{"micros":3587},"send_scheduled_deletion_message",{"micros":11},"guild_join_requests",{"micros":748},"authorized_ip_coro",{"micros":8}]}]},"starting_guild_connect",{"micros":69,"calls":[]},"presence_started",{"micros":7394,"calls":[]},"guilds_started",{"micros":96,"calls":[]},"guilds_connect",{"micros":2,"calls":[]},"presence_connect",{"micros":20264,"calls":[]},"connect_finished",{"micros":20271,"calls":[]},"build_ready",{"micros":25,"calls":[]},"clean_ready",{"micros":29,"calls":[]},"optimize_ready",{"micros":1,"calls":[]},"split_ready",{"micros":1,"calls":[]}]}]}] (Session ID: 22160ea4c096aa33b5a87634d645893b). Resume URL specified as wss://gateway-us-east1-b.discord.gg
+2024-03-24 21:03:24,680 - INFO - Connection pools set up successfully.
+2024-03-24 21:03:24,680 - INFO - Bot started as The Button Game#4283
+2024-03-24 21:03:24,680 - INFO - Number of guilds: 1
+2024-03-24 21:03:24,680 - INFO - Connected to guild: The Astral Apothecary
+2024-03-24 21:03:25,830 - INFO - In The Astral Apothecary, roles have been set up.
+2024-03-24 21:03:25,965 - INFO - Message received in The Astral Apothecary: sb
+2024-03-24 21:03:25,965 - INFO - Starting button game in The Astral Apothecary
+2024-03-24 21:03:26,489 - INFO - Bot ready!
+2024-03-24 21:03:26,870 - WARNING - HTTP Rate limited.
+2024-03-24 21:03:26,870 - WARNING - limit=1 remaining=0 reset_after=3.0 bucket='395d6cf0674e9291d994fd56de77ef96' scope=None
+2024-03-24 21:03:27,045 - INFO - Creating button message for game 1...
+2024-03-24 21:03:28,071 - INFO - Updating message cache for message 1221626076913078312
+2024-03-24 21:03:28,071 - INFO - Message cache updated for message 1221626076913078312, {1: <Message id=1221626076913078312 channel=<TextChannel id=1218747369974403142 name='the-button-game' position=41 nsfw=False news=False category_id=974871210972282920> type=<MessageType.default: 0> author=<Member id=1218745422143557753 name='The Button Game' global_name=None discriminator='4283' bot=True nick=None guild=<Guild id=974867526129426493 name='The Astral Apothecary' shard_id=0 chunked=True member_count=1115>> flags=<MessageFlags value=0>>}
+2024-03-24 21:03:28,071 - INFO - Button game already started in The Astral Apothecary
+2024-03-24 21:03:28,071 - INFO - Starting update timer task...
+2024-03-24 21:03:28,074 - INFO - Creating game sessions dict, lengths - game_sessions: 1, game_sessions_as_dict: 0
+2024-03-24 21:03:28,162 - INFO - Query executed successfully
+2024-03-24 21:03:28,298 - INFO - Updating game cache for game 1
+2024-03-24 21:03:28,298 - INFO - Game cache updated for game 1, {1: {'latest_click_time': datetime.datetime(2024, 3, 24, 23, 55, 53, tzinfo=datetime.timezone.utc), 'total_clicks': 82, 'total_players': 23, 'last_update_time': datetime.datetime(2024, 3, 25, 1, 3, 28, 298906, tzinfo=datetime.timezone.utc), 'latest_player_name': 'beersenpai', 'last_timer_value': 43198}}
+2024-03-24 21:04:53,444 - INFO - Connection pools set up successfully.
+2024-03-24 21:04:53,448 - INFO - Connection pools set up successfully
+2024-03-24 21:04:53,653 - INFO - Updating local game sessions
+2024-03-24 21:04:53,682 - INFO - Game sessions updated: [(1, 1218738547599872011, 974867526129426493, 1218747369974403142, 1218747412529676378, datetime.datetime(2024, 3, 23, 2, 4, 24), None, 43200, 6)]
+2024-03-24 21:04:53,906 - INFO - Missing users: [416346814086643728]
+2024-03-24 21:04:53,906 - WARNING - PyNaCl is not installed, voice will NOT be supported
+2024-03-24 21:04:53,906 - INFO - logging in using static token
+2024-03-24 21:04:54,416 - INFO - Shard ID None has sent the IDENTIFY payload.
+2024-03-24 21:04:54,566 - INFO - Shard ID None has connected to Gateway: ["gateway-prd-us-east1-b-6vd1",{"micros":76098,"calls":["id_created",{"micros":1193,"calls":[]},"session_lookup_time",{"micros":2807,"calls":[]},"session_lookup_finished",{"micros":13,"calls":[]},"discord-sessions-prd-2-13",{"micros":71312,"calls":["start_session",{"micros":51530,"calls":["discord-api-7c46887f44-pskwk",{"micros":46763,"calls":["get_user",{"micros":6242},"get_guilds",{"micros":3775},"send_scheduled_deletion_message",{"micros":8},"guild_join_requests",{"micros":2},"authorized_ip_coro",{"micros":8}]}]},"starting_guild_connect",{"micros":65,"calls":[]},"presence_started",{"micros":12619,"calls":[]},"guilds_started",{"micros":89,"calls":[]},"guilds_connect",{"micros":2,"calls":[]},"presence_connect",{"micros":6953,"calls":[]},"connect_finished",{"micros":6958,"calls":[]},"build_ready",{"micros":20,"calls":[]},"clean_ready",{"micros":25,"calls":[]},"optimize_ready",{"micros":1,"calls":[]},"split_ready",{"micros":1,"calls":[]}]}]}] (Session ID: 3d0f85a9c7709265400e794f6322940c). Resume URL specified as wss://gateway-us-east1-b.discord.gg
+2024-03-24 21:04:56,582 - INFO - Connection pools set up successfully.
+2024-03-24 21:04:56,582 - INFO - Bot started as The Button Game#4283
+2024-03-24 21:04:56,582 - INFO - Number of guilds: 1
+2024-03-24 21:04:56,582 - INFO - Connected to guild: The Astral Apothecary
+2024-03-24 21:04:57,996 - INFO - In The Astral Apothecary, roles have been set up.
+2024-03-24 21:04:58,152 - INFO - Message received in The Astral Apothecary: sb
+2024-03-24 21:04:58,152 - INFO - Starting button game in The Astral Apothecary
+2024-03-24 21:04:58,734 - INFO - Bot ready!
+2024-03-24 21:04:59,041 - WARNING - HTTP Rate limited.
+2024-03-24 21:04:59,041 - WARNING - limit=1 remaining=0 reset_after=3.0 bucket='395d6cf0674e9291d994fd56de77ef96' scope=None
+2024-03-24 21:04:59,183 - INFO - Creating button message for game 1...
+2024-03-24 21:04:59,970 - INFO - Updating message cache for message 1221626462747234355
+2024-03-24 21:04:59,970 - INFO - Message cache updated for message 1221626462747234355, {1: <Message id=1221626462747234355 channel=<TextChannel id=1218747369974403142 name='the-button-game' position=41 nsfw=False news=False category_id=974871210972282920> type=<MessageType.default: 0> author=<Member id=1218745422143557753 name='The Button Game' global_name=None discriminator='4283' bot=True nick=None guild=<Guild id=974867526129426493 name='The Astral Apothecary' shard_id=0 chunked=True member_count=1115>> flags=<MessageFlags value=0>>}
+2024-03-24 21:04:59,970 - INFO - Button game already started in The Astral Apothecary
+2024-03-24 21:04:59,970 - INFO - Starting update timer task...
+2024-03-24 21:04:59,970 - INFO - Creating game sessions dict, lengths - game_sessions: 1, game_sessions_as_dict: 0
+2024-03-24 21:05:00,046 - INFO - Query executed successfully
+2024-03-24 21:05:00,188 - INFO - Updating game cache for game 1
+2024-03-24 21:05:00,188 - INFO - Game cache updated for game 1, {1: {'latest_click_time': datetime.datetime(2024, 3, 24, 23, 55, 53, tzinfo=datetime.timezone.utc), 'total_clicks': 82, 'total_players': 23, 'last_update_time': datetime.datetime(2024, 3, 25, 1, 5, 0, 188741, tzinfo=datetime.timezone.utc), 'latest_player_name': 'beersenpai', 'last_timer_value': 43198}}
+2024-03-24 21:09:40,113 - INFO - Message received in The Astral Apothecary: check
+2024-03-24 21:09:40,197 - INFO - Query executed successfully
+2024-03-24 21:20:01,036 - INFO - Clearing cache for game 1, since last update was more than 15 minutes ago...
+2024-03-24 21:20:01,036 - INFO - Clearing game cache for game 1
+2024-03-24 21:20:01,036 - INFO - Game cache cleared for game 1, {}
+2024-03-24 21:20:30,627 - INFO - Query executed successfully
+2024-03-24 21:20:30,766 - INFO - Updating game cache for game 1
+2024-03-24 21:20:30,766 - INFO - Game cache updated for game 1, {1: {'latest_click_time': datetime.datetime(2024, 3, 24, 23, 55, 53, tzinfo=datetime.timezone.utc), 'total_clicks': 82, 'total_players': 23, 'last_update_time': datetime.datetime(2024, 3, 25, 1, 20, 30, 766184, tzinfo=datetime.timezone.utc), 'latest_player_name': 'beersenpai', 'last_timer_value': 43198}}
+2024-03-24 21:23:09,327 - INFO - Query executed successfully
+2024-03-24 21:23:29,063 - INFO - Query executed successfully
+2024-03-24 21:23:29,238 - INFO - Data inserted for saphiraluxray!
+2024-03-24 21:23:29,502 - WARNING - Interaction not found. Retrying...
+2024-03-24 21:23:50,371 - ERROR - Error executing query: Exception: 1054 (42S22): Unknown column 'latest_click_var' in 'field list', Query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            , Params: (501442463442010124, datetime.datetime(2024, 3, 25, 7, 22, 49, 619995, tzinfo=datetime.timezone.utc), 'Purple', 41541, datetime.datetime(2024, 3, 25, 1, 22, 49, 619995, tzinfo=datetime.timezone.utc), 'saphiraluxray', 1)
+2024-03-24 21:24:10,120 - ERROR - Error executing query: Exception: 1054 (42S22): Unknown column 'latest_click_var' in 'field list', Query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            , Params: (501442463442010124, datetime.datetime(2024, 3, 25, 7, 22, 49, 619995, tzinfo=datetime.timezone.utc), 'Purple', 41541, datetime.datetime(2024, 3, 25, 1, 22, 49, 619995, tzinfo=datetime.timezone.utc), 'saphiraluxray', 1)
+2024-03-24 21:24:10,340 - ERROR - Error executing query: Exception: 1054 (42S22): Unknown column 'latest_click_var' in 'field list', Query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            , Params: (501442463442010124, datetime.datetime(2024, 3, 25, 7, 22, 49, 619995, tzinfo=datetime.timezone.utc), 'Purple', 41541, datetime.datetime(2024, 3, 25, 1, 22, 49, 619995, tzinfo=datetime.timezone.utc), 'saphiraluxray', 1)
+2024-03-24 21:24:10,340 - ERROR - Failed to execute query after 3 attempts, query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            
+2024-03-24 21:24:10,340 - INFO - Updating game cache for game 1
+2024-03-24 21:24:10,340 - INFO - Game cache updated for game 1, {1: {'latest_click_time': datetime.datetime(2024, 3, 25, 1, 22, 49, 619995, tzinfo=datetime.timezone.utc), 'total_clicks': 82, 'total_players': 23, 'last_update_time': datetime.datetime(2024, 3, 25, 1, 24, 10, 340535, tzinfo=datetime.timezone.utc), 'latest_player_name': 'saphiraluxray', 'last_timer_value': 41541}}
+2024-03-24 21:24:10,354 - ERROR - Error processing button click: Lock is not acquired., Traceback (most recent call last):
+  File "Z:\\WubHub\\TheButton\\bot_code\\theButton.py", line 406, in callback
+    lock.release()
+  File "C:\Users\Bot 00\AppData\Local\Programs\Python\Python311\Lib\asyncio\locks.py", line 140, in release
+    raise RuntimeError('Lock is not acquired.')
+RuntimeError: Lock is not acquired.
+
+2024-03-24 21:24:10,354 - ERROR - Interaction not found after retry. Skipping...
+2024-03-24 21:24:10,715 - INFO - Callback run time: 81.095212 seconds
+2024-03-24 21:32:40,722 - INFO - Got a request to RESUME the websocket.
+2024-03-24 21:32:40,722 - INFO - Bot disconnected
+2024-03-24 21:32:40,722 - INFO - Cursor closed successfully.
+2024-03-24 21:32:59,910 - ERROR - Error closing database connection: MySQL Connection not available.
+2024-03-24 21:32:59,910 - ERROR - Error closing database connections: 'MySQLConnectionPool' object has no attribute 'pool_clear_pool_connections'
+2024-03-24 21:33:00,109 - INFO - Shard ID None has sent the RESUME payload.
+2024-03-24 21:33:00,214 - INFO - Shard ID None has successfully RESUMED session 3d0f85a9c7709265400e794f6322940c under trace ["gateway-prd-us-east1-b-8cqq",{"micros":6340,"calls":["id_created",{"micros":0,"calls":[]},"session_lookup_time",{"micros":1901,"calls":[]},"session_lookup_finished",{"micros":12,"calls":[]},"discord-sessions-prd-2-13",{"micros":54}]}].
+2024-03-24 21:39:10,409 - INFO - Clearing cache for game 1, since last update was more than 15 minutes ago...
+2024-03-24 21:39:10,409 - INFO - Clearing game cache for game 1
+2024-03-24 21:39:10,409 - INFO - Game cache cleared for game 1, {}
+2024-03-24 21:39:22,062 - INFO - Connection pools set up successfully.
+2024-03-24 21:39:22,151 - INFO - Query executed successfully
+2024-03-24 21:39:22,278 - INFO - Updating game cache for game 1
+2024-03-24 21:39:22,278 - INFO - Game cache updated for game 1, {1: {'latest_click_time': datetime.datetime(2024, 3, 24, 23, 55, 53, tzinfo=datetime.timezone.utc), 'total_clicks': 83, 'total_players': 24, 'last_update_time': datetime.datetime(2024, 3, 25, 1, 39, 22, 278108, tzinfo=datetime.timezone.utc), 'latest_player_name': 'beersenpai', 'last_timer_value': 43198}}
+2024-03-24 21:54:31,476 - INFO - Clearing cache for game 1, since last update was more than 15 minutes ago...
+2024-03-24 21:54:31,476 - INFO - Clearing game cache for game 1
+2024-03-24 21:54:31,476 - INFO - Game cache cleared for game 1, {}
+2024-03-24 21:55:01,057 - INFO - Query executed successfully
+2024-03-24 21:55:01,195 - INFO - Updating game cache for game 1
+2024-03-24 21:55:01,195 - INFO - Game cache updated for game 1, {1: {'latest_click_time': datetime.datetime(2024, 3, 24, 23, 55, 53, tzinfo=datetime.timezone.utc), 'total_clicks': 83, 'total_players': 24, 'last_update_time': datetime.datetime(2024, 3, 25, 1, 55, 1, 195505, tzinfo=datetime.timezone.utc), 'latest_player_name': 'beersenpai', 'last_timer_value': 43198}}
+2024-03-24 22:04:53,167 - INFO - Connection pools set up successfully.
+2024-03-24 22:04:53,167 - INFO - Connection pools set up successfully
+2024-03-24 22:04:53,371 - INFO - Updating local game sessions
+2024-03-24 22:04:53,386 - INFO - Game sessions updated: [(1, 1218738547599872011, 974867526129426493, 1218747369974403142, 1218747412529676378, datetime.datetime(2024, 3, 23, 2, 4, 24), None, 43200, 6)]
+2024-03-24 22:04:53,620 - INFO - Missing users: [416346814086643728, 501442463442010124]
+2024-03-24 22:04:53,635 - WARNING - PyNaCl is not installed, voice will NOT be supported
+2024-03-24 22:04:53,635 - INFO - logging in using static token
+2024-03-24 22:04:54,198 - INFO - Shard ID None has sent the IDENTIFY payload.
+2024-03-24 22:04:54,381 - INFO - Shard ID None has connected to Gateway: ["gateway-prd-us-east1-c-f2hr",{"micros":100308,"calls":["id_created",{"micros":1746,"calls":[]},"session_lookup_time",{"micros":319,"calls":[]},"session_lookup_finished",{"micros":17,"calls":[]},"discord-sessions-prd-2-23",{"micros":97495,"calls":["start_session",{"micros":53001,"calls":["discord-api-7c46887f44-6stkp",{"micros":48063,"calls":["get_user",{"micros":5599},"get_guilds",{"micros":5492},"send_scheduled_deletion_message",{"micros":15},"guild_join_requests",{"micros":234},"authorized_ip_coro",{"micros":8}]}]},"starting_guild_connect",{"micros":58,"calls":[]},"presence_started",{"micros":18896,"calls":[]},"guilds_started",{"micros":93,"calls":[]},"guilds_connect",{"micros":2,"calls":[]},"presence_connect",{"micros":25399,"calls":[]},"connect_finished",{"micros":25405,"calls":[]},"build_ready",{"micros":15,"calls":[]},"clean_ready",{"micros":2,"calls":[]},"optimize_ready",{"micros":21,"calls":[]},"split_ready",{"micros":0,"calls":[]}]}]}] (Session ID: e4790fb9caec2cc86931598a1327d1f7). Resume URL specified as wss://gateway-us-east1-c.discord.gg
+2024-03-24 22:04:56,388 - INFO - Connection pools set up successfully.
+2024-03-24 22:04:56,388 - INFO - Bot started as The Button Game#4283
+2024-03-24 22:04:56,388 - INFO - Number of guilds: 1
+2024-03-24 22:04:56,388 - INFO - Connected to guild: The Astral Apothecary
+2024-03-24 22:04:57,442 - INFO - In The Astral Apothecary, roles have been set up.
+2024-03-24 22:04:57,577 - INFO - Message received in The Astral Apothecary: sb
+2024-03-24 22:04:57,577 - INFO - Starting button game in The Astral Apothecary
+2024-03-24 22:04:59,856 - INFO - Bot ready!
+2024-03-24 22:05:00,138 - WARNING - HTTP Rate limited.
+2024-03-24 22:05:00,138 - WARNING - limit=1 remaining=0 reset_after=3.0 bucket='395d6cf0674e9291d994fd56de77ef96' scope=None
+2024-03-24 22:05:00,295 - INFO - Creating button message for game 1...
+2024-03-24 22:05:01,089 - INFO - Updating message cache for message 1221641567048040468
+2024-03-24 22:05:01,089 - INFO - Message cache updated for message 1221641567048040468, {1: <Message id=1221641567048040468 channel=<TextChannel id=1218747369974403142 name='the-button-game' position=41 nsfw=False news=False category_id=974871210972282920> type=<MessageType.default: 0> author=<Member id=1218745422143557753 name='The Button Game' global_name=None discriminator='4283' bot=True nick=None guild=<Guild id=974867526129426493 name='The Astral Apothecary' shard_id=0 chunked=True member_count=1115>> flags=<MessageFlags value=0>>}
+2024-03-24 22:05:01,089 - INFO - Button game already started in The Astral Apothecary
+2024-03-24 22:05:01,089 - INFO - Starting update timer task...
+2024-03-24 22:05:01,089 - INFO - Creating game sessions dict, lengths - game_sessions: 1, game_sessions_as_dict: 0
+2024-03-24 22:05:01,188 - INFO - Query executed successfully
+2024-03-24 22:05:01,325 - INFO - Updating game cache for game 1
+2024-03-24 22:05:01,325 - INFO - Game cache updated for game 1, {1: {'latest_click_time': datetime.datetime(2024, 3, 24, 23, 55, 53, tzinfo=datetime.timezone.utc), 'total_clicks': 83, 'total_players': 24, 'last_update_time': datetime.datetime(2024, 3, 25, 2, 5, 1, 325370, tzinfo=datetime.timezone.utc), 'latest_player_name': 'beersenpai', 'last_timer_value': 43198}}
+2024-03-24 22:08:16,574 - INFO - Connection pools set up successfully.
+2024-03-24 22:08:16,574 - INFO - Connection pools set up successfully
+2024-03-24 22:08:16,792 - INFO - Updating local game sessions
+2024-03-24 22:08:16,815 - INFO - Game sessions updated: [(1, 1218738547599872011, 974867526129426493, 1218747369974403142, 1218747412529676378, datetime.datetime(2024, 3, 23, 2, 4, 24), None, 43200, 6)]
+2024-03-24 22:08:17,042 - INFO - Missing users: [416346814086643728, 501442463442010124]
+2024-03-24 22:08:17,042 - WARNING - PyNaCl is not installed, voice will NOT be supported
+2024-03-24 22:08:17,042 - INFO - logging in using static token
+2024-03-24 22:08:17,580 - INFO - Shard ID None has sent the IDENTIFY payload.
+2024-03-24 22:08:17,750 - INFO - Shard ID None has connected to Gateway: ["gateway-prd-us-east1-b-6k6x",{"micros":83113,"calls":["id_created",{"micros":1316,"calls":[]},"session_lookup_time",{"micros":5877,"calls":[]},"session_lookup_finished",{"micros":15,"calls":[]},"discord-sessions-prd-2-295",{"micros":74513,"calls":["start_session",{"micros":47496,"calls":["discord-api-7c46887f44-p5llh",{"micros":42880,"calls":["get_user",{"micros":6768},"get_guilds",{"micros":6528},"send_scheduled_deletion_message",{"micros":10},"guild_join_requests",{"micros":180},"authorized_ip_coro",{"micros":11}]}]},"starting_guild_connect",{"micros":61,"calls":[]},"presence_started",{"micros":7829,"calls":[]},"guilds_started",{"micros":85,"calls":[]},"guilds_connect",{"micros":2,"calls":[]},"presence_connect",{"micros":18971,"calls":[]},"connect_finished",{"micros":18976,"calls":[]},"build_ready",{"micros":21,"calls":[]},"clean_ready",{"micros":1,"calls":[]},"optimize_ready",{"micros":0,"calls":[]},"split_ready",{"micros":40,"calls":[]}]}]}] (Session ID: 49522880c42f2b9fd0c9b59392b761b8). Resume URL specified as wss://gateway-us-east1-b.discord.gg
+2024-03-24 22:08:19,776 - INFO - Connection pools set up successfully.
+2024-03-24 22:08:19,776 - INFO - Bot started as The Button Game#4283
+2024-03-24 22:08:19,776 - INFO - Number of guilds: 1
+2024-03-24 22:08:19,776 - INFO - Connected to guild: The Astral Apothecary
+2024-03-24 22:08:21,847 - INFO - In The Astral Apothecary, roles have been set up.
+2024-03-24 22:08:23,151 - INFO - Message received in The Astral Apothecary: sb
+2024-03-24 22:08:23,151 - INFO - Starting button game in The Astral Apothecary
+2024-03-24 22:08:24,500 - INFO - Bot ready!
+2024-03-24 22:08:24,749 - WARNING - HTTP Rate limited.
+2024-03-24 22:08:24,749 - WARNING - limit=1 remaining=0 reset_after=3.0 bucket='395d6cf0674e9291d994fd56de77ef96' scope=None
+2024-03-24 22:08:24,885 - INFO - Creating button message for game 1...
+2024-03-24 22:08:25,699 - INFO - Updating message cache for message 1221642425026613340
+2024-03-24 22:08:25,699 - INFO - Message cache updated for message 1221642425026613340, {1: <Message id=1221642425026613340 channel=<TextChannel id=1218747369974403142 name='the-button-game' position=41 nsfw=False news=False category_id=974871210972282920> type=<MessageType.default: 0> author=<Member id=1218745422143557753 name='The Button Game' global_name=None discriminator='4283' bot=True nick=None guild=<Guild id=974867526129426493 name='The Astral Apothecary' shard_id=0 chunked=True member_count=1116>> flags=<MessageFlags value=0>>}
+2024-03-24 22:08:25,699 - INFO - Button game already started in The Astral Apothecary
+2024-03-24 22:08:25,699 - INFO - Starting update timer task...
+2024-03-24 22:08:25,699 - INFO - Creating game sessions dict, lengths - game_sessions: 1, game_sessions_as_dict: 0
+2024-03-24 22:08:25,782 - INFO - Query executed successfully
+2024-03-24 22:08:25,934 - INFO - Updating game cache for game 1
+2024-03-24 22:08:25,934 - INFO - Game cache updated for game 1, {1: {'latest_click_time': datetime.datetime(2024, 3, 24, 23, 55, 53, tzinfo=datetime.timezone.utc), 'total_clicks': 83, 'total_players': 24, 'last_update_time': datetime.datetime(2024, 3, 25, 2, 8, 25, 934246, tzinfo=datetime.timezone.utc), 'latest_player_name': 'beersenpai', 'last_timer_value': 43198}}
+2024-03-24 22:27:54,057 - INFO - Connection pools set up successfully.
+2024-03-24 22:27:54,057 - INFO - Connection pools set up successfully
+2024-03-24 22:27:54,250 - INFO - Updating local game sessions
+2024-03-24 22:27:54,280 - INFO - Game sessions updated: [(1, 1218738547599872011, 974867526129426493, 1218747369974403142, 1218747412529676378, datetime.datetime(2024, 3, 23, 2, 4, 24), None, 43200, 6)]
+2024-03-24 22:27:54,504 - INFO - Missing users: [416346814086643728, 501442463442010124]
+2024-03-24 22:27:54,513 - WARNING - PyNaCl is not installed, voice will NOT be supported
+2024-03-24 22:27:54,513 - INFO - logging in using static token
+2024-03-24 22:27:55,025 - INFO - Shard ID None has sent the IDENTIFY payload.
+2024-03-24 22:27:55,216 - INFO - Shard ID None has connected to Gateway: ["gateway-prd-us-east1-c-5421",{"micros":125080,"calls":["id_created",{"micros":2061,"calls":[]},"session_lookup_time",{"micros":3445,"calls":[]},"session_lookup_finished",{"micros":13,"calls":[]},"discord-sessions-prd-2-128",{"micros":118855,"calls":["start_session",{"micros":88094,"calls":["discord-api-7c46887f44-rtlj5",{"micros":82790,"calls":["get_user",{"micros":22010},"get_guilds",{"micros":6106},"send_scheduled_deletion_message",{"micros":9},"guild_join_requests",{"micros":2},"authorized_ip_coro",{"micros":9}]}]},"starting_guild_connect",{"micros":50,"calls":[]},"presence_started",{"micros":30223,"calls":[]},"guilds_started",{"micros":99,"calls":[]},"guilds_connect",{"micros":1,"calls":[]},"presence_connect",{"micros":341,"calls":[]},"connect_finished",{"micros":346,"calls":[]},"build_ready",{"micros":16,"calls":[]},"clean_ready",{"micros":1,"calls":[]},"optimize_ready",{"micros":22,"calls":[]},"split_ready",{"micros":0,"calls":[]}]}]}] (Session ID: 7b5cc088c3d6768d159f4c1c333a66fe). Resume URL specified as wss://gateway-us-east1-c.discord.gg
+2024-03-24 22:27:57,244 - INFO - Connection pools set up successfully.
+2024-03-24 22:27:57,244 - INFO - Bot started as The Button Game#4283
+2024-03-24 22:27:57,244 - INFO - Number of guilds: 1
+2024-03-24 22:27:57,244 - INFO - Connected to guild: The Astral Apothecary
+2024-03-24 22:27:58,436 - INFO - In The Astral Apothecary, roles have been set up.
+2024-03-24 22:27:58,572 - INFO - Message received in The Astral Apothecary: sb
+2024-03-24 22:27:58,572 - INFO - Starting button game in The Astral Apothecary
+2024-03-24 22:28:00,130 - INFO - Bot ready!
+2024-03-24 22:28:00,391 - WARNING - HTTP Rate limited.
+2024-03-24 22:28:00,391 - WARNING - limit=1 remaining=0 reset_after=3.0 bucket='395d6cf0674e9291d994fd56de77ef96' scope=None
+2024-03-24 22:28:00,527 - INFO - Creating button message for game 1...
+2024-03-24 22:28:01,354 - INFO - Updating message cache for message 1221647355674230865
+2024-03-24 22:28:01,354 - INFO - Message cache updated for message 1221647355674230865, {1: <Message id=1221647355674230865 channel=<TextChannel id=1218747369974403142 name='the-button-game' position=41 nsfw=False news=False category_id=974871210972282920> type=<MessageType.default: 0> author=<Member id=1218745422143557753 name='The Button Game' global_name=None discriminator='4283' bot=True nick=None guild=<Guild id=974867526129426493 name='The Astral Apothecary' shard_id=0 chunked=True member_count=1116>> flags=<MessageFlags value=0>>}
+2024-03-24 22:28:01,354 - INFO - Button game already started in The Astral Apothecary
+2024-03-24 22:28:01,354 - INFO - Starting update timer task...
+2024-03-24 22:28:01,369 - INFO - Creating game sessions dict, lengths - game_sessions: 1, game_sessions_as_dict: 0
+2024-03-24 22:28:01,447 - INFO - Query executed successfully
+2024-03-24 22:28:01,598 - INFO - Updating game cache for game 1
+2024-03-24 22:28:01,598 - INFO - Game cache updated for game 1, {1: {'latest_click_time': datetime.datetime(2024, 3, 24, 23, 55, 53, tzinfo=datetime.timezone.utc), 'total_clicks': 83, 'total_players': 24, 'last_update_time': datetime.datetime(2024, 3, 25, 2, 28, 1, 598217, tzinfo=datetime.timezone.utc), 'latest_player_name': 'beersenpai', 'last_timer_value': 43198}}
+2024-03-24 22:33:00,424 - INFO - Connection pools set up successfully.
+2024-03-24 22:33:00,424 - INFO - Connection pools set up successfully
+2024-03-24 22:33:00,629 - INFO - Updating local game sessions
+2024-03-24 22:33:00,650 - INFO - Game sessions updated: [(1, 1218738547599872011, 974867526129426493, 1218747369974403142, 1218747412529676378, datetime.datetime(2024, 3, 23, 2, 4, 24), None, 43200, 6)]
+2024-03-24 22:33:00,885 - INFO - Missing users: [416346814086643728, 501442463442010124]
+2024-03-24 22:33:00,885 - WARNING - PyNaCl is not installed, voice will NOT be supported
+2024-03-24 22:33:00,885 - INFO - logging in using static token
+2024-03-24 22:33:01,402 - INFO - Shard ID None has sent the IDENTIFY payload.
+2024-03-24 22:33:01,610 - INFO - Shard ID None has connected to Gateway: ["gateway-prd-us-east1-c-5qdb",{"micros":135881,"calls":["id_created",{"micros":836,"calls":[]},"session_lookup_time",{"micros":364,"calls":[]},"session_lookup_finished",{"micros":13,"calls":[]},"discord-sessions-prd-2-35",{"micros":133367,"calls":["start_session",{"micros":95695,"calls":["discord-api-7c46887f44-s2fpn",{"micros":78132,"calls":["get_user",{"micros":6353},"get_guilds",{"micros":8078},"send_scheduled_deletion_message",{"micros":10},"guild_join_requests",{"micros":334},"authorized_ip_coro",{"micros":10}]}]},"starting_guild_connect",{"micros":61,"calls":[]},"presence_started",{"micros":23425,"calls":[]},"guilds_started",{"micros":91,"calls":[]},"guilds_connect",{"micros":2,"calls":[]},"presence_connect",{"micros":14042,"calls":[]},"connect_finished",{"micros":14048,"calls":[]},"build_ready",{"micros":18,"calls":[]},"clean_ready",{"micros":0,"calls":[]},"optimize_ready",{"micros":23,"calls":[]},"split_ready",{"micros":1,"calls":[]}]}]}] (Session ID: 558bfaafceb293aa81e64e7168916177). Resume URL specified as wss://gateway-us-east1-c.discord.gg
+2024-03-24 22:33:04,951 - INFO - Connection pools set up successfully.
+2024-03-24 22:33:04,951 - INFO - Bot started as The Button Game#4283
+2024-03-24 22:33:04,951 - INFO - Number of guilds: 1
+2024-03-24 22:33:04,951 - INFO - Connected to guild: The Astral Apothecary
+2024-03-24 22:33:05,932 - INFO - In The Astral Apothecary, roles have been set up.
+2024-03-24 22:33:06,097 - INFO - Message received in The Astral Apothecary: sb
+2024-03-24 22:33:06,097 - INFO - Starting button game in The Astral Apothecary
+2024-03-24 22:33:06,681 - INFO - Bot ready!
+2024-03-24 22:33:06,916 - INFO - Found 2 missing users. Fixing...
+2024-03-24 22:33:07,026 - INFO - Query executed successfully
+2024-03-24 22:33:07,169 - ERROR - Error fixing missing user 416346814086643728: Lock is not acquired.
+2024-03-24 22:33:07,251 - INFO - Query executed successfully
+2024-03-24 22:33:07,386 - ERROR - Error fixing missing user 501442463442010124: Lock is not acquired.
+2024-03-24 22:33:07,400 - INFO - Finished fixing missing users.
+2024-03-24 22:33:07,713 - WARNING - HTTP Rate limited.
+2024-03-24 22:33:07,713 - WARNING - limit=1 remaining=0 reset_after=3.0 bucket='395d6cf0674e9291d994fd56de77ef96' scope=None
+2024-03-24 22:33:07,889 - INFO - Creating button message for game 1...
+2024-03-24 22:33:08,853 - INFO - Updating message cache for message 1221648645749866506
+2024-03-24 22:33:08,853 - INFO - Message cache updated for message 1221648645749866506, {1: <Message id=1221648645749866506 channel=<TextChannel id=1218747369974403142 name='the-button-game' position=41 nsfw=False news=False category_id=974871210972282920> type=<MessageType.default: 0> author=<Member id=1218745422143557753 name='The Button Game' global_name=None discriminator='4283' bot=True nick=None guild=<Guild id=974867526129426493 name='The Astral Apothecary' shard_id=0 chunked=True member_count=1116>> flags=<MessageFlags value=0>>}
+2024-03-24 22:33:08,853 - INFO - Button game already started in The Astral Apothecary
+2024-03-24 22:33:08,853 - INFO - Starting update timer task...
+2024-03-24 22:33:08,853 - INFO - Creating game sessions dict, lengths - game_sessions: 1, game_sessions_as_dict: 0
+2024-03-24 22:33:08,943 - INFO - Query executed successfully
+2024-03-24 22:33:09,082 - INFO - Updating game cache for game 1
+2024-03-24 22:33:09,082 - INFO - Game cache updated for game 1, {1: {'latest_click_time': datetime.datetime(2024, 3, 24, 23, 55, 53, tzinfo=datetime.timezone.utc), 'total_clicks': 83, 'total_players': 24, 'last_update_time': datetime.datetime(2024, 3, 25, 2, 33, 9, 82631, tzinfo=datetime.timezone.utc), 'latest_player_name': 'beersenpai', 'last_timer_value': 43198}}
+2024-03-24 22:34:21,593 - INFO - Connection pools set up successfully.
+2024-03-24 22:34:21,593 - INFO - Connection pools set up successfully
+2024-03-24 22:34:21,793 - INFO - Updating local game sessions
+2024-03-24 22:34:21,823 - INFO - Game sessions updated: [(1, 1218738547599872011, 974867526129426493, 1218747369974403142, 1218747412529676378, datetime.datetime(2024, 3, 23, 2, 4, 24), None, 43200, 6)]
+2024-03-24 22:34:22,063 - INFO - Missing users: [416346814086643728, 501442463442010124]
+2024-03-24 22:34:22,063 - WARNING - PyNaCl is not installed, voice will NOT be supported
+2024-03-24 22:34:22,063 - INFO - logging in using static token
+2024-03-24 22:34:22,588 - INFO - Shard ID None has sent the IDENTIFY payload.
+2024-03-24 22:34:22,786 - INFO - Shard ID None has connected to Gateway: ["gateway-prd-us-east1-c-l3f8",{"micros":137973,"calls":["id_created",{"micros":1184,"calls":[]},"session_lookup_time",{"micros":412,"calls":[]},"session_lookup_finished",{"micros":13,"calls":[]},"discord-sessions-prd-2-158",{"micros":135626,"calls":["start_session",{"micros":45305,"calls":["discord-api-7c46887f44-wfj84",{"micros":41127,"calls":["get_user",{"micros":7670},"get_guilds",{"micros":4166},"send_scheduled_deletion_message",{"micros":8},"guild_join_requests",{"micros":3699},"authorized_ip_coro",{"micros":10}]}]},"starting_guild_connect",{"micros":64,"calls":[]},"presence_started",{"micros":31477,"calls":[]},"guilds_started",{"micros":100,"calls":[]},"guilds_connect",{"micros":1,"calls":[]},"presence_connect",{"micros":58617,"calls":[]},"connect_finished",{"micros":58623,"calls":[]},"build_ready",{"micros":25,"calls":[]},"clean_ready",{"micros":1,"calls":[]},"optimize_ready",{"micros":24,"calls":[]},"split_ready",{"micros":1,"calls":[]}]}]}] (Session ID: a0c1a05f48dcad5ef6cdd43fbc395720). Resume URL specified as wss://gateway-us-east1-c.discord.gg
+2024-03-24 22:34:24,808 - INFO - Connection pools set up successfully.
+2024-03-24 22:34:24,808 - INFO - Bot started as The Button Game#4283
+2024-03-24 22:34:24,808 - INFO - Number of guilds: 1
+2024-03-24 22:34:24,808 - INFO - Connected to guild: The Astral Apothecary
+2024-03-24 22:34:26,276 - INFO - In The Astral Apothecary, roles have been set up.
+2024-03-24 22:34:26,392 - INFO - Message received in The Astral Apothecary: sb
+2024-03-24 22:34:26,392 - INFO - Starting button game in The Astral Apothecary
+2024-03-24 22:34:26,682 - INFO - Bot ready!
+2024-03-24 22:34:26,917 - INFO - Found 2 missing users. Fixing...
+2024-03-24 22:34:27,014 - INFO - Query executed successfully
+2024-03-24 22:34:27,151 - ERROR - Error fixing missing user 416346814086643728: Lock is not acquired.
+2024-03-24 22:34:27,245 - INFO - Query executed successfully
+2024-03-24 22:34:27,377 - ERROR - Error fixing missing user 501442463442010124: Lock is not acquired.
+2024-03-24 22:34:27,386 - INFO - Finished fixing missing users.
+2024-03-24 22:34:27,721 - WARNING - HTTP Rate limited.
+2024-03-24 22:34:27,721 - WARNING - limit=1 remaining=0 reset_after=3.0 bucket='395d6cf0674e9291d994fd56de77ef96' scope=None
+2024-03-24 22:34:27,876 - INFO - Creating button message for game 1...
+2024-03-24 22:34:28,682 - INFO - Updating message cache for message 1221648981063635064
+2024-03-24 22:34:28,682 - INFO - Message cache updated for message 1221648981063635064, {1: <Message id=1221648981063635064 channel=<TextChannel id=1218747369974403142 name='the-button-game' position=41 nsfw=False news=False category_id=974871210972282920> type=<MessageType.default: 0> author=<Member id=1218745422143557753 name='The Button Game' global_name=None discriminator='4283' bot=True nick=None guild=<Guild id=974867526129426493 name='The Astral Apothecary' shard_id=0 chunked=True member_count=1116>> flags=<MessageFlags value=0>>}
+2024-03-24 22:34:28,682 - INFO - Button game already started in The Astral Apothecary
+2024-03-24 22:34:28,697 - INFO - Starting update timer task...
+2024-03-24 22:34:28,697 - INFO - Creating game sessions dict, lengths - game_sessions: 1, game_sessions_as_dict: 0
+2024-03-24 22:34:28,798 - INFO - Query executed successfully
+2024-03-24 22:34:28,940 - INFO - Updating game cache for game 1
+2024-03-24 22:34:28,940 - INFO - Game cache updated for game 1, {1: {'latest_click_time': datetime.datetime(2024, 3, 24, 23, 55, 53, tzinfo=datetime.timezone.utc), 'total_clicks': 83, 'total_players': 24, 'last_update_time': datetime.datetime(2024, 3, 25, 2, 34, 28, 940910, tzinfo=datetime.timezone.utc), 'latest_player_name': 'beersenpai', 'last_timer_value': 43198}}
+2024-03-24 22:34:39,170 - INFO - Connection pools set up successfully.
+2024-03-24 22:34:39,170 - INFO - Connection pools set up successfully
+2024-03-24 22:34:39,374 - INFO - Updating local game sessions
+2024-03-24 22:34:39,403 - INFO - Game sessions updated: [(1, 1218738547599872011, 974867526129426493, 1218747369974403142, 1218747412529676378, datetime.datetime(2024, 3, 23, 2, 4, 24), None, 43200, 6)]
+2024-03-24 22:34:39,619 - INFO - Missing users: [416346814086643728, 501442463442010124]
+2024-03-24 22:34:39,635 - WARNING - PyNaCl is not installed, voice will NOT be supported
+2024-03-24 22:34:39,635 - INFO - logging in using static token
+2024-03-24 22:34:40,181 - INFO - Shard ID None has sent the IDENTIFY payload.
+2024-03-24 22:34:40,312 - INFO - Shard ID None has connected to Gateway: ["gateway-prd-us-east1-c-8cd0",{"micros":50367,"calls":["id_created",{"micros":1503,"calls":[]},"session_lookup_time",{"micros":410,"calls":[]},"session_lookup_finished",{"micros":17,"calls":[]},"discord-sessions-prd-2-20",{"micros":47804,"calls":["start_session",{"micros":36913,"calls":["discord-api-7c46887f44-rzs9v",{"micros":32575,"calls":["get_user",{"micros":6412},"get_guilds",{"micros":3083},"send_scheduled_deletion_message",{"micros":7},"guild_join_requests",{"micros":639},"authorized_ip_coro",{"micros":8}]}]},"starting_guild_connect",{"micros":87,"calls":[]},"presence_started",{"micros":316,"calls":[]},"guilds_started",{"micros":96,"calls":[]},"guilds_connect",{"micros":2,"calls":[]},"presence_connect",{"micros":10309,"calls":[]},"connect_finished",{"micros":10315,"calls":[]},"build_ready",{"micros":20,"calls":[]},"clean_ready",{"micros":1,"calls":[]},"optimize_ready",{"micros":49,"calls":[]},"split_ready",{"micros":1,"calls":[]}]}]}] (Session ID: 89cdaa7ee80a8d59aa5ed7472517c606). Resume URL specified as wss://gateway-us-east1-c.discord.gg
+2024-03-24 22:34:42,338 - INFO - Connection pools set up successfully.
+2024-03-24 22:34:42,338 - INFO - Bot started as The Button Game#4283
+2024-03-24 22:34:42,338 - INFO - Number of guilds: 1
+2024-03-24 22:34:42,338 - INFO - Connected to guild: The Astral Apothecary
+2024-03-24 22:34:43,533 - INFO - In The Astral Apothecary, roles have been set up.
+2024-03-24 22:34:43,745 - INFO - Message received in The Astral Apothecary: sb
+2024-03-24 22:34:43,745 - INFO - Starting button game in The Astral Apothecary
+2024-03-24 22:34:43,879 - INFO - Bot ready!
+2024-03-24 22:34:44,104 - INFO - Found 2 missing users. Fixing...
+2024-03-24 22:34:44,209 - INFO - Query executed successfully
+2024-03-24 22:34:44,344 - ERROR - Error fixing missing user 416346814086643728: Lock is not acquired.
+2024-03-24 22:34:44,433 - INFO - Query executed successfully
+2024-03-24 22:34:44,580 - ERROR - Error fixing missing user 501442463442010124: Lock is not acquired.
+2024-03-24 22:34:44,580 - INFO - Finished fixing missing users.
+2024-03-24 22:34:44,822 - WARNING - HTTP Rate limited.
+2024-03-24 22:34:44,822 - WARNING - limit=1 remaining=0 reset_after=3.0 bucket='395d6cf0674e9291d994fd56de77ef96' scope=None
+2024-03-24 22:34:44,972 - INFO - Creating button message for game 1...
+2024-03-24 22:34:45,747 - INFO - Updating message cache for message 1221649052496695316
+2024-03-24 22:34:45,747 - INFO - Message cache updated for message 1221649052496695316, {1: <Message id=1221649052496695316 channel=<TextChannel id=1218747369974403142 name='the-button-game' position=41 nsfw=False news=False category_id=974871210972282920> type=<MessageType.default: 0> author=<Member id=1218745422143557753 name='The Button Game' global_name=None discriminator='4283' bot=True nick=None guild=<Guild id=974867526129426493 name='The Astral Apothecary' shard_id=0 chunked=True member_count=1116>> flags=<MessageFlags value=0>>}
+2024-03-24 22:34:45,747 - INFO - Button game already started in The Astral Apothecary
+2024-03-24 22:34:45,747 - INFO - Starting update timer task...
+2024-03-24 22:34:45,747 - INFO - Creating game sessions dict, lengths - game_sessions: 1, game_sessions_as_dict: 0
+2024-03-24 22:34:45,840 - INFO - Query executed successfully
+2024-03-24 22:34:46,000 - INFO - Updating game cache for game 1
+2024-03-24 22:34:46,000 - INFO - Game cache updated for game 1, {1: {'latest_click_time': datetime.datetime(2024, 3, 24, 23, 55, 53, tzinfo=datetime.timezone.utc), 'total_clicks': 83, 'total_players': 24, 'last_update_time': datetime.datetime(2024, 3, 25, 2, 34, 46, 104, tzinfo=datetime.timezone.utc), 'latest_player_name': 'beersenpai', 'last_timer_value': 43198}}
+2024-03-24 22:35:26,663 - INFO - Connection pools set up successfully.
+2024-03-24 22:35:26,663 - INFO - Connection pools set up successfully
+2024-03-24 22:35:26,859 - INFO - Updating local game sessions
+2024-03-24 22:35:26,904 - INFO - Game sessions updated: [(1, 1218738547599872011, 974867526129426493, 1218747369974403142, 1218747412529676378, datetime.datetime(2024, 3, 23, 2, 4, 24), None, 43200, 6)]
+2024-03-24 22:35:27,129 - INFO - Missing users: [416346814086643728, 501442463442010124]
+2024-03-24 22:35:27,135 - WARNING - PyNaCl is not installed, voice will NOT be supported
+2024-03-24 22:35:27,135 - INFO - logging in using static token
+2024-03-24 22:35:27,717 - INFO - Shard ID None has sent the IDENTIFY payload.
+2024-03-24 22:35:27,908 - INFO - Shard ID None has connected to Gateway: ["gateway-prd-us-east1-d-jlk7",{"micros":128014,"calls":["id_created",{"micros":1728,"calls":[]},"session_lookup_time",{"micros":428,"calls":[]},"session_lookup_finished",{"micros":15,"calls":[]},"discord-sessions-prd-2-9",{"micros":123404,"calls":["start_session",{"micros":100005,"calls":["discord-api-7c46887f44-tzq8l",{"micros":94823,"calls":["get_user",{"micros":18665},"get_guilds",{"micros":22965},"send_scheduled_deletion_message",{"micros":13},"guild_join_requests",{"micros":2},"authorized_ip_coro",{"micros":10}]}]},"starting_guild_connect",{"micros":93,"calls":[]},"presence_started",{"micros":385,"calls":[]},"guilds_started",{"micros":112,"calls":[]},"guilds_connect",{"micros":2,"calls":[]},"presence_connect",{"micros":22753,"calls":[]},"connect_finished",{"micros":22758,"calls":[]},"build_ready",{"micros":18,"calls":[]},"clean_ready",{"micros":1,"calls":[]},"optimize_ready",{"micros":1,"calls":[]},"split_ready",{"micros":27,"calls":[]}]}]}] (Session ID: e0e1902f7b766acfede6eddb0426cc7f). Resume URL specified as wss://gateway-us-east1-d.discord.gg
+2024-03-24 22:35:29,929 - INFO - Connection pools set up successfully.
+2024-03-24 22:35:29,929 - INFO - Bot started as The Button Game#4283
+2024-03-24 22:35:29,929 - INFO - Number of guilds: 1
+2024-03-24 22:35:29,929 - INFO - Connected to guild: The Astral Apothecary
+2024-03-24 22:35:30,988 - INFO - In The Astral Apothecary, roles have been set up.
+2024-03-24 22:35:31,138 - INFO - Message received in The Astral Apothecary: sb
+2024-03-24 22:35:31,138 - INFO - Starting button game in The Astral Apothecary
+2024-03-24 22:35:31,260 - INFO - Bot ready!
+2024-03-24 22:35:31,479 - INFO - Found 2 missing users. Fixing...
+2024-03-24 22:35:31,572 - INFO - Query executed successfully
+2024-03-24 22:35:31,792 - INFO - Query executed successfully
+2024-03-24 22:35:32,104 - INFO - Query executed successfully
+2024-03-24 22:35:32,265 - INFO - Fixed missing user 416346814086643728 (vbaby2343)
+2024-03-24 22:35:32,338 - INFO - Query executed successfully
+2024-03-24 22:35:32,583 - INFO - Query executed successfully
+2024-03-24 22:35:32,922 - INFO - Query executed successfully
+2024-03-24 22:35:33,090 - INFO - Fixed missing user 501442463442010124 (saphiraluxray)
+2024-03-24 22:35:33,090 - INFO - Finished fixing missing users.
+2024-03-24 22:35:33,090 - WARNING - HTTP Rate limited.
+2024-03-24 22:35:33,090 - WARNING - limit=1 remaining=0 reset_after=3.0 bucket='395d6cf0674e9291d994fd56de77ef96' scope=None
+2024-03-24 22:35:33,304 - INFO - Creating button message for game 1...
+2024-03-24 22:35:34,037 - INFO - Updating message cache for message 1221649255123521536
+2024-03-24 22:35:34,037 - INFO - Message cache updated for message 1221649255123521536, {1: <Message id=1221649255123521536 channel=<TextChannel id=1218747369974403142 name='the-button-game' position=41 nsfw=False news=False category_id=974871210972282920> type=<MessageType.default: 0> author=<Member id=1218745422143557753 name='The Button Game' global_name=None discriminator='4283' bot=True nick=None guild=<Guild id=974867526129426493 name='The Astral Apothecary' shard_id=0 chunked=True member_count=1116>> flags=<MessageFlags value=0>>}
+2024-03-24 22:35:34,037 - INFO - Button game already started in The Astral Apothecary
+2024-03-24 22:35:34,037 - INFO - Starting update timer task...
+2024-03-24 22:35:34,037 - INFO - Creating game sessions dict, lengths - game_sessions: 1, game_sessions_as_dict: 0
+2024-03-24 22:35:34,125 - INFO - Query executed successfully
+2024-03-24 22:35:34,264 - INFO - Updating game cache for game 1
+2024-03-24 22:35:34,264 - INFO - Game cache updated for game 1, {1: {'latest_click_time': datetime.datetime(2024, 3, 25, 1, 22, 50, tzinfo=datetime.timezone.utc), 'total_clicks': 83, 'total_players': 24, 'last_update_time': datetime.datetime(2024, 3, 25, 2, 35, 34, 264900, tzinfo=datetime.timezone.utc), 'latest_player_name': 'saphiraluxray', 'last_timer_value': 41541}}
+2024-03-24 22:37:48,339 - INFO - Connection pools set up successfully.
+2024-03-24 22:37:48,339 - INFO - Connection pools set up successfully
+2024-03-24 22:37:48,533 - INFO - Updating local game sessions
+2024-03-24 22:37:48,579 - INFO - Game sessions updated: [(1, 1218738547599872011, 974867526129426493, 1218747369974403142, 1218747412529676378, datetime.datetime(2024, 3, 23, 2, 4, 24), None, 43200, 6)]
+2024-03-24 22:37:48,808 - INFO - Missing users: [692926265405079632, 262025569728725002, 170670927862956033, 155904500081623041, 244241156232183808, 1173449218166366253, 98319726299586560, 110028801966104576, 604214583477141510, 187730048722141185, 1064332558579552336, 344954838456729604, 412022046642667530, 332700719599845386, 274680352478461953, 180802825893183488, 447150905067044865, 164558273763082240, 1066226673747501056, 671785404269199360, 131818279965556737, 134382598448349184, 416346814086643728, 501442463442010124]
+2024-03-24 22:37:48,808 - WARNING - PyNaCl is not installed, voice will NOT be supported
+2024-03-24 22:37:48,808 - INFO - logging in using static token
+2024-03-24 22:37:49,339 - INFO - Shard ID None has sent the IDENTIFY payload.
+2024-03-24 22:37:49,523 - INFO - Shard ID None has connected to Gateway: ["gateway-prd-us-east1-d-d5jr",{"micros":95781,"calls":["id_created",{"micros":990,"calls":[]},"session_lookup_time",{"micros":329,"calls":[]},"session_lookup_finished",{"micros":16,"calls":[]},"discord-sessions-prd-2-105",{"micros":91521,"calls":["start_session",{"micros":77663,"calls":["discord-api-7c46887f44-7l5bl",{"micros":59829,"calls":["get_user",{"micros":11001},"get_guilds",{"micros":6678},"send_scheduled_deletion_message",{"micros":16},"guild_join_requests",{"micros":2},"authorized_ip_coro",{"micros":10}]}]},"starting_guild_connect",{"micros":59,"calls":[]},"presence_started",{"micros":306,"calls":[]},"guilds_started",{"micros":97,"calls":[]},"guilds_connect",{"micros":2,"calls":[]},"presence_connect",{"micros":13343,"calls":[]},"connect_finished",{"micros":13349,"calls":[]},"build_ready",{"micros":20,"calls":[]},"clean_ready",{"micros":1,"calls":[]},"optimize_ready",{"micros":20,"calls":[]},"split_ready",{"micros":0,"calls":[]}]}]}] (Session ID: e3e2900683e375015015d62de92f40e2). Resume URL specified as wss://gateway-us-east1-d.discord.gg
+2024-03-24 22:37:51,541 - INFO - Connection pools set up successfully.
+2024-03-24 22:37:51,541 - INFO - Bot started as The Button Game#4283
+2024-03-24 22:37:51,541 - INFO - Number of guilds: 1
+2024-03-24 22:37:51,541 - INFO - Connected to guild: The Astral Apothecary
+2024-03-24 22:37:52,525 - INFO - In The Astral Apothecary, roles have been set up.
+2024-03-24 22:37:52,666 - INFO - Message received in The Astral Apothecary: sb
+2024-03-24 22:37:52,666 - INFO - Starting button game in The Astral Apothecary
+2024-03-24 22:37:52,986 - INFO - Bot ready!
+2024-03-24 22:37:53,219 - INFO - Found 24 missing users. Fixing...
+2024-03-24 22:37:53,302 - INFO - Query executed successfully
+2024-03-24 22:37:53,528 - INFO - Query executed successfully
+2024-03-24 22:37:53,996 - ERROR - Error executing query: Exception: 1062 (23000): Duplicate entry '692926265405079632' for key 'users.PRIMARY', Query: 
+                    INSERT INTO users (user_id, user_name, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, game_id)
+                    VALUES (%s, %s, NULL, NULL, %s, %s, %s, %s)
+                , Params: (692926265405079632, 'regen2moon', 19, 43135, datetime.datetime(2024, 3, 24, 19, 5, 17), 1)
+2024-03-24 22:37:54,220 - ERROR - Error executing query: Exception: 1062 (23000): Duplicate entry '692926265405079632' for key 'users.PRIMARY', Query: 
+                    INSERT INTO users (user_id, user_name, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, game_id)
+                    VALUES (%s, %s, NULL, NULL, %s, %s, %s, %s)
+                , Params: (692926265405079632, 'regen2moon', 19, 43135, datetime.datetime(2024, 3, 24, 19, 5, 17), 1)
+2024-03-24 22:37:54,457 - ERROR - Error executing query: Exception: 1062 (23000): Duplicate entry '692926265405079632' for key 'users.PRIMARY', Query: 
+                    INSERT INTO users (user_id, user_name, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, game_id)
+                    VALUES (%s, %s, NULL, NULL, %s, %s, %s, %s)
+                , Params: (692926265405079632, 'regen2moon', 19, 43135, datetime.datetime(2024, 3, 24, 19, 5, 17), 1)
+2024-03-24 22:37:54,457 - ERROR - Failed to execute query after 3 attempts, query: 
+                    INSERT INTO users (user_id, user_name, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, game_id)
+                    VALUES (%s, %s, NULL, NULL, %s, %s, %s, %s)
+                
+2024-03-24 22:37:54,457 - ERROR - Failed to fix missing user 692926265405079632 (regen2moon)
+2024-03-24 22:37:54,541 - INFO - Query executed successfully
+2024-03-24 22:37:54,761 - INFO - Query executed successfully
+2024-03-24 22:37:55,229 - ERROR - Error executing query: Exception: 1062 (23000): Duplicate entry '262025569728725002' for key 'users.PRIMARY', Query: 
+                    INSERT INTO users (user_id, user_name, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, game_id)
+                    VALUES (%s, %s, NULL, NULL, %s, %s, %s, %s)
+                , Params: (262025569728725002, '.sempiternal.', 1, 42974, datetime.datetime(2024, 3, 17, 13, 3, 42), 1)
+2024-03-24 22:37:55,456 - ERROR - Error executing query: Exception: 1062 (23000): Duplicate entry '262025569728725002' for key 'users.PRIMARY', Query: 
+                    INSERT INTO users (user_id, user_name, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, game_id)
+                    VALUES (%s, %s, NULL, NULL, %s, %s, %s, %s)
+                , Params: (262025569728725002, '.sempiternal.', 1, 42974, datetime.datetime(2024, 3, 17, 13, 3, 42), 1)
+2024-03-24 22:37:55,684 - ERROR - Error executing query: Exception: 1062 (23000): Duplicate entry '262025569728725002' for key 'users.PRIMARY', Query: 
+                    INSERT INTO users (user_id, user_name, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, game_id)
+                    VALUES (%s, %s, NULL, NULL, %s, %s, %s, %s)
+                , Params: (262025569728725002, '.sempiternal.', 1, 42974, datetime.datetime(2024, 3, 17, 13, 3, 42), 1)
+2024-03-24 22:37:55,684 - ERROR - Failed to execute query after 3 attempts, query: 
+                    INSERT INTO users (user_id, user_name, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, game_id)
+                    VALUES (%s, %s, NULL, NULL, %s, %s, %s, %s)
+                
+2024-03-24 22:37:55,684 - ERROR - Failed to fix missing user 262025569728725002 (.sempiternal.)
+2024-03-24 22:37:55,760 - INFO - Query executed successfully
+2024-03-24 22:37:56,001 - INFO - Query executed successfully
+2024-03-24 22:37:56,139 - WARNING - HTTP Rate limited.
+2024-03-24 22:37:56,139 - WARNING - limit=1 remaining=0 reset_after=3.0 bucket='395d6cf0674e9291d994fd56de77ef96' scope=None
+2024-03-24 22:37:56,463 - ERROR - Error executing query: Exception: 1062 (23000): Duplicate entry '170670927862956033' for key 'users.PRIMARY', Query: 
+                    INSERT INTO users (user_id, user_name, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, game_id)
+                    VALUES (%s, %s, NULL, NULL, %s, %s, %s, %s)
+                , Params: (170670927862956033, 'aquuamom', 2, 34850, datetime.datetime(2024, 3, 18, 15, 30, 43), 1)
+2024-03-24 22:37:56,688 - ERROR - Error executing query: Exception: 1062 (23000): Duplicate entry '170670927862956033' for key 'users.PRIMARY', Query: 
+                    INSERT INTO users (user_id, user_name, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, game_id)
+                    VALUES (%s, %s, NULL, NULL, %s, %s, %s, %s)
+                , Params: (170670927862956033, 'aquuamom', 2, 34850, datetime.datetime(2024, 3, 18, 15, 30, 43), 1)
+2024-03-24 22:37:56,912 - ERROR - Error executing query: Exception: 1062 (23000): Duplicate entry '170670927862956033' for key 'users.PRIMARY', Query: 
+                    INSERT INTO users (user_id, user_name, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, game_id)
+                    VALUES (%s, %s, NULL, NULL, %s, %s, %s, %s)
+                , Params: (170670927862956033, 'aquuamom', 2, 34850, datetime.datetime(2024, 3, 18, 15, 30, 43), 1)
+2024-03-24 22:37:56,912 - ERROR - Failed to execute query after 3 attempts, query: 
+                    INSERT INTO users (user_id, user_name, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, game_id)
+                    VALUES (%s, %s, NULL, NULL, %s, %s, %s, %s)
+                
+2024-03-24 22:37:56,912 - ERROR - Failed to fix missing user 170670927862956033 (aquuamom)
+2024-03-24 22:37:57,000 - INFO - Query executed successfully
+2024-03-24 22:37:57,216 - INFO - Query executed successfully
+2024-03-24 22:37:57,361 - INFO - Creating button message for game 1...
+2024-03-24 22:37:57,685 - ERROR - Error executing query: Exception: 1062 (23000): Duplicate entry '155904500081623041' for key 'users.PRIMARY', Query: 
+                    INSERT INTO users (user_id, user_name, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, game_id)
+                    VALUES (%s, %s, NULL, NULL, %s, %s, %s, %s)
+                , Params: (155904500081623041, '.randm', 2, 38723, datetime.datetime(2024, 3, 17, 16, 16, 52), 1)
+2024-03-24 22:37:57,918 - ERROR - Error executing query: Exception: 1062 (23000): Duplicate entry '155904500081623041' for key 'users.PRIMARY', Query: 
+                    INSERT INTO users (user_id, user_name, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, game_id)
+                    VALUES (%s, %s, NULL, NULL, %s, %s, %s, %s)
+                , Params: (155904500081623041, '.randm', 2, 38723, datetime.datetime(2024, 3, 17, 16, 16, 52), 1)
+2024-03-24 22:37:58,139 - ERROR - Error executing query: Exception: 1062 (23000): Duplicate entry '155904500081623041' for key 'users.PRIMARY', Query: 
+                    INSERT INTO users (user_id, user_name, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, game_id)
+                    VALUES (%s, %s, NULL, NULL, %s, %s, %s, %s)
+                , Params: (155904500081623041, '.randm', 2, 38723, datetime.datetime(2024, 3, 17, 16, 16, 52), 1)
+2024-03-24 22:37:58,139 - ERROR - Failed to execute query after 3 attempts, query: 
+                    INSERT INTO users (user_id, user_name, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, game_id)
+                    VALUES (%s, %s, NULL, NULL, %s, %s, %s, %s)
+                
+2024-03-24 22:37:58,139 - ERROR - Failed to fix missing user 155904500081623041 (.randm)
+2024-03-24 22:37:58,219 - INFO - Query executed successfully
+2024-03-24 22:37:58,459 - INFO - Query executed successfully
+2024-03-24 22:37:58,903 - ERROR - Error executing query: Exception: 1062 (23000): Duplicate entry '244241156232183808' for key 'users.PRIMARY', Query: 
+                    INSERT INTO users (user_id, user_name, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, game_id)
+                    VALUES (%s, %s, NULL, NULL, %s, %s, %s, %s)
+                , Params: (244241156232183808, 'drunk_harpy', 23, 36711, datetime.datetime(2024, 3, 24, 19, 4, 12), 1)
+2024-03-24 22:37:59,135 - ERROR - Error executing query: Exception: 1062 (23000): Duplicate entry '244241156232183808' for key 'users.PRIMARY', Query: 
+                    INSERT INTO users (user_id, user_name, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, game_id)
+                    VALUES (%s, %s, NULL, NULL, %s, %s, %s, %s)
+                , Params: (244241156232183808, 'drunk_harpy', 23, 36711, datetime.datetime(2024, 3, 24, 19, 4, 12), 1)
+2024-03-24 22:37:59,356 - ERROR - Error executing query: Exception: 1062 (23000): Duplicate entry '244241156232183808' for key 'users.PRIMARY', Query: 
+                    INSERT INTO users (user_id, user_name, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, game_id)
+                    VALUES (%s, %s, NULL, NULL, %s, %s, %s, %s)
+                , Params: (244241156232183808, 'drunk_harpy', 23, 36711, datetime.datetime(2024, 3, 24, 19, 4, 12), 1)
+2024-03-24 22:37:59,356 - ERROR - Failed to execute query after 3 attempts, query: 
+                    INSERT INTO users (user_id, user_name, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, game_id)
+                    VALUES (%s, %s, NULL, NULL, %s, %s, %s, %s)
+                
+2024-03-24 22:37:59,356 - ERROR - Failed to fix missing user 244241156232183808 (drunk_harpy)
+2024-03-24 22:37:59,449 - INFO - Query executed successfully
+2024-03-24 22:37:59,670 - INFO - Query executed successfully
+2024-03-24 22:38:00,151 - ERROR - Error executing query: Exception: 1062 (23000): Duplicate entry '1173449218166366253' for key 'users.PRIMARY', Query: 
+                    INSERT INTO users (user_id, user_name, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, game_id)
+                    VALUES (%s, %s, NULL, NULL, %s, %s, %s, %s)
+                , Params: (1173449218166366253, 'just_savannah', 3, 42908, datetime.datetime(2024, 3, 23, 3, 34, 18), 1)
+2024-03-24 22:38:00,374 - ERROR - Error executing query: Exception: 1062 (23000): Duplicate entry '1173449218166366253' for key 'users.PRIMARY', Query: 
+                    INSERT INTO users (user_id, user_name, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, game_id)
+                    VALUES (%s, %s, NULL, NULL, %s, %s, %s, %s)
+                , Params: (1173449218166366253, 'just_savannah', 3, 42908, datetime.datetime(2024, 3, 23, 3, 34, 18), 1)
+2024-03-24 22:38:00,594 - ERROR - Error executing query: Exception: 1062 (23000): Duplicate entry '1173449218166366253' for key 'users.PRIMARY', Query: 
+                    INSERT INTO users (user_id, user_name, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, game_id)
+                    VALUES (%s, %s, NULL, NULL, %s, %s, %s, %s)
+                , Params: (1173449218166366253, 'just_savannah', 3, 42908, datetime.datetime(2024, 3, 23, 3, 34, 18), 1)
+2024-03-24 22:38:00,594 - ERROR - Failed to execute query after 3 attempts, query: 
+                    INSERT INTO users (user_id, user_name, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, game_id)
+                    VALUES (%s, %s, NULL, NULL, %s, %s, %s, %s)
+                
+2024-03-24 22:38:00,594 - ERROR - Failed to fix missing user 1173449218166366253 (just_savannah)
+2024-03-24 22:38:00,674 - INFO - Query executed successfully
+2024-03-24 22:38:00,901 - INFO - Query executed successfully
+2024-03-24 22:38:01,360 - ERROR - Error executing query: Exception: 1062 (23000): Duplicate entry '98319726299586560' for key 'users.PRIMARY', Query: 
+                    INSERT INTO users (user_id, user_name, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, game_id)
+                    VALUES (%s, %s, NULL, NULL, %s, %s, %s, %s)
+                , Params: (98319726299586560, '.tango', 2, 38421, datetime.datetime(2024, 3, 24, 20, 24, 56), 1)
+2024-03-24 22:38:01,576 - ERROR - Error executing query: Exception: 1062 (23000): Duplicate entry '98319726299586560' for key 'users.PRIMARY', Query: 
+                    INSERT INTO users (user_id, user_name, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, game_id)
+                    VALUES (%s, %s, NULL, NULL, %s, %s, %s, %s)
+                , Params: (98319726299586560, '.tango', 2, 38421, datetime.datetime(2024, 3, 24, 20, 24, 56), 1)
+2024-03-24 22:38:01,799 - ERROR - Error executing query: Exception: 1062 (23000): Duplicate entry '98319726299586560' for key 'users.PRIMARY', Query: 
+                    INSERT INTO users (user_id, user_name, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, game_id)
+                    VALUES (%s, %s, NULL, NULL, %s, %s, %s, %s)
+                , Params: (98319726299586560, '.tango', 2, 38421, datetime.datetime(2024, 3, 24, 20, 24, 56), 1)
+2024-03-24 22:38:01,799 - ERROR - Failed to execute query after 3 attempts, query: 
+                    INSERT INTO users (user_id, user_name, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, game_id)
+                    VALUES (%s, %s, NULL, NULL, %s, %s, %s, %s)
+                
+2024-03-24 22:38:01,799 - ERROR - Failed to fix missing user 98319726299586560 (.tango)
+2024-03-24 22:38:01,877 - INFO - Query executed successfully
+2024-03-24 22:38:02,106 - INFO - Query executed successfully
+2024-03-24 22:38:02,251 - INFO - Updating message cache for message 1221649872386527243
+2024-03-24 22:38:02,251 - INFO - Message cache updated for message 1221649872386527243, {1: <Message id=1221649872386527243 channel=<TextChannel id=1218747369974403142 name='the-button-game' position=41 nsfw=False news=False category_id=974871210972282920> type=<MessageType.default: 0> author=<Member id=1218745422143557753 name='The Button Game' global_name=None discriminator='4283' bot=True nick=None guild=<Guild id=974867526129426493 name='The Astral Apothecary' shard_id=0 chunked=True member_count=1116>> flags=<MessageFlags value=0>>}
+2024-03-24 22:38:02,251 - INFO - Button game already started in The Astral Apothecary
+2024-03-24 22:38:02,251 - INFO - Starting update timer task...
+2024-03-24 22:38:02,251 - INFO - Creating game sessions dict, lengths - game_sessions: 1, game_sessions_as_dict: 0
+2024-03-24 22:38:02,348 - INFO - Query executed successfully
+2024-03-24 22:38:02,484 - INFO - Updating game cache for game 1
+2024-03-24 22:38:02,484 - INFO - Game cache updated for game 1, {1: {'latest_click_time': datetime.datetime(2024, 3, 25, 1, 22, 50, tzinfo=datetime.timezone.utc), 'total_clicks': 83, 'total_players': 24, 'last_update_time': datetime.datetime(2024, 3, 25, 2, 38, 2, 484739, tzinfo=datetime.timezone.utc), 'latest_player_name': 'saphiraluxray', 'last_timer_value': 41541}}
+2024-03-24 22:38:02,716 - ERROR - Error executing query: Exception: 1062 (23000): Duplicate entry '110028801966104576' for key 'users.PRIMARY', Query: 
+                    INSERT INTO users (user_id, user_name, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, game_id)
+                    VALUES (%s, %s, NULL, NULL, %s, %s, %s, %s)
+                , Params: (110028801966104576, 'ploppyy', 1, 36070, datetime.datetime(2024, 3, 17, 19, 1, 24), 1)
+2024-03-24 22:38:02,938 - ERROR - Error executing query: Exception: 1062 (23000): Duplicate entry '110028801966104576' for key 'users.PRIMARY', Query: 
+                    INSERT INTO users (user_id, user_name, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, game_id)
+                    VALUES (%s, %s, NULL, NULL, %s, %s, %s, %s)
+                , Params: (110028801966104576, 'ploppyy', 1, 36070, datetime.datetime(2024, 3, 17, 19, 1, 24), 1)
+2024-03-24 22:38:03,160 - ERROR - Error executing query: Exception: 1062 (23000): Duplicate entry '110028801966104576' for key 'users.PRIMARY', Query: 
+                    INSERT INTO users (user_id, user_name, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, game_id)
+                    VALUES (%s, %s, NULL, NULL, %s, %s, %s, %s)
+                , Params: (110028801966104576, 'ploppyy', 1, 36070, datetime.datetime(2024, 3, 17, 19, 1, 24), 1)
+2024-03-24 22:38:03,160 - ERROR - Failed to execute query after 3 attempts, query: 
+                    INSERT INTO users (user_id, user_name, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, game_id)
+                    VALUES (%s, %s, NULL, NULL, %s, %s, %s, %s)
+                
+2024-03-24 22:38:03,160 - ERROR - Failed to fix missing user 110028801966104576 (ploppyy)
+2024-03-24 22:38:03,245 - INFO - Query executed successfully
+2024-03-24 22:38:03,467 - INFO - Query executed successfully
+2024-03-24 22:38:03,926 - ERROR - Error executing query: Exception: 1062 (23000): Duplicate entry '604214583477141510' for key 'users.PRIMARY', Query: 
+                    INSERT INTO users (user_id, user_name, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, game_id)
+                    VALUES (%s, %s, NULL, NULL, %s, %s, %s, %s)
+                , Params: (604214583477141510, 'hearts4r1nn', 5, 9103, datetime.datetime(2024, 3, 24, 17, 16, 3), 1)
+2024-03-24 22:38:04,136 - ERROR - Error executing query: Exception: 1062 (23000): Duplicate entry '604214583477141510' for key 'users.PRIMARY', Query: 
+                    INSERT INTO users (user_id, user_name, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, game_id)
+                    VALUES (%s, %s, NULL, NULL, %s, %s, %s, %s)
+                , Params: (604214583477141510, 'hearts4r1nn', 5, 9103, datetime.datetime(2024, 3, 24, 17, 16, 3), 1)
+2024-03-24 22:38:04,374 - ERROR - Error executing query: Exception: 1062 (23000): Duplicate entry '604214583477141510' for key 'users.PRIMARY', Query: 
+                    INSERT INTO users (user_id, user_name, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, game_id)
+                    VALUES (%s, %s, NULL, NULL, %s, %s, %s, %s)
+                , Params: (604214583477141510, 'hearts4r1nn', 5, 9103, datetime.datetime(2024, 3, 24, 17, 16, 3), 1)
+2024-03-24 22:38:04,374 - ERROR - Failed to execute query after 3 attempts, query: 
+                    INSERT INTO users (user_id, user_name, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, game_id)
+                    VALUES (%s, %s, NULL, NULL, %s, %s, %s, %s)
+                
+2024-03-24 22:38:04,374 - ERROR - Failed to fix missing user 604214583477141510 (hearts4r1nn)
+2024-03-24 22:38:04,471 - INFO - Query executed successfully
+2024-03-24 22:38:04,684 - INFO - Query executed successfully
+2024-03-24 22:38:05,140 - ERROR - Error executing query: Exception: 1062 (23000): Duplicate entry '187730048722141185' for key 'users.PRIMARY', Query: 
+                    INSERT INTO users (user_id, user_name, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, game_id)
+                    VALUES (%s, %s, NULL, NULL, %s, %s, %s, %s)
+                , Params: (187730048722141185, 'genkeisprincess', 7, 38979, datetime.datetime(2024, 3, 24, 21, 35, 17), 1)
+2024-03-24 22:38:05,385 - ERROR - Error executing query: Exception: 1062 (23000): Duplicate entry '187730048722141185' for key 'users.PRIMARY', Query: 
+                    INSERT INTO users (user_id, user_name, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, game_id)
+                    VALUES (%s, %s, NULL, NULL, %s, %s, %s, %s)
+                , Params: (187730048722141185, 'genkeisprincess', 7, 38979, datetime.datetime(2024, 3, 24, 21, 35, 17), 1)
+2024-03-24 22:38:05,604 - ERROR - Error executing query: Exception: 1062 (23000): Duplicate entry '187730048722141185' for key 'users.PRIMARY', Query: 
+                    INSERT INTO users (user_id, user_name, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, game_id)
+                    VALUES (%s, %s, NULL, NULL, %s, %s, %s, %s)
+                , Params: (187730048722141185, 'genkeisprincess', 7, 38979, datetime.datetime(2024, 3, 24, 21, 35, 17), 1)
+2024-03-24 22:38:05,604 - ERROR - Failed to execute query after 3 attempts, query: 
+                    INSERT INTO users (user_id, user_name, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, game_id)
+                    VALUES (%s, %s, NULL, NULL, %s, %s, %s, %s)
+                
+2024-03-24 22:38:05,604 - ERROR - Failed to fix missing user 187730048722141185 (genkeisprincess)
+2024-03-24 22:38:05,684 - INFO - Query executed successfully
+2024-03-24 22:38:05,916 - INFO - Query executed successfully
+2024-03-24 22:38:06,377 - ERROR - Error executing query: Exception: 1062 (23000): Duplicate entry '1064332558579552336' for key 'users.PRIMARY', Query: 
+                    INSERT INTO users (user_id, user_name, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, game_id)
+                    VALUES (%s, %s, NULL, NULL, %s, %s, %s, %s)
+                , Params: (1064332558579552336, 'silenthours', 2, 23361, datetime.datetime(2024, 3, 23, 23, 30, 12), 1)
+2024-03-24 22:38:06,606 - ERROR - Error executing query: Exception: 1062 (23000): Duplicate entry '1064332558579552336' for key 'users.PRIMARY', Query: 
+                    INSERT INTO users (user_id, user_name, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, game_id)
+                    VALUES (%s, %s, NULL, NULL, %s, %s, %s, %s)
+                , Params: (1064332558579552336, 'silenthours', 2, 23361, datetime.datetime(2024, 3, 23, 23, 30, 12), 1)
+2024-03-24 22:38:06,822 - ERROR - Error executing query: Exception: 1062 (23000): Duplicate entry '1064332558579552336' for key 'users.PRIMARY', Query: 
+                    INSERT INTO users (user_id, user_name, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, game_id)
+                    VALUES (%s, %s, NULL, NULL, %s, %s, %s, %s)
+                , Params: (1064332558579552336, 'silenthours', 2, 23361, datetime.datetime(2024, 3, 23, 23, 30, 12), 1)
+2024-03-24 22:38:06,822 - ERROR - Failed to execute query after 3 attempts, query: 
+                    INSERT INTO users (user_id, user_name, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, game_id)
+                    VALUES (%s, %s, NULL, NULL, %s, %s, %s, %s)
+                
+2024-03-24 22:38:06,822 - ERROR - Failed to fix missing user 1064332558579552336 (silenthours)
+2024-03-24 22:38:06,916 - INFO - Query executed successfully
+2024-03-24 22:38:07,141 - INFO - Query executed successfully
+2024-03-24 22:38:07,605 - ERROR - Error executing query: Exception: 1062 (23000): Duplicate entry '344954838456729604' for key 'users.PRIMARY', Query: 
+                    INSERT INTO users (user_id, user_name, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, game_id)
+                    VALUES (%s, %s, NULL, NULL, %s, %s, %s, %s)
+                , Params: (344954838456729604, 'saabske', 1, 39846, datetime.datetime(2024, 3, 18, 2, 6, 9), 1)
+2024-03-24 22:38:07,844 - ERROR - Error executing query: Exception: 1062 (23000): Duplicate entry '344954838456729604' for key 'users.PRIMARY', Query: 
+                    INSERT INTO users (user_id, user_name, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, game_id)
+                    VALUES (%s, %s, NULL, NULL, %s, %s, %s, %s)
+                , Params: (344954838456729604, 'saabske', 1, 39846, datetime.datetime(2024, 3, 18, 2, 6, 9), 1)
+2024-03-24 22:38:08,076 - ERROR - Error executing query: Exception: 1062 (23000): Duplicate entry '344954838456729604' for key 'users.PRIMARY', Query: 
+                    INSERT INTO users (user_id, user_name, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, game_id)
+                    VALUES (%s, %s, NULL, NULL, %s, %s, %s, %s)
+                , Params: (344954838456729604, 'saabske', 1, 39846, datetime.datetime(2024, 3, 18, 2, 6, 9), 1)
+2024-03-24 22:38:08,076 - ERROR - Failed to execute query after 3 attempts, query: 
+                    INSERT INTO users (user_id, user_name, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, game_id)
+                    VALUES (%s, %s, NULL, NULL, %s, %s, %s, %s)
+                
+2024-03-24 22:38:08,076 - ERROR - Failed to fix missing user 344954838456729604 (saabske)
+2024-03-24 22:38:08,161 - INFO - Query executed successfully
+2024-03-24 22:38:08,387 - INFO - Query executed successfully
+2024-03-24 22:38:08,867 - ERROR - Error executing query: Exception: 1062 (23000): Duplicate entry '412022046642667530' for key 'users.PRIMARY', Query: 
+                    INSERT INTO users (user_id, user_name, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, game_id)
+                    VALUES (%s, %s, NULL, NULL, %s, %s, %s, %s)
+                , Params: (412022046642667530, 'iiriun', 1, 42014, datetime.datetime(2024, 3, 19, 18, 14, 37), 1)
+2024-03-24 22:38:09,082 - ERROR - Error executing query: Exception: 1062 (23000): Duplicate entry '412022046642667530' for key 'users.PRIMARY', Query: 
+                    INSERT INTO users (user_id, user_name, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, game_id)
+                    VALUES (%s, %s, NULL, NULL, %s, %s, %s, %s)
+                , Params: (412022046642667530, 'iiriun', 1, 42014, datetime.datetime(2024, 3, 19, 18, 14, 37), 1)
+2024-03-24 22:38:09,309 - ERROR - Error executing query: Exception: 1062 (23000): Duplicate entry '412022046642667530' for key 'users.PRIMARY', Query: 
+                    INSERT INTO users (user_id, user_name, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, game_id)
+                    VALUES (%s, %s, NULL, NULL, %s, %s, %s, %s)
+                , Params: (412022046642667530, 'iiriun', 1, 42014, datetime.datetime(2024, 3, 19, 18, 14, 37), 1)
+2024-03-24 22:38:09,309 - ERROR - Failed to execute query after 3 attempts, query: 
+                    INSERT INTO users (user_id, user_name, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, game_id)
+                    VALUES (%s, %s, NULL, NULL, %s, %s, %s, %s)
+                
+2024-03-24 22:38:09,309 - ERROR - Failed to fix missing user 412022046642667530 (iiriun)
+2024-03-24 22:38:09,396 - INFO - Query executed successfully
+2024-03-24 22:38:09,620 - INFO - Query executed successfully
+2024-03-24 22:38:10,078 - ERROR - Error executing query: Exception: 1062 (23000): Duplicate entry '332700719599845386' for key 'users.PRIMARY', Query: 
+                    INSERT INTO users (user_id, user_name, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, game_id)
+                    VALUES (%s, %s, NULL, NULL, %s, %s, %s, %s)
+                , Params: (332700719599845386, 'witcheryway', 1, 39721, datetime.datetime(2024, 3, 19, 21, 13, 4), 1)
+2024-03-24 22:38:10,310 - ERROR - Error executing query: Exception: 1062 (23000): Duplicate entry '332700719599845386' for key 'users.PRIMARY', Query: 
+                    INSERT INTO users (user_id, user_name, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, game_id)
+                    VALUES (%s, %s, NULL, NULL, %s, %s, %s, %s)
+                , Params: (332700719599845386, 'witcheryway', 1, 39721, datetime.datetime(2024, 3, 19, 21, 13, 4), 1)
+2024-03-24 22:38:10,526 - ERROR - Error executing query: Exception: 1062 (23000): Duplicate entry '332700719599845386' for key 'users.PRIMARY', Query: 
+                    INSERT INTO users (user_id, user_name, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, game_id)
+                    VALUES (%s, %s, NULL, NULL, %s, %s, %s, %s)
+                , Params: (332700719599845386, 'witcheryway', 1, 39721, datetime.datetime(2024, 3, 19, 21, 13, 4), 1)
+2024-03-24 22:38:10,526 - ERROR - Failed to execute query after 3 attempts, query: 
+                    INSERT INTO users (user_id, user_name, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, game_id)
+                    VALUES (%s, %s, NULL, NULL, %s, %s, %s, %s)
+                
+2024-03-24 22:38:10,526 - ERROR - Failed to fix missing user 332700719599845386 (witcheryway)
+2024-03-24 22:38:10,629 - INFO - Query executed successfully
+2024-03-24 22:38:10,844 - INFO - Query executed successfully
+2024-03-24 22:38:11,315 - ERROR - Error executing query: Exception: 1062 (23000): Duplicate entry '274680352478461953' for key 'users.PRIMARY', Query: 
+                    INSERT INTO users (user_id, user_name, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, game_id)
+                    VALUES (%s, %s, NULL, NULL, %s, %s, %s, %s)
+                , Params: (274680352478461953, 'barrybexon', 1, 39006, datetime.datetime(2024, 3, 19, 22, 22, 58), 1)
+2024-03-24 22:38:11,526 - ERROR - Error executing query: Exception: 1062 (23000): Duplicate entry '274680352478461953' for key 'users.PRIMARY', Query: 
+                    INSERT INTO users (user_id, user_name, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, game_id)
+                    VALUES (%s, %s, NULL, NULL, %s, %s, %s, %s)
+                , Params: (274680352478461953, 'barrybexon', 1, 39006, datetime.datetime(2024, 3, 19, 22, 22, 58), 1)
+2024-03-24 22:38:11,768 - ERROR - Error executing query: Exception: 1062 (23000): Duplicate entry '274680352478461953' for key 'users.PRIMARY', Query: 
+                    INSERT INTO users (user_id, user_name, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, game_id)
+                    VALUES (%s, %s, NULL, NULL, %s, %s, %s, %s)
+                , Params: (274680352478461953, 'barrybexon', 1, 39006, datetime.datetime(2024, 3, 19, 22, 22, 58), 1)
+2024-03-24 22:38:11,768 - ERROR - Failed to execute query after 3 attempts, query: 
+                    INSERT INTO users (user_id, user_name, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, game_id)
+                    VALUES (%s, %s, NULL, NULL, %s, %s, %s, %s)
+                
+2024-03-24 22:38:11,768 - ERROR - Failed to fix missing user 274680352478461953 (barrybexon)
+2024-03-24 22:38:11,859 - INFO - Query executed successfully
+2024-03-24 22:38:12,073 - INFO - Query executed successfully
+2024-03-24 22:38:12,552 - ERROR - Error executing query: Exception: 1062 (23000): Duplicate entry '180802825893183488' for key 'users.PRIMARY', Query: 
+                    INSERT INTO users (user_id, user_name, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, game_id)
+                    VALUES (%s, %s, NULL, NULL, %s, %s, %s, %s)
+                , Params: (180802825893183488, 'shazmavek', 1, 40575, datetime.datetime(2024, 3, 20, 19, 7, 17), 1)
+2024-03-24 22:38:12,780 - ERROR - Error executing query: Exception: 1062 (23000): Duplicate entry '180802825893183488' for key 'users.PRIMARY', Query: 
+                    INSERT INTO users (user_id, user_name, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, game_id)
+                    VALUES (%s, %s, NULL, NULL, %s, %s, %s, %s)
+                , Params: (180802825893183488, 'shazmavek', 1, 40575, datetime.datetime(2024, 3, 20, 19, 7, 17), 1)
+2024-03-24 22:38:12,997 - ERROR - Error executing query: Exception: 1062 (23000): Duplicate entry '180802825893183488' for key 'users.PRIMARY', Query: 
+                    INSERT INTO users (user_id, user_name, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, game_id)
+                    VALUES (%s, %s, NULL, NULL, %s, %s, %s, %s)
+                , Params: (180802825893183488, 'shazmavek', 1, 40575, datetime.datetime(2024, 3, 20, 19, 7, 17), 1)
+2024-03-24 22:38:12,997 - ERROR - Failed to execute query after 3 attempts, query: 
+                    INSERT INTO users (user_id, user_name, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, game_id)
+                    VALUES (%s, %s, NULL, NULL, %s, %s, %s, %s)
+                
+2024-03-24 22:38:12,997 - ERROR - Failed to fix missing user 180802825893183488 (shazmavek)
+2024-03-24 22:38:13,073 - INFO - Query executed successfully
+2024-03-24 22:38:13,310 - INFO - Query executed successfully
+2024-03-24 22:38:13,747 - ERROR - Error executing query: Exception: 1062 (23000): Duplicate entry '447150905067044865' for key 'users.PRIMARY', Query: 
+                    INSERT INTO users (user_id, user_name, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, game_id)
+                    VALUES (%s, %s, NULL, NULL, %s, %s, %s, %s)
+                , Params: (447150905067044865, 'strwbrrymnchk1n', 2, 42359, datetime.datetime(2024, 3, 24, 3, 14, 49), 1)
+2024-03-24 22:38:13,972 - ERROR - Error executing query: Exception: 1062 (23000): Duplicate entry '447150905067044865' for key 'users.PRIMARY', Query: 
+                    INSERT INTO users (user_id, user_name, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, game_id)
+                    VALUES (%s, %s, NULL, NULL, %s, %s, %s, %s)
+                , Params: (447150905067044865, 'strwbrrymnchk1n', 2, 42359, datetime.datetime(2024, 3, 24, 3, 14, 49), 1)
+2024-03-24 22:38:14,213 - ERROR - Error executing query: Exception: 1062 (23000): Duplicate entry '447150905067044865' for key 'users.PRIMARY', Query: 
+                    INSERT INTO users (user_id, user_name, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, game_id)
+                    VALUES (%s, %s, NULL, NULL, %s, %s, %s, %s)
+                , Params: (447150905067044865, 'strwbrrymnchk1n', 2, 42359, datetime.datetime(2024, 3, 24, 3, 14, 49), 1)
+2024-03-24 22:38:14,213 - ERROR - Failed to execute query after 3 attempts, query: 
+                    INSERT INTO users (user_id, user_name, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, game_id)
+                    VALUES (%s, %s, NULL, NULL, %s, %s, %s, %s)
+                
+2024-03-24 22:38:14,213 - ERROR - Failed to fix missing user 447150905067044865 (strwbrrymnchk1n)
+2024-03-24 22:38:14,291 - INFO - Query executed successfully
+2024-03-24 22:38:14,525 - INFO - Query executed successfully
+2024-03-24 22:38:15,004 - ERROR - Error executing query: Exception: 1062 (23000): Duplicate entry '164558273763082240' for key 'users.PRIMARY', Query: 
+                    INSERT INTO users (user_id, user_name, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, game_id)
+                    VALUES (%s, %s, NULL, NULL, %s, %s, %s, %s)
+                , Params: (164558273763082240, 'thancredwaters', 1, 43199, datetime.datetime(2024, 3, 21, 4, 7, 20), 1)
+2024-03-24 22:38:15,229 - ERROR - Error executing query: Exception: 1062 (23000): Duplicate entry '164558273763082240' for key 'users.PRIMARY', Query: 
+                    INSERT INTO users (user_id, user_name, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, game_id)
+                    VALUES (%s, %s, NULL, NULL, %s, %s, %s, %s)
+                , Params: (164558273763082240, 'thancredwaters', 1, 43199, datetime.datetime(2024, 3, 21, 4, 7, 20), 1)
+2024-03-24 22:38:15,468 - ERROR - Error executing query: Exception: 1062 (23000): Duplicate entry '164558273763082240' for key 'users.PRIMARY', Query: 
+                    INSERT INTO users (user_id, user_name, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, game_id)
+                    VALUES (%s, %s, NULL, NULL, %s, %s, %s, %s)
+                , Params: (164558273763082240, 'thancredwaters', 1, 43199, datetime.datetime(2024, 3, 21, 4, 7, 20), 1)
+2024-03-24 22:38:15,468 - ERROR - Failed to execute query after 3 attempts, query: 
+                    INSERT INTO users (user_id, user_name, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, game_id)
+                    VALUES (%s, %s, NULL, NULL, %s, %s, %s, %s)
+                
+2024-03-24 22:38:15,468 - ERROR - Failed to fix missing user 164558273763082240 (thancredwaters)
+2024-03-24 22:38:15,543 - INFO - Query executed successfully
+2024-03-24 22:38:15,777 - INFO - Query executed successfully
+2024-03-24 22:38:16,237 - ERROR - Error executing query: Exception: 1062 (23000): Duplicate entry '1066226673747501056' for key 'users.PRIMARY', Query: 
+                    INSERT INTO users (user_id, user_name, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, game_id)
+                    VALUES (%s, %s, NULL, NULL, %s, %s, %s, %s)
+                , Params: (1066226673747501056, 'moon_dev_admin', 3, 42898, datetime.datetime(2024, 3, 23, 3, 29, 26), 1)
+2024-03-24 22:38:16,463 - ERROR - Error executing query: Exception: 1062 (23000): Duplicate entry '1066226673747501056' for key 'users.PRIMARY', Query: 
+                    INSERT INTO users (user_id, user_name, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, game_id)
+                    VALUES (%s, %s, NULL, NULL, %s, %s, %s, %s)
+                , Params: (1066226673747501056, 'moon_dev_admin', 3, 42898, datetime.datetime(2024, 3, 23, 3, 29, 26), 1)
+2024-03-24 22:38:16,705 - ERROR - Error executing query: Exception: 1062 (23000): Duplicate entry '1066226673747501056' for key 'users.PRIMARY', Query: 
+                    INSERT INTO users (user_id, user_name, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, game_id)
+                    VALUES (%s, %s, NULL, NULL, %s, %s, %s, %s)
+                , Params: (1066226673747501056, 'moon_dev_admin', 3, 42898, datetime.datetime(2024, 3, 23, 3, 29, 26), 1)
+2024-03-24 22:38:16,705 - ERROR - Failed to execute query after 3 attempts, query: 
+                    INSERT INTO users (user_id, user_name, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, game_id)
+                    VALUES (%s, %s, NULL, NULL, %s, %s, %s, %s)
+                
+2024-03-24 22:38:16,705 - ERROR - Failed to fix missing user 1066226673747501056 (moon_dev_admin)
+2024-03-24 22:38:16,797 - INFO - Query executed successfully
+2024-03-24 22:38:17,011 - INFO - Query executed successfully
+2024-03-24 22:38:17,538 - ERROR - Error executing query: Exception: 1062 (23000): Duplicate entry '671785404269199360' for key 'users.PRIMARY', Query: 
+                    INSERT INTO users (user_id, user_name, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, game_id)
+                    VALUES (%s, %s, NULL, NULL, %s, %s, %s, %s)
+                , Params: (671785404269199360, 'kodatomoyuri2660', 1, 41428, datetime.datetime(2024, 3, 24, 0, 33, 49), 1)
+2024-03-24 22:38:17,767 - ERROR - Error executing query: Exception: 1062 (23000): Duplicate entry '671785404269199360' for key 'users.PRIMARY', Query: 
+                    INSERT INTO users (user_id, user_name, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, game_id)
+                    VALUES (%s, %s, NULL, NULL, %s, %s, %s, %s)
+                , Params: (671785404269199360, 'kodatomoyuri2660', 1, 41428, datetime.datetime(2024, 3, 24, 0, 33, 49), 1)
+2024-03-24 22:38:17,989 - ERROR - Error executing query: Exception: 1062 (23000): Duplicate entry '671785404269199360' for key 'users.PRIMARY', Query: 
+                    INSERT INTO users (user_id, user_name, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, game_id)
+                    VALUES (%s, %s, NULL, NULL, %s, %s, %s, %s)
+                , Params: (671785404269199360, 'kodatomoyuri2660', 1, 41428, datetime.datetime(2024, 3, 24, 0, 33, 49), 1)
+2024-03-24 22:38:17,989 - ERROR - Failed to execute query after 3 attempts, query: 
+                    INSERT INTO users (user_id, user_name, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, game_id)
+                    VALUES (%s, %s, NULL, NULL, %s, %s, %s, %s)
+                
+2024-03-24 22:38:17,989 - ERROR - Failed to fix missing user 671785404269199360 (kodatomoyuri2660)
+2024-03-24 22:38:18,075 - INFO - Query executed successfully
+2024-03-24 22:38:18,295 - INFO - Query executed successfully
+2024-03-24 22:38:18,760 - ERROR - Error executing query: Exception: 1062 (23000): Duplicate entry '131818279965556737' for key 'users.PRIMARY', Query: 
+                    INSERT INTO users (user_id, user_name, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, game_id)
+                    VALUES (%s, %s, NULL, NULL, %s, %s, %s, %s)
+                , Params: (131818279965556737, 'rogueghost', 1, 34766, datetime.datetime(2024, 3, 24, 23, 55, 51), 1)
+2024-03-24 22:38:18,980 - ERROR - Error executing query: Exception: 1062 (23000): Duplicate entry '131818279965556737' for key 'users.PRIMARY', Query: 
+                    INSERT INTO users (user_id, user_name, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, game_id)
+                    VALUES (%s, %s, NULL, NULL, %s, %s, %s, %s)
+                , Params: (131818279965556737, 'rogueghost', 1, 34766, datetime.datetime(2024, 3, 24, 23, 55, 51), 1)
+2024-03-24 22:41:38,402 - INFO - Connection pools set up successfully.
+2024-03-24 22:41:38,402 - INFO - Connection pools set up successfully
+2024-03-24 22:41:38,610 - INFO - Updating local game sessions
+2024-03-24 22:41:38,640 - INFO - Game sessions updated: [(1, 1218738547599872011, 974867526129426493, 1218747369974403142, 1218747412529676378, datetime.datetime(2024, 3, 23, 2, 4, 24), None, 43200, 6)]
+2024-03-24 22:41:38,865 - INFO - Missing users: [692926265405079632, 262025569728725002, 170670927862956033, 155904500081623041, 244241156232183808, 1173449218166366253, 98319726299586560, 110028801966104576, 604214583477141510, 187730048722141185, 1064332558579552336, 344954838456729604, 412022046642667530, 332700719599845386, 274680352478461953, 180802825893183488, 447150905067044865, 164558273763082240, 1066226673747501056, 671785404269199360, 131818279965556737, 134382598448349184, 416346814086643728, 501442463442010124]
+2024-03-24 22:41:38,870 - WARNING - PyNaCl is not installed, voice will NOT be supported
+2024-03-24 22:41:38,870 - INFO - logging in using static token
+2024-03-24 22:41:39,376 - INFO - Shard ID None has sent the IDENTIFY payload.
+2024-03-24 22:41:39,516 - INFO - Shard ID None has connected to Gateway: ["gateway-prd-us-east1-d-7h58",{"micros":57848,"calls":["id_created",{"micros":1314,"calls":[]},"session_lookup_time",{"micros":376,"calls":[]},"session_lookup_finished",{"micros":14,"calls":[]},"discord-sessions-prd-2-219",{"micros":53383,"calls":["start_session",{"micros":39737,"calls":["discord-api-7c46887f44-ng7hg",{"micros":34888,"calls":["get_user",{"micros":8427},"get_guilds",{"micros":4084},"send_scheduled_deletion_message",{"micros":9},"guild_join_requests",{"micros":1},"authorized_ip_coro",{"micros":9}]}]},"starting_guild_connect",{"micros":59,"calls":[]},"presence_started",{"micros":369,"calls":[]},"guilds_started",{"micros":111,"calls":[]},"guilds_connect",{"micros":2,"calls":[]},"presence_connect",{"micros":13046,"calls":[]},"connect_finished",{"micros":13052,"calls":[]},"build_ready",{"micros":20,"calls":[]},"clean_ready",{"micros":1,"calls":[]},"optimize_ready",{"micros":28,"calls":[]},"split_ready",{"micros":1,"calls":[]}]}]}] (Session ID: d3fa8f0097a9c3a009ef0bb97a0b9426). Resume URL specified as wss://gateway-us-east1-d.discord.gg
+2024-03-24 22:41:41,522 - INFO - Connection pools set up successfully.
+2024-03-24 22:41:41,522 - INFO - Bot started as The Button Game#4283
+2024-03-24 22:41:41,522 - INFO - Number of guilds: 1
+2024-03-24 22:41:41,522 - INFO - Connected to guild: The Astral Apothecary
+2024-03-24 22:41:42,744 - INFO - In The Astral Apothecary, roles have been set up.
+2024-03-24 22:41:42,889 - INFO - Message received in The Astral Apothecary: sb
+2024-03-24 22:41:42,889 - INFO - Starting button game in The Astral Apothecary
+2024-03-24 22:41:43,229 - INFO - Bot ready!
+2024-03-24 22:41:43,452 - INFO - Found 24 missing users. Fixing...
+2024-03-24 22:41:43,542 - INFO - Query executed successfully
+2024-03-24 22:41:43,760 - INFO - Query executed successfully
+2024-03-24 22:41:44,088 - INFO - Query executed successfully
+2024-03-24 22:41:44,261 - INFO - Fixed missing user 692926265405079632 (regen2moon)
+2024-03-24 22:41:44,354 - INFO - Query executed successfully
+2024-03-24 22:41:44,589 - INFO - Query executed successfully
+2024-03-24 22:41:44,893 - INFO - Query executed successfully
+2024-03-24 22:41:45,057 - INFO - Fixed missing user 262025569728725002 (.sempiternal.)
+2024-03-24 22:41:45,135 - INFO - Query executed successfully
+2024-03-24 22:41:45,373 - INFO - Query executed successfully
+2024-03-24 22:41:45,529 - WARNING - HTTP Rate limited.
+2024-03-24 22:41:45,529 - WARNING - limit=1 remaining=0 reset_after=3.0 bucket='395d6cf0674e9291d994fd56de77ef96' scope=None
+2024-03-24 22:41:45,698 - INFO - Query executed successfully
+2024-03-24 22:41:45,866 - INFO - Fixed missing user 170670927862956033 (aquuamom)
+2024-03-24 22:41:45,952 - INFO - Query executed successfully
+2024-03-24 22:41:46,166 - INFO - Query executed successfully
+2024-03-24 22:41:46,323 - INFO - Creating button message for game 1...
+2024-03-24 22:41:46,482 - INFO - Query executed successfully
+2024-03-24 22:41:46,658 - INFO - Fixed missing user 155904500081623041 (.randm)
+2024-03-24 22:41:46,747 - INFO - Query executed successfully
+2024-03-24 22:41:46,969 - INFO - Query executed successfully
+2024-03-24 22:41:47,303 - INFO - Query executed successfully
+2024-03-24 22:41:47,469 - INFO - Fixed missing user 244241156232183808 (drunk_harpy)
+2024-03-24 22:41:47,559 - INFO - Query executed successfully
+2024-03-24 22:41:47,785 - INFO - Query executed successfully
+2024-03-24 22:41:48,138 - INFO - Query executed successfully
+2024-03-24 22:41:48,330 - INFO - Fixed missing user 1173449218166366253 (just_savannah)
+2024-03-24 22:41:48,405 - INFO - Query executed successfully
+2024-03-24 22:41:48,641 - INFO - Query executed successfully
+2024-03-24 22:41:48,964 - INFO - Query executed successfully
+2024-03-24 22:41:49,137 - INFO - Fixed missing user 98319726299586560 (.tango)
+2024-03-24 22:41:49,220 - INFO - Query executed successfully
+2024-03-24 22:41:49,448 - INFO - Query executed successfully
+2024-03-24 22:41:49,592 - INFO - Updating message cache for message 1221650828436176948
+2024-03-24 22:41:49,592 - INFO - Message cache updated for message 1221650828436176948, {1: <Message id=1221650828436176948 channel=<TextChannel id=1218747369974403142 name='the-button-game' position=41 nsfw=False news=False category_id=974871210972282920> type=<MessageType.default: 0> author=<Member id=1218745422143557753 name='The Button Game' global_name=None discriminator='4283' bot=True nick=None guild=<Guild id=974867526129426493 name='The Astral Apothecary' shard_id=0 chunked=True member_count=1116>> flags=<MessageFlags value=0>>}
+2024-03-24 22:41:49,592 - INFO - Button game already started in The Astral Apothecary
+2024-03-24 22:41:49,592 - INFO - Starting update timer task...
+2024-03-24 22:41:49,592 - INFO - Creating game sessions dict, lengths - game_sessions: 1, game_sessions_as_dict: 0
+2024-03-24 22:41:49,668 - INFO - Query executed successfully
+2024-03-24 22:41:49,810 - INFO - Updating game cache for game 1
+2024-03-24 22:41:49,810 - INFO - Game cache updated for game 1, {1: {'latest_click_time': datetime.datetime(2024, 3, 25, 1, 22, 50, tzinfo=datetime.timezone.utc), 'total_clicks': 83, 'total_players': 24, 'last_update_time': datetime.datetime(2024, 3, 25, 2, 41, 49, 810084, tzinfo=datetime.timezone.utc), 'latest_player_name': 'saphiraluxray', 'last_timer_value': 41541}}
+2024-03-24 22:41:49,908 - INFO - Query executed successfully
+2024-03-24 22:41:50,077 - INFO - Fixed missing user 110028801966104576 (ploppyy)
+2024-03-24 22:41:50,156 - INFO - Query executed successfully
+2024-03-24 22:41:50,385 - INFO - Query executed successfully
+2024-03-24 22:41:50,755 - INFO - Query executed successfully
+2024-03-24 22:41:50,921 - INFO - Fixed missing user 604214583477141510 (hearts4r1nn)
+2024-03-24 22:41:51,010 - INFO - Query executed successfully
+2024-03-24 22:41:51,237 - INFO - Query executed successfully
+2024-03-24 22:41:51,542 - INFO - Query executed successfully
+2024-03-24 22:41:51,714 - INFO - Fixed missing user 187730048722141185 (genkeisprincess)
+2024-03-24 22:41:51,793 - INFO - Query executed successfully
+2024-03-24 22:41:52,017 - INFO - Query executed successfully
+2024-03-24 22:41:52,347 - INFO - Query executed successfully
+2024-03-24 22:41:52,511 - INFO - Fixed missing user 1064332558579552336 (silenthours)
+2024-03-24 22:41:52,606 - INFO - Query executed successfully
+2024-03-24 22:41:52,826 - INFO - Query executed successfully
+2024-03-24 22:41:53,156 - INFO - Query executed successfully
+2024-03-24 22:41:53,327 - INFO - Fixed missing user 344954838456729604 (saabske)
+2024-03-24 22:41:53,403 - INFO - Query executed successfully
+2024-03-24 22:41:53,639 - INFO - Query executed successfully
+2024-03-24 22:41:53,948 - INFO - Query executed successfully
+2024-03-24 22:41:54,106 - INFO - Fixed missing user 412022046642667530 (iiriun)
+2024-03-24 22:41:54,204 - INFO - Query executed successfully
+2024-03-24 22:41:54,438 - INFO - Query executed successfully
+2024-03-24 22:41:54,792 - INFO - Query executed successfully
+2024-03-24 22:41:54,949 - INFO - Fixed missing user 332700719599845386 (witcheryway)
+2024-03-24 22:41:55,044 - INFO - Query executed successfully
+2024-03-24 22:41:55,271 - INFO - Query executed successfully
+2024-03-24 22:41:55,582 - INFO - Query executed successfully
+2024-03-24 22:41:55,750 - INFO - Fixed missing user 274680352478461953 (barrybexon)
+2024-03-24 22:41:55,827 - INFO - Query executed successfully
+2024-03-24 22:41:56,058 - INFO - Query executed successfully
+2024-03-24 22:41:56,355 - INFO - Query executed successfully
+2024-03-24 22:41:56,527 - INFO - Fixed missing user 180802825893183488 (shazmavek)
+2024-03-24 22:41:56,604 - INFO - Query executed successfully
+2024-03-24 22:41:56,826 - INFO - Query executed successfully
+2024-03-24 22:41:57,174 - INFO - Query executed successfully
+2024-03-24 22:41:57,339 - INFO - Fixed missing user 447150905067044865 (strwbrrymnchk1n)
+2024-03-24 22:41:57,442 - INFO - Query executed successfully
+2024-03-24 22:41:57,668 - INFO - Query executed successfully
+2024-03-24 22:41:57,979 - INFO - Query executed successfully
+2024-03-24 22:41:58,162 - INFO - Fixed missing user 164558273763082240 (thancredwaters)
+2024-03-24 22:41:58,250 - INFO - Query executed successfully
+2024-03-24 22:41:58,464 - INFO - Query executed successfully
+2024-03-24 22:41:58,776 - INFO - Query executed successfully
+2024-03-24 22:41:58,955 - INFO - Fixed missing user 1066226673747501056 (moon_dev_admin)
+2024-03-24 22:41:59,031 - INFO - Query executed successfully
+2024-03-24 22:41:59,260 - INFO - Query executed successfully
+2024-03-24 22:41:59,557 - INFO - Query executed successfully
+2024-03-24 22:41:59,736 - INFO - Fixed missing user 671785404269199360 (kodatomoyuri2660)
+2024-03-24 22:41:59,823 - INFO - Query executed successfully
+2024-03-24 22:42:00,065 - INFO - Query executed successfully
+2024-03-24 22:42:00,369 - INFO - Query executed successfully
+2024-03-24 22:42:00,532 - INFO - Fixed missing user 131818279965556737 (rogueghost)
+2024-03-24 22:42:00,623 - INFO - Query executed successfully
+2024-03-24 22:42:00,850 - INFO - Query executed successfully
+2024-03-24 22:42:01,163 - INFO - Query executed successfully
+2024-03-24 22:42:01,331 - INFO - Fixed missing user 134382598448349184 (zoltar)
+2024-03-24 22:42:01,418 - INFO - Query executed successfully
+2024-03-24 22:42:01,637 - INFO - Query executed successfully
+2024-03-24 22:42:01,965 - INFO - Query executed successfully
+2024-03-24 22:42:02,137 - INFO - Fixed missing user 416346814086643728 (vbaby2343)
+2024-03-24 22:42:02,224 - INFO - Query executed successfully
+2024-03-24 22:42:02,451 - INFO - Query executed successfully
+2024-03-24 22:42:02,789 - INFO - Query executed successfully
+2024-03-24 22:42:02,955 - INFO - Fixed missing user 501442463442010124 (saphiraluxray)
+2024-03-24 22:42:02,955 - INFO - Finished fixing missing users.
+2024-03-24 22:42:30,607 - INFO - Connection pools set up successfully.
+2024-03-24 22:42:30,607 - INFO - Connection pools set up successfully
+2024-03-24 22:42:30,815 - INFO - Updating local game sessions
+2024-03-24 22:42:30,843 - INFO - Game sessions updated: [(1, 1218738547599872011, 974867526129426493, 1218747369974403142, 1218747412529676378, datetime.datetime(2024, 3, 23, 2, 4, 24), None, 43200, 6)]
+2024-03-24 22:42:31,064 - INFO - Missing users: []
+2024-03-24 22:42:31,079 - WARNING - PyNaCl is not installed, voice will NOT be supported
+2024-03-24 22:42:31,079 - INFO - logging in using static token
+2024-03-24 22:42:31,579 - INFO - Shard ID None has sent the IDENTIFY payload.
+2024-03-24 22:42:31,827 - INFO - Shard ID None has connected to Gateway: ["gateway-prd-us-east1-b-sl09",{"micros":160191,"calls":["id_created",{"micros":1144,"calls":[]},"session_lookup_time",{"micros":7849,"calls":[]},"session_lookup_finished",{"micros":17,"calls":[]},"discord-sessions-prd-2-268",{"micros":150650,"calls":["start_session",{"micros":89474,"calls":["discord-api-7c46887f44-94k9c",{"micros":83824,"calls":["get_user",{"micros":10597},"get_guilds",{"micros":8696},"send_scheduled_deletion_message",{"micros":8},"guild_join_requests",{"micros":5369},"authorized_ip_coro",{"micros":9}]}]},"starting_guild_connect",{"micros":69,"calls":[]},"presence_started",{"micros":18478,"calls":[]},"guilds_started",{"micros":118,"calls":[]},"guilds_connect",{"micros":1,"calls":[]},"presence_connect",{"micros":42415,"calls":[]},"connect_finished",{"micros":42421,"calls":[]},"build_ready",{"micros":23,"calls":[]},"clean_ready",{"micros":1,"calls":[]},"optimize_ready",{"micros":28,"calls":[]},"split_ready",{"micros":1,"calls":[]}]}]}] (Session ID: b82179aaee7eafdb0b9938bfc0f0e897). Resume URL specified as wss://gateway-us-east1-b.discord.gg
+2024-03-24 22:42:33,850 - INFO - Connection pools set up successfully.
+2024-03-24 22:42:33,850 - INFO - Bot started as The Button Game#4283
+2024-03-24 22:42:33,850 - INFO - Number of guilds: 1
+2024-03-24 22:42:33,850 - INFO - Connected to guild: The Astral Apothecary
+2024-03-24 22:42:34,986 - INFO - In The Astral Apothecary, roles have been set up.
+2024-03-24 22:42:35,136 - INFO - Message received in The Astral Apothecary: sb
+2024-03-24 22:42:35,136 - INFO - Starting button game in The Astral Apothecary
+2024-03-24 22:42:35,219 - INFO - Bot ready!
+2024-03-24 22:42:35,448 - INFO - No missing users found.
+2024-03-24 22:42:35,793 - WARNING - HTTP Rate limited.
+2024-03-24 22:42:35,793 - WARNING - limit=1 remaining=0 reset_after=3.0 bucket='395d6cf0674e9291d994fd56de77ef96' scope=None
+2024-03-24 22:42:35,965 - INFO - Creating button message for game 1...
+2024-03-24 22:42:38,249 - INFO - Updating message cache for message 1221651034015793204
+2024-03-24 22:42:38,249 - INFO - Message cache updated for message 1221651034015793204, {1: <Message id=1221651034015793204 channel=<TextChannel id=1218747369974403142 name='the-button-game' position=41 nsfw=False news=False category_id=974871210972282920> type=<MessageType.default: 0> author=<Member id=1218745422143557753 name='The Button Game' global_name=None discriminator='4283' bot=True nick=None guild=<Guild id=974867526129426493 name='The Astral Apothecary' shard_id=0 chunked=True member_count=1116>> flags=<MessageFlags value=0>>}
+2024-03-24 22:42:38,249 - INFO - Button game already started in The Astral Apothecary
+2024-03-24 22:42:38,249 - INFO - Starting update timer task...
+2024-03-24 22:42:38,249 - INFO - Creating game sessions dict, lengths - game_sessions: 1, game_sessions_as_dict: 0
+2024-03-24 22:42:38,342 - INFO - Query executed successfully
+2024-03-24 22:42:38,480 - INFO - Updating game cache for game 1
+2024-03-24 22:42:38,480 - INFO - Game cache updated for game 1, {1: {'latest_click_time': datetime.datetime(2024, 3, 25, 1, 22, 50, tzinfo=datetime.timezone.utc), 'total_clicks': 83, 'total_players': 24, 'last_update_time': datetime.datetime(2024, 3, 25, 2, 42, 38, 480201, tzinfo=datetime.timezone.utc), 'latest_player_name': 'saphiraluxray', 'last_timer_value': 41541}}
+2024-03-24 22:43:24,729 - INFO - Message received in The Astral Apothecary: mrank
+2024-03-24 22:43:27,672 - INFO - Message received in The Astral Apothecary: myrank
+2024-03-24 22:43:27,763 - INFO - Query executed successfully
+2024-03-24 22:50:21,119 - INFO - Connection pools set up successfully.
+2024-03-24 22:50:21,119 - INFO - Connection pools set up successfully
+2024-03-24 22:50:21,329 - INFO - Updating local game sessions
+2024-03-24 22:50:21,360 - INFO - Game sessions updated: [(1, 1218738547599872011, 974867526129426493, 1218747369974403142, 1218747412529676378, datetime.datetime(2024, 3, 23, 2, 4, 24), None, 43200, 6)]
+2024-03-24 22:50:21,584 - INFO - Missing users: []
+2024-03-24 22:50:21,595 - WARNING - PyNaCl is not installed, voice will NOT be supported
+2024-03-24 22:50:21,595 - INFO - logging in using static token
+2024-03-24 22:50:22,153 - INFO - Shard ID None has sent the IDENTIFY payload.
+2024-03-24 22:50:22,322 - INFO - Shard ID None has connected to Gateway: ["gateway-prd-us-east1-c-mdp2",{"micros":86514,"calls":["id_created",{"micros":1525,"calls":[]},"session_lookup_time",{"micros":408,"calls":[]},"session_lookup_finished",{"micros":16,"calls":[]},"discord-sessions-prd-2-32",{"micros":82749,"calls":["start_session",{"micros":63835,"calls":["discord-api-7c46887f44-v5sj6",{"micros":58928,"calls":["get_user",{"micros":8664},"get_guilds",{"micros":10816},"send_scheduled_deletion_message",{"micros":9},"guild_join_requests",{"micros":191},"authorized_ip_coro",{"micros":9}]}]},"starting_guild_connect",{"micros":55,"calls":[]},"presence_started",{"micros":326,"calls":[]},"guilds_started",{"micros":85,"calls":[]},"guilds_connect",{"micros":1,"calls":[]},"presence_connect",{"micros":18374,"calls":[]},"connect_finished",{"micros":18379,"calls":[]},"build_ready",{"micros":26,"calls":[]},"clean_ready",{"micros":1,"calls":[]},"optimize_ready",{"micros":36,"calls":[]},"split_ready",{"micros":1,"calls":[]}]}]}] (Session ID: c553a01df0423c545bfbb85075ec3eea). Resume URL specified as wss://gateway-us-east1-c.discord.gg
+2024-03-24 22:50:24,358 - INFO - Connection pools set up successfully.
+2024-03-24 22:50:24,358 - INFO - Bot started as The Button Game#4283
+2024-03-24 22:50:24,358 - INFO - Number of guilds: 1
+2024-03-24 22:50:24,358 - INFO - Connected to guild: The Astral Apothecary
+2024-03-24 22:50:26,106 - INFO - In The Astral Apothecary, roles have been set up.
+2024-03-24 22:50:26,261 - INFO - Message received in The Astral Apothecary: sb
+2024-03-24 22:50:26,261 - INFO - Starting button game in The Astral Apothecary
+2024-03-24 22:50:26,739 - INFO - Bot ready!
+2024-03-24 22:50:26,967 - INFO - No missing users found.
+2024-03-24 22:50:27,268 - WARNING - HTTP Rate limited.
+2024-03-24 22:50:27,268 - WARNING - limit=1 remaining=0 reset_after=3.0 bucket='395d6cf0674e9291d994fd56de77ef96' scope=None
+2024-03-24 22:50:27,500 - INFO - Creating button message for game 1...
+2024-03-24 22:50:28,517 - INFO - Updating message cache for message 1221653006815068272
+2024-03-24 22:50:28,517 - INFO - Message cache updated for message 1221653006815068272, {1: <Message id=1221653006815068272 channel=<TextChannel id=1218747369974403142 name='the-button-game' position=41 nsfw=False news=False category_id=974871210972282920> type=<MessageType.default: 0> author=<Member id=1218745422143557753 name='The Button Game' global_name=None discriminator='4283' bot=True nick=None guild=<Guild id=974867526129426493 name='The Astral Apothecary' shard_id=0 chunked=True member_count=1116>> flags=<MessageFlags value=0>>}
+2024-03-24 22:50:28,517 - INFO - Button game already started in The Astral Apothecary
+2024-03-24 22:50:28,517 - INFO - Starting update timer task...
+2024-03-24 22:50:28,517 - INFO - Creating game sessions dict, lengths - game_sessions: 1, game_sessions_as_dict: 0
+2024-03-24 22:50:28,608 - INFO - Query executed successfully
+2024-03-24 22:50:28,753 - INFO - Updating game cache for game 1
+2024-03-24 22:50:28,753 - INFO - Game cache updated for game 1, {1: {'latest_click_time': datetime.datetime(2024, 3, 25, 1, 22, 50, tzinfo=datetime.timezone.utc), 'total_clicks': 83, 'total_players': 24, 'last_update_time': datetime.datetime(2024, 3, 25, 2, 50, 28, 753816, tzinfo=datetime.timezone.utc), 'latest_player_name': 'saphiraluxray', 'last_timer_value': 41541}}
+2024-03-24 22:50:43,474 - INFO - Message received in The Astral Apothecary: leaderboard
+2024-03-24 22:50:43,561 - INFO - Query executed successfully
+2024-03-24 22:50:43,788 - INFO - Query executed successfully
+2024-03-24 22:50:44,013 - INFO - Query executed successfully
+2024-03-24 22:50:44,244 - INFO - Query executed successfully
+2024-03-24 22:51:49,895 - INFO - Query executed successfully
+2024-03-24 22:51:50,125 - INFO - Query executed successfully
+2024-03-24 22:51:50,292 - INFO - Data inserted for drunk_harpy!
+2024-03-24 22:51:51,261 - ERROR - Error executing query: Exception: 1054 (42S22): Unknown column 'latest_click_var' in 'field list', Query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            , Params: (244241156232183808, datetime.datetime(2024, 3, 25, 8, 51, 49, 686871, tzinfo=datetime.timezone.utc), 'Purple', 37860, datetime.datetime(2024, 3, 25, 2, 51, 49, 686871, tzinfo=datetime.timezone.utc), 'Ky, Mother of 13*', 1)
+2024-03-24 22:51:51,520 - ERROR - Error executing query: Exception: 1054 (42S22): Unknown column 'latest_click_var' in 'field list', Query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            , Params: (244241156232183808, datetime.datetime(2024, 3, 25, 8, 51, 49, 686871, tzinfo=datetime.timezone.utc), 'Purple', 37860, datetime.datetime(2024, 3, 25, 2, 51, 49, 686871, tzinfo=datetime.timezone.utc), 'Ky, Mother of 13*', 1)
+2024-03-24 22:51:51,734 - ERROR - Error executing query: Exception: 1054 (42S22): Unknown column 'latest_click_var' in 'field list', Query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            , Params: (244241156232183808, datetime.datetime(2024, 3, 25, 8, 51, 49, 686871, tzinfo=datetime.timezone.utc), 'Purple', 37860, datetime.datetime(2024, 3, 25, 2, 51, 49, 686871, tzinfo=datetime.timezone.utc), 'Ky, Mother of 13*', 1)
+2024-03-24 22:51:51,734 - ERROR - Failed to execute query after 3 attempts, query: 
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id, latest_click_var)
+                VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
+                ON DUPLICATE KEY UPDATE
+                    cooldown_expiration = VALUES(cooldown_expiration),
+                    color_rank = VALUES(color_rank),
+                    total_clicks = total_clicks + 1,
+                    lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                    latest_click_time = VALUES(latest_click_time)
+            
+2024-03-24 22:51:51,734 - INFO - Updating game cache for game 1
+2024-03-24 22:51:51,734 - INFO - Game cache updated for game 1, {1: {'latest_click_time': datetime.datetime(2024, 3, 25, 2, 51, 49, 686871, tzinfo=datetime.timezone.utc), 'total_clicks': 83, 'total_players': 24, 'last_update_time': datetime.datetime(2024, 3, 25, 2, 51, 51, 734364, tzinfo=datetime.timezone.utc), 'latest_player_name': 'Ky, Mother of 13*', 'last_timer_value': 37860}}
+2024-03-24 22:51:51,734 - ERROR - Error processing button click: Lock is not acquired., Traceback (most recent call last):
+  File "Z:\\WubHub\\TheButton\\bot_code\\theButton.py", line 406, in callback
+    lock.release()
+  File "C:\Users\Bot 00\AppData\Local\Programs\Python\Python311\Lib\asyncio\locks.py", line 140, in release
+    raise RuntimeError('Lock is not acquired.')
+RuntimeError: Lock is not acquired.
+
+2024-03-24 22:51:52,104 - INFO - Callback run time: 2.417353 seconds
+2024-03-24 22:53:48,214 - INFO - Message received in The Astral Apothecary: leaderboard 10
+2024-03-24 23:06:59,700 - INFO - Clearing cache for game 1, since last update was more than 15 minutes ago...
+2024-03-24 23:06:59,700 - INFO - Clearing game cache for game 1
+2024-03-24 23:06:59,700 - INFO - Game cache cleared for game 1, {}
+2024-03-24 23:07:29,325 - INFO - Query executed successfully
+2024-03-24 23:07:29,467 - INFO - Updating game cache for game 1
+2024-03-24 23:07:29,467 - INFO - Game cache updated for game 1, {1: {'latest_click_time': datetime.datetime(2024, 3, 25, 2, 51, 50, tzinfo=datetime.timezone.utc), 'total_clicks': 84, 'total_players': 24, 'last_update_time': datetime.datetime(2024, 3, 25, 3, 7, 29, 467599, tzinfo=datetime.timezone.utc), 'latest_player_name': 'drunk_harpy', 'last_timer_value': 37860}}
+2024-03-24 23:10:52,104 - INFO - Connection pools set up successfully.
+2024-03-24 23:10:52,104 - INFO - Connection pools set up successfully
+2024-03-24 23:10:52,299 - INFO - Updating local game sessions
+2024-03-24 23:10:52,329 - INFO - Game sessions updated: [(1, 1218738547599872011, 974867526129426493, 1218747369974403142, 1218747412529676378, datetime.datetime(2024, 3, 23, 2, 4, 24), None, 43200, 6)]
+2024-03-24 23:10:52,557 - INFO - Missing users: []
+2024-03-24 23:10:52,557 - WARNING - PyNaCl is not installed, voice will NOT be supported
+2024-03-24 23:10:52,557 - INFO - logging in using static token
+2024-03-24 23:10:53,120 - INFO - Shard ID None has sent the IDENTIFY payload.
+2024-03-24 23:10:53,291 - INFO - Shard ID None has connected to Gateway: ["gateway-prd-us-east1-b-713c",{"micros":88950,"calls":["id_created",{"micros":1039,"calls":[]},"session_lookup_time",{"micros":348,"calls":[]},"session_lookup_finished",{"micros":13,"calls":[]},"discord-sessions-prd-2-202",{"micros":86679,"calls":["start_session",{"micros":61535,"calls":["discord-api-7c46887f44-7lgwt",{"micros":56092,"calls":["get_user",{"micros":5879},"get_guilds",{"micros":3912},"send_scheduled_deletion_message",{"micros":10},"guild_join_requests",{"micros":10069},"authorized_ip_coro",{"micros":10}]}]},"starting_guild_connect",{"micros":105,"calls":[]},"presence_started",{"micros":297,"calls":[]},"guilds_started",{"micros":195,"calls":[]},"guilds_connect",{"micros":2,"calls":[]},"presence_connect",{"micros":24487,"calls":[]},"connect_finished",{"micros":24495,"calls":[]},"build_ready",{"micros":19,"calls":[]},"clean_ready",{"micros":1,"calls":[]},"optimize_ready",{"micros":27,"calls":[]},"split_ready",{"micros":1,"calls":[]}]}]}] (Session ID: 4b8ab29d78aa1892b49439dc18094305). Resume URL specified as wss://gateway-us-east1-b.discord.gg
+2024-03-24 23:11:22,403 - INFO - Connection pools set up successfully.
+2024-03-24 23:11:22,403 - INFO - Bot started as The Button Game#4283
+2024-03-24 23:11:22,403 - INFO - Number of guilds: 1
+2024-03-24 23:11:22,403 - INFO - Connected to guild: The Astral Apothecary
+2024-03-24 23:11:24,284 - INFO - In The Astral Apothecary, roles have been set up.
+2024-03-24 23:11:24,406 - INFO - Message received in The Astral Apothecary: sb
+2024-03-24 23:11:24,406 - INFO - Starting button game in The Astral Apothecary
+2024-03-24 23:11:24,895 - INFO - Bot ready!
+2024-03-24 23:11:25,136 - INFO - No missing users found.
+2024-03-24 23:11:25,453 - WARNING - HTTP Rate limited.
+2024-03-24 23:11:25,453 - WARNING - limit=1 remaining=0 reset_after=3.0 bucket='395d6cf0674e9291d994fd56de77ef96' scope=None
+2024-03-24 23:11:25,558 - INFO - Creating button message for game 1...
+2024-03-24 23:11:26,500 - INFO - Updating message cache for message 1221658283300098048
+2024-03-24 23:11:26,500 - INFO - Message cache updated for message 1221658283300098048, {1: <Message id=1221658283300098048 channel=<TextChannel id=1218747369974403142 name='the-button-game' position=41 nsfw=False news=False category_id=974871210972282920> type=<MessageType.default: 0> author=<Member id=1218745422143557753 name='The Button Game' global_name=None discriminator='4283' bot=True nick=None guild=<Guild id=974867526129426493 name='The Astral Apothecary' shard_id=0 chunked=True member_count=1116>> flags=<MessageFlags value=0>>}
+2024-03-24 23:11:26,500 - INFO - Button game already started in The Astral Apothecary
+2024-03-24 23:11:26,500 - INFO - Starting update timer task...
+2024-03-24 23:11:26,511 - INFO - Creating game sessions dict, lengths - game_sessions: 1, game_sessions_as_dict: 0
+2024-03-24 23:11:26,592 - INFO - Query executed successfully
+2024-03-24 23:11:26,729 - INFO - Updating game cache for game 1
+2024-03-24 23:11:26,729 - INFO - Game cache updated for game 1, {1: {'latest_click_time': datetime.datetime(2024, 3, 25, 2, 51, 50, tzinfo=datetime.timezone.utc), 'total_clicks': 84, 'total_players': 24, 'last_update_time': datetime.datetime(2024, 3, 25, 3, 11, 26, 729063, tzinfo=datetime.timezone.utc), 'latest_player_name': 'drunk_harpy', 'last_timer_value': 37860}}
+2024-03-24 23:12:28,213 - INFO - Connection pools set up successfully.
+2024-03-24 23:12:28,213 - INFO - Connection pools set up successfully
+2024-03-24 23:12:28,402 - INFO - Updating local game sessions
+2024-03-24 23:12:28,432 - INFO - Game sessions updated: [(1, 1218738547599872011, 974867526129426493, 1218747369974403142, 1218747412529676378, datetime.datetime(2024, 3, 23, 2, 4, 24), None, 43200, 6)]
+2024-03-24 23:12:28,666 - INFO - Missing users: [692926265405079632, 262025569728725002, 170670927862956033, 155904500081623041, 244241156232183808, 1173449218166366253, 98319726299586560, 110028801966104576, 604214583477141510, 187730048722141185, 1064332558579552336, 344954838456729604, 412022046642667530, 332700719599845386, 274680352478461953, 180802825893183488, 447150905067044865, 164558273763082240, 1066226673747501056, 671785404269199360, 131818279965556737, 134382598448349184, 416346814086643728, 501442463442010124]
+2024-03-24 23:12:28,666 - WARNING - PyNaCl is not installed, voice will NOT be supported
+2024-03-24 23:12:28,666 - INFO - logging in using static token
+2024-03-24 23:12:29,199 - INFO - Shard ID None has sent the IDENTIFY payload.
+2024-03-24 23:12:29,446 - INFO - Shard ID None has connected to Gateway: ["gateway-prd-us-east1-c-n1kv",{"micros":165817,"calls":["id_created",{"micros":1481,"calls":[]},"session_lookup_time",{"micros":1776,"calls":[]},"session_lookup_finished",{"micros":14,"calls":[]},"discord-sessions-prd-2-98",{"micros":159971,"calls":["start_session",{"micros":93836,"calls":["discord-api-7c46887f44-j4slf",{"micros":83309,"calls":["get_user",{"micros":10477},"get_guilds",{"micros":23624},"send_scheduled_deletion_message",{"micros":11},"guild_join_requests",{"micros":2},"authorized_ip_coro",{"micros":8}]}]},"starting_guild_connect",{"micros":72,"calls":[]},"presence_started",{"micros":16747,"calls":[]},"guilds_started",{"micros":119,"calls":[]},"guilds_connect",{"micros":2,"calls":[]},"presence_connect",{"micros":49136,"calls":[]},"connect_finished",{"micros":49143,"calls":[]},"build_ready",{"micros":24,"calls":[]},"clean_ready",{"micros":1,"calls":[]},"optimize_ready",{"micros":24,"calls":[]},"split_ready",{"micros":0,"calls":[]}]}]}] (Session ID: 1cfa33343777e9449555728407a4454f). Resume URL specified as wss://gateway-us-east1-c.discord.gg
+2024-03-24 23:12:44,620 - INFO - Connection pools set up successfully.
+2024-03-24 23:12:44,620 - INFO - Bot started as The Button Game#4283
+2024-03-24 23:12:44,620 - INFO - Number of guilds: 1
+2024-03-24 23:12:44,620 - INFO - Connected to guild: The Astral Apothecary
+2024-03-24 23:12:45,733 - INFO - In The Astral Apothecary, roles have been set up.
+2024-03-24 23:12:45,875 - INFO - Message received in The Astral Apothecary: sb
+2024-03-24 23:12:45,875 - INFO - Starting button game in The Astral Apothecary
+2024-03-24 23:12:46,078 - INFO - Bot ready!
+2024-03-24 23:12:46,307 - INFO - Found 24 missing users. Fixing...
+2024-03-24 23:12:46,394 - INFO - Query executed successfully
+2024-03-24 23:12:46,619 - INFO - Query executed successfully
+2024-03-24 23:12:47,173 - INFO - Query executed successfully
+2024-03-24 23:12:47,338 - INFO - Fixed missing user 692926265405079632 (regen2moon)
+2024-03-24 23:12:47,426 - INFO - Query executed successfully
+2024-03-24 23:12:47,653 - INFO - Query executed successfully
+2024-03-24 23:12:47,999 - INFO - Query executed successfully
+2024-03-24 23:12:48,171 - INFO - Fixed missing user 262025569728725002 (.sempiternal.)
+2024-03-24 23:12:48,260 - INFO - Query executed successfully
+2024-03-24 23:12:48,483 - INFO - Query executed successfully
+2024-03-24 23:12:48,635 - WARNING - HTTP Rate limited.
+2024-03-24 23:12:48,635 - WARNING - limit=1 remaining=0 reset_after=3.0 bucket='395d6cf0674e9291d994fd56de77ef96' scope=None
+2024-03-24 23:12:48,823 - INFO - Query executed successfully
+2024-03-24 23:12:48,998 - INFO - Fixed missing user 170670927862956033 (aquuamom)
+2024-03-24 23:12:49,093 - INFO - Query executed successfully
+2024-03-24 23:12:49,313 - INFO - Query executed successfully
+2024-03-24 23:12:49,454 - INFO - Creating button message for game 1...
+2024-03-24 23:12:49,622 - INFO - Query executed successfully
+2024-03-24 23:12:49,793 - INFO - Fixed missing user 155904500081623041 (.randm)
+2024-03-24 23:12:49,878 - INFO - Query executed successfully
+2024-03-24 23:12:50,106 - INFO - Query executed successfully
+2024-03-24 23:12:50,417 - INFO - Query executed successfully
+2024-03-24 23:12:50,588 - INFO - Fixed missing user 244241156232183808 (drunk_harpy)
+2024-03-24 23:12:50,682 - INFO - Query executed successfully
+2024-03-24 23:12:50,906 - INFO - Query executed successfully
+2024-03-24 23:12:51,225 - INFO - Query executed successfully
+2024-03-24 23:12:51,407 - INFO - Fixed missing user 1173449218166366253 (just_savannah)
+2024-03-24 23:12:51,484 - INFO - Query executed successfully
+2024-03-24 23:12:51,704 - INFO - Query executed successfully
+2024-03-24 23:12:52,011 - INFO - Query executed successfully
+2024-03-24 23:12:52,182 - INFO - Fixed missing user 98319726299586560 (.tango)
+2024-03-24 23:12:52,286 - INFO - Query executed successfully
+2024-03-24 23:12:52,512 - INFO - Query executed successfully
+2024-03-24 23:12:52,651 - INFO - Updating message cache for message 1221658641958961154
+2024-03-24 23:12:52,651 - INFO - Message cache updated for message 1221658641958961154, {1: <Message id=1221658641958961154 channel=<TextChannel id=1218747369974403142 name='the-button-game' position=41 nsfw=False news=False category_id=974871210972282920> type=<MessageType.default: 0> author=<Member id=1218745422143557753 name='The Button Game' global_name=None discriminator='4283' bot=True nick=None guild=<Guild id=974867526129426493 name='The Astral Apothecary' shard_id=0 chunked=True member_count=1116>> flags=<MessageFlags value=0>>}
+2024-03-24 23:12:52,651 - INFO - Button game already started in The Astral Apothecary
+2024-03-24 23:12:52,651 - INFO - Starting update timer task...
+2024-03-24 23:12:52,651 - INFO - Creating game sessions dict, lengths - game_sessions: 1, game_sessions_as_dict: 0
+2024-03-24 23:12:52,744 - INFO - Query executed successfully
+2024-03-24 23:12:52,887 - INFO - Updating game cache for game 1
+2024-03-24 23:12:52,887 - INFO - Game cache updated for game 1, {1: {'latest_click_time': datetime.datetime(2024, 3, 25, 2, 51, 50, tzinfo=datetime.timezone.utc), 'total_clicks': 84, 'total_players': 24, 'last_update_time': datetime.datetime(2024, 3, 25, 3, 12, 52, 887958, tzinfo=datetime.timezone.utc), 'latest_player_name': 'drunk_harpy', 'last_timer_value': 37860}}
+2024-03-24 23:12:52,979 - INFO - Query executed successfully
+2024-03-24 23:12:53,143 - INFO - Fixed missing user 110028801966104576 (ploppyy)
+2024-03-24 23:12:53,232 - INFO - Query executed successfully
+2024-03-24 23:12:53,457 - INFO - Query executed successfully
+2024-03-24 23:12:53,760 - INFO - Query executed successfully
+2024-03-24 23:12:53,940 - INFO - Fixed missing user 604214583477141510 (hearts4r1nn)
+2024-03-24 23:12:54,026 - INFO - Query executed successfully
+2024-03-24 23:12:54,252 - INFO - Query executed successfully
+2024-03-24 23:12:54,572 - INFO - Query executed successfully
+2024-03-24 23:12:54,744 - INFO - Fixed missing user 187730048722141185 (genkeisprincess)
+2024-03-24 23:12:54,826 - INFO - Query executed successfully
+2024-03-24 23:12:55,066 - INFO - Query executed successfully
+2024-03-24 23:12:55,387 - INFO - Query executed successfully
+2024-03-24 23:12:55,557 - INFO - Fixed missing user 1064332558579552336 (silenthours)
+2024-03-24 23:12:55,643 - INFO - Query executed successfully
+2024-03-24 23:12:55,858 - INFO - Query executed successfully
+2024-03-24 23:12:56,199 - INFO - Query executed successfully
+2024-03-24 23:12:56,373 - INFO - Fixed missing user 344954838456729604 (saabske)
+2024-03-24 23:12:56,448 - INFO - Query executed successfully
+2024-03-24 23:12:56,687 - INFO - Query executed successfully
+2024-03-24 23:12:57,011 - INFO - Query executed successfully
+2024-03-24 23:12:57,177 - INFO - Fixed missing user 412022046642667530 (iiriun)
+2024-03-24 23:12:57,261 - INFO - Query executed successfully
+2024-03-24 23:12:57,496 - INFO - Query executed successfully
+2024-03-24 23:12:57,812 - INFO - Query executed successfully
+2024-03-24 23:12:57,989 - INFO - Fixed missing user 332700719599845386 (witcheryway)
+2024-03-24 23:12:58,069 - INFO - Query executed successfully
+2024-03-24 23:12:58,281 - INFO - Query executed successfully
+2024-03-24 23:12:58,616 - INFO - Query executed successfully
+2024-03-24 23:12:58,792 - INFO - Fixed missing user 274680352478461953 (barrybexon)
+2024-03-24 23:12:58,875 - INFO - Query executed successfully
+2024-03-24 23:12:59,103 - INFO - Query executed successfully
+2024-03-24 23:12:59,417 - INFO - Query executed successfully
+2024-03-24 23:12:59,589 - INFO - Fixed missing user 180802825893183488 (shazmavek)
+2024-03-24 23:12:59,669 - INFO - Query executed successfully
+2024-03-24 23:12:59,906 - INFO - Query executed successfully
+2024-03-24 23:13:00,244 - INFO - Query executed successfully
+2024-03-24 23:13:00,400 - INFO - Fixed missing user 447150905067044865 (strwbrrymnchk1n)
+2024-03-24 23:13:00,493 - INFO - Query executed successfully
+2024-03-24 23:13:00,713 - INFO - Query executed successfully
+2024-03-24 23:13:01,031 - INFO - Query executed successfully
+2024-03-24 23:13:01,202 - INFO - Fixed missing user 164558273763082240 (thancredwaters)
+2024-03-24 23:13:01,283 - INFO - Query executed successfully
+2024-03-24 23:13:01,495 - INFO - Query executed successfully
+2024-03-24 23:13:01,838 - INFO - Query executed successfully
+2024-03-24 23:13:02,017 - INFO - Fixed missing user 1066226673747501056 (moon_dev_admin)
+2024-03-24 23:13:02,104 - INFO - Query executed successfully
+2024-03-24 23:13:02,327 - INFO - Query executed successfully
+2024-03-24 23:13:02,697 - INFO - Query executed successfully
+2024-03-24 23:13:02,872 - INFO - Fixed missing user 671785404269199360 (kodatomoyuri2660)
+2024-03-24 23:13:02,950 - INFO - Query executed successfully
+2024-03-24 23:13:03,197 - INFO - Query executed successfully
+2024-03-24 23:13:03,546 - INFO - Query executed successfully
+2024-03-24 23:13:03,721 - INFO - Fixed missing user 131818279965556737 (rogueghost)
+2024-03-24 23:13:03,809 - INFO - Query executed successfully
+2024-03-24 23:13:04,025 - INFO - Query executed successfully
+2024-03-24 23:13:04,344 - INFO - Query executed successfully
+2024-03-24 23:13:04,518 - INFO - Fixed missing user 134382598448349184 (zoltar)
+2024-03-24 23:13:04,607 - INFO - Query executed successfully
+2024-03-24 23:13:04,830 - INFO - Query executed successfully
+2024-03-24 23:13:05,137 - INFO - Query executed successfully
+2024-03-24 23:13:05,307 - INFO - Fixed missing user 416346814086643728 (vbaby2343)
+2024-03-24 23:13:05,389 - INFO - Query executed successfully
+2024-03-24 23:13:05,614 - INFO - Query executed successfully
+2024-03-24 23:13:05,933 - INFO - Query executed successfully
+2024-03-24 23:13:06,104 - INFO - Fixed missing user 501442463442010124 (saphiraluxray)
+2024-03-24 23:13:06,104 - INFO - Finished fixing missing users.
+2024-03-24 23:13:49,791 - INFO - Message received in The Astral Apothecary: leaderboard 10
+2024-03-24 23:27:54,362 - INFO - Clearing cache for game 1, since last update was more than 15 minutes ago...
+2024-03-24 23:27:54,362 - INFO - Clearing game cache for game 1
+2024-03-24 23:27:54,362 - INFO - Game cache cleared for game 1, {}
+2024-03-24 23:28:23,982 - INFO - Query executed successfully
+2024-03-24 23:28:24,143 - INFO - Updating game cache for game 1
+2024-03-24 23:28:24,143 - INFO - Game cache updated for game 1, {1: {'latest_click_time': datetime.datetime(2024, 3, 25, 2, 51, 50, tzinfo=datetime.timezone.utc), 'total_clicks': 84, 'total_players': 24, 'last_update_time': datetime.datetime(2024, 3, 25, 3, 28, 24, 143902, tzinfo=datetime.timezone.utc), 'latest_player_name': 'drunk_harpy', 'last_timer_value': 37860}}
+2024-03-24 23:43:25,700 - INFO - Clearing cache for game 1, since last update was more than 15 minutes ago...
+2024-03-24 23:43:25,700 - INFO - Clearing game cache for game 1
+2024-03-24 23:43:25,700 - INFO - Game cache cleared for game 1, {}
+2024-03-24 23:43:55,293 - INFO - Query executed successfully
+2024-03-24 23:43:55,422 - INFO - Updating game cache for game 1
+2024-03-24 23:43:55,422 - INFO - Game cache updated for game 1, {1: {'latest_click_time': datetime.datetime(2024, 3, 25, 2, 51, 50, tzinfo=datetime.timezone.utc), 'total_clicks': 84, 'total_players': 24, 'last_update_time': datetime.datetime(2024, 3, 25, 3, 43, 55, 422141, tzinfo=datetime.timezone.utc), 'latest_player_name': 'drunk_harpy', 'last_timer_value': 37860}}
+2024-03-24 23:58:56,910 - INFO - Clearing cache for game 1, since last update was more than 15 minutes ago...
+2024-03-24 23:58:56,910 - INFO - Clearing game cache for game 1
+2024-03-24 23:58:56,910 - INFO - Game cache cleared for game 1, {}
+2024-03-24 23:59:26,486 - INFO - Query executed successfully
+2024-03-24 23:59:26,620 - INFO - Updating game cache for game 1
+2024-03-24 23:59:26,620 - INFO - Game cache updated for game 1, {1: {'latest_click_time': datetime.datetime(2024, 3, 25, 2, 51, 50, tzinfo=datetime.timezone.utc), 'total_clicks': 84, 'total_players': 24, 'last_update_time': datetime.datetime(2024, 3, 25, 3, 59, 26, 620972, tzinfo=datetime.timezone.utc), 'latest_player_name': 'drunk_harpy', 'last_timer_value': 37860}}

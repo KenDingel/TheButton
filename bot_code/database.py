@@ -1,6 +1,7 @@
 # Database.py
 import mysql.connector
 from mysql.connector.pooling import MySQLConnectionPool
+import traceback
 
 from utils import config, logger
 
