@@ -402,6 +402,91 @@ def get_missing_users():
             cursor.close()
         if connection:
             connection.close()
+            
+
+async def fix_missing_users(bot):
+    global lock
+    try:
+        missing_user_ids = get_missing_users()
+        if not missing_user_ids:
+            logger.info("No missing users found.")
+            return
+
+        logger.info(f"Found {len(missing_user_ids)} missing users. Fixing...")
+
+        for user_id in missing_user_ids:
+            try:
+                # Get the latest click data for the user
+                query = '''
+                    SELECT bc.user_id, bc.click_time, bc.timer_value, bc.game_id
+                    FROM button_clicks bc
+                    WHERE bc.user_id = %s
+                    ORDER BY bc.click_time DESC
+                    LIMIT 1
+                '''
+                params = (user_id,)
+                
+                await lock.acquire()
+                result = execute_query(query, params)
+                lock.release()
+                if not result:
+                    logger.warning(f"No click data found for user {user_id}. Skipping...")
+                    continue
+
+                _, latest_click_time, lowest_click_time, game_id = result[0]
+
+                # Get the total clicks for the user
+                query = '''
+                    SELECT COUNT(*) AS total_clicks
+                    FROM button_clicks
+                    WHERE user_id = %s
+                '''
+                await lock.acquire()
+                params = (user_id,)
+                result = execute_query(query, params)
+                lock.release()
+                total_clicks = result[0][0] if result else 0
+
+                # Get the Discord user data
+                user = await bot.fetch_user(user_id)
+                if not user:
+                    logger.warning(f"Discord user {user_id} not found. Skipping...")
+                    continue
+
+                user_name = user.name
+                color_rank = get_color_name(lowest_click_time)
+
+                # Insert the user data into the users table
+                query = '''
+                    INSERT INTO users (user_id, user_name, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, game_id)
+                    VALUES (%s, %s, NULL, %s, %s, %s, %s, %s)
+                    ON DUPLICATE KEY UPDATE
+                        user_name = VALUES(user_name),
+                        color_rank = VALUES(color_rank),
+                        total_clicks = VALUES(total_clicks),
+                        lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
+                        latest_click_time = GREATEST(latest_click_time, VALUES(latest_click_time)),
+                        game_id = VALUES(game_id)
+                '''
+                params = (user_id, user_name, color_rank, total_clicks, lowest_click_time, latest_click_time, game_id)
+                await lock.acquire()
+                success = execute_query(query, params, commit=True)
+                lock.release()
+
+                if success:
+                    logger.info(f"Fixed missing user {user_id} ({user_name})")
+                else:
+                    logger.error(f"Failed to fix missing user {user_id} ({user_name})")
+
+            except Exception as e:
+                logger.error(f"Error fixing missing user {user_id}: {e}")
+                traceback.print_exc()
+
+        logger.info("Finished fixing missing users.")
+
+    except Exception as e:
+        logger.error(f"Error fixing missing users: {e}")
+        traceback.print_exc()
 
 missing_users = get_missing_users()
 logger.info(f"Missing users: {missing_users}")

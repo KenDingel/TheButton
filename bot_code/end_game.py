@@ -1,4 +1,5 @@
 import nextcord
+from nextcord import Guild
 from database import execute_query
 from utils import logger, format_time
 
