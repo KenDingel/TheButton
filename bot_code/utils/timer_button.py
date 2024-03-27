@@ -5,11 +5,11 @@ import asyncio
 import traceback
 from datetime import timezone
 
-from bot_code.utils.utils import *
-from bot_code.user.user_manager import user_manager
-from bot_code.button.button_utils import get_button_message, Failed_Interactions
-from bot_code.game.game_cache import game_cache
-from bot_code.database.database import execute_query, get_game_session_by_guild_id
+from utils.utils import *
+from user.user_manager import user_manager
+from button.button_utils import get_button_message, Failed_Interactions
+from game.game_cache import game_cache
+from database.database import execute_query, get_game_session_by_guild_id
 
 class TimerButton(nextcord.ui.Button):
     def __init__(self, bot, style=nextcord.ButtonStyle.primary, label="Click me!", timer_value=0):

@@ -3,7 +3,6 @@ color 50
 title theButton
 echo Starting The Button
 
-;
 :: taskkill /F /FI "WINDOWTITLE eq theButton"
 
 :: taskkill /F /FI "WINDOWTITLE eq theButtonPython"
@@ -15,9 +14,17 @@ start "theButtonPython" "C:\\Users\\Bot 00\\AppData\\Local\\Programs\\Python\\Py
 timeout /t 3600 /nobreak
 
 :: Close the command prompt window by its title
-taskkill /F /FI "WINDOWTITLE eq theButtonPython"
+taskkill /F /FI "WINDOWTITLE eq theButton"
 
 :: Close the command prompt window by its title
 taskkill /F /FI "WINDOWTITLE eq theButtonPython"
 
+:: Close the command prompt window by its title
+taskkill /F /FI "WINDOWTITLE eq Select theButton"
+
+:: Close the command prompt window by its title
+taskkill /F /FI "WINDOWTITLE eq Select theButtonPython"
+
+
+timeout /t 10 /nobreak
 goto loop

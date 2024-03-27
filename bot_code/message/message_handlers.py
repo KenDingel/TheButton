@@ -3,10 +3,10 @@ import datetime
 from datetime import timezone
 import traceback
 import nextcord
-from bot_code.database.database import *
-from bot_code.utils.utils import *
-from bot_code.text.full_text import *
-from bot_code.button.button_functions import setup_roles, create_button_message, paused_games
+from database.database import *
+from utils.utils import *
+from text.full_text import *
+from button.button_functions import setup_roles, create_button_message, paused_games
 
 async def handle_message(message, bot, logger, menu_timer):
     global cursor, db, paused_games

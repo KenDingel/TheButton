@@ -12,12 +12,12 @@ import os
 lock = asyncio.Lock()
 
 os.chdir(os.path.dirname(os.path.abspath(__file__)))
-log_file_name = f'..\\logs\\theButton-{datetime.datetime.now().strftime("%Y-%m-%d")}.log'
+log_file_name = f'..\\..\\logs\\theButton-{datetime.datetime.now().strftime("%Y-%m-%d")}.log'
 logging.basicConfig(filename=log_file_name, level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 logger = logging.getLogger(__name__)
 
 def get_config():
-    with open('..\\assets\\config.json', 'r') as f:
+    with open('..\\..\\assets\\config.json', 'r') as f:
         config = json.load(f)
     return config
 
@@ -89,13 +89,13 @@ def generate_timer_image(timer_value):
     try:
         color = get_color_state(timer_value)
         image_number = 6 - (COLOR_STATES.index(color))
-        image_path = f"..\\assets\\TheButtonTemplate{image_number:02d}.png"
+        image_path = f"..\\..\\assets\\TheButtonTemplate{image_number:02d}.png"
         image = Image.open(image_path)
         
         # Draw the timer text on the image
         draw = ImageDraw.Draw(image)
         font_size = int(120 * 0.32)
-        font = ImageFont.truetype('..\\assets\\Mercy Christole.ttf', font_size)
+        font = ImageFont.truetype('..\\..\\assets\\Mercy Christole.ttf', font_size)
         text = f"{format(int(timer_value//3600), '02d')}:{format(int(timer_value%3600//60), '02d')}:{format(int(timer_value%60), '02d')}"
         text_bbox = draw.textbbox((0, 0), text, font=font)
         text_width = text_bbox[2] - text_bbox[0]
@@ -105,7 +105,7 @@ def generate_timer_image(timer_value):
 
         additional_text = "Time Left".upper()
         additional_font_size = int(100 * 0.32) 
-        additional_font = ImageFont.truetype('..\\assets\\Mercy Christole.ttf', additional_font_size)
+        additional_font = ImageFont.truetype('..\\..\\assets\\Mercy Christole.ttf', additional_font_size)
         additional_text_bbox = draw.textbbox((0, 0), additional_text, font=additional_font)
         additional_text_width = additional_text_bbox[2] - additional_text_bbox[0]
         additional_text_height = additional_text_bbox[3] - additional_text_bbox[1]

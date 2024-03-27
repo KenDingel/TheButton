@@ -2,9 +2,9 @@
 import datetime
 from datetime import timezone
 import traceback
-from bot_code.utils.utils import logger
-from bot_code.game.game_cache import button_message_cache
-from bot_code.database.database import update_local_game_sessions, game_sessions_dict
+from utils.utils import logger
+from game.game_cache import button_message_cache
+from database.database import update_local_game_sessions, game_sessions_dict
 
 async def get_button_message(game_id, bot):
     task_run_time = datetime.datetime.now(timezone.utc)
@@ -34,7 +34,7 @@ async def get_button_message(game_id, bot):
     if is_message_found:
         logger.error(f'No existing button message found for game {game_id}, creating a new one...')
         
-        from bot_code.button.button_functions import create_button_message
+        from button.button_functions import create_button_message
         message = await create_button_message(game_id, bot)
         button_message_cache.update_message_cache(message, game_id)
         task_run_time = datetime.datetime.now(timezone.utc) - task_run_time

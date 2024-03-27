@@ -1,7 +1,7 @@
 import nextcord
 from nextcord import Guild
-from bot_code.database.database import execute_query
-from bot_code.utils.utils import logger, format_time
+from database.database import execute_query
+from utils.utils import logger, format_time
 
 def get_end_game_embed(game_session_id):
     

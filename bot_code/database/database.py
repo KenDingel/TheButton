@@ -3,7 +3,7 @@ import mysql.connector
 from mysql.connector.pooling import MySQLConnectionPool
 import traceback
 
-from bot_code.utils.utils import config, logger
+from utils.utils import config, logger
 
 db_pool = None
 db_pool_timer = None

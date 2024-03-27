@@ -1,12 +1,12 @@
 # Button Functions
 import nextcord
 from nextcord.ext import tasks
-from bot_code.utils.utils import *
-from bot_code.game.game_cache import *
-from bot_code.database.database import *
-from bot_code.text.full_text import *
-from bot_code.game.end_game import get_end_game_embed
-from bot_code.button.button_utils import get_button_message, Failed_Interactions
+from utils.utils import *
+from game.game_cache import *
+from database.database import *
+from text.full_text import *
+from game.end_game import get_end_game_embed
+from button.button_utils import get_button_message, Failed_Interactions
 
 async def setup_roles(guild_id, bot):
     guild = bot.get_guild(guild_id)
@@ -31,7 +31,7 @@ async def create_button_message(game_id, bot):
         if not EXPLAINATION_TEXT in [msg.content async for msg in button_channel.history(limit=2)]:
             await bot.get_channel(game_session_config['button_channel_id']).send(EXPLAINATION_TEXT)
         
-        from bot_code.button.button_view import ButtonView
+        from button.button_view import ButtonView
         message = await button_channel.send(embed=embed, view=ButtonView(game_session_config['timer_duration'], bot))
         button_message_cache.update_message_cache(message, game_id)
         return message
@@ -158,7 +158,7 @@ class MenuTimer(nextcord.ui.View):
                     pastel_color = get_color_state(timer_value)
                     embed.color = nextcord.Color.from_rgb(*pastel_color)
                     
-                    from bot_code.button.button_view import ButtonView
+                    from button.button_view import ButtonView
                     button_view = ButtonView(timer_value, self.bot)
                     await button_message.edit(embed=embed, file=file_buffer, view=button_view)
             except Exception as e:

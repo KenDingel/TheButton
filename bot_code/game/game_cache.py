@@ -1,7 +1,7 @@
 #Game Cache
 import datetime
 from datetime import timezone
-from bot_code.database.database import logger
+from database.database import logger
 
 class GameCache:
     def __init__(self):

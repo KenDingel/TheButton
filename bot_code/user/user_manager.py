@@ -1,8 +1,8 @@
 import datetime
 from datetime import timezone
 import traceback
-from bot_code.utils.utils import logger
-from bot_code.database.database import execute_query
+from utils.utils import logger
+from database.database import execute_query
 
 class UserManager:
     def __init__(self):

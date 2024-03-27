@@ -10,14 +10,14 @@ import nextcord
 from nextcord import Guild
 from nextcord.ext import commands, tasks
 
-from bot_code.utils.utils import *
-from bot_code.database.database import *
-from bot_code.game.end_game import get_end_game_embed
-from bot_code.text.full_text import *
-from bot_code.game.game_cache import *
-from bot_code.message.message_handlers import handle_message
-from bot_code.button.button_functions import *
-from bot_code.user.user_manager import user_manager
+from utils.utils import *
+from database.database import *
+from game.end_game import get_end_game_embed
+from text.full_text import *
+from game.game_cache import *
+from message.message_handlers import handle_message
+from button.button_functions import *
+from user.user_manager import user_manager
 
 intents = nextcord.Intents.default()
 intents.message_content = True
