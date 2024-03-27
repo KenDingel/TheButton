@@ -5,10 +5,10 @@ import traceback
 import datetime
 from datetime import timezone
 
-from utils import *
-from database import *
-from game_cache import *
-from timer_button import TimerButton
+from bot_code.utils.utils import *
+from bot_code.database.database import *
+from bot_code.game.game_cache import *
+from bot_code.utils.timer_button import TimerButton
 
 class ButtonView(nextcord.ui.View):
     def __init__(self, timer_value, bot):

@@ -5,11 +5,11 @@ import asyncio
 import traceback
 from datetime import timezone
 
-from utils import *
-from user_manager import UserManager as user_manager
-from button_utils import get_button_message
-from game_cache import game_cache
-from database import execute_query, get_game_session_by_guild_id
+from bot_code.utils.utils import *
+from bot_code.user.user_manager import user_manager
+from bot_code.button.button_utils import get_button_message, Failed_Interactions
+from bot_code.game.game_cache import game_cache
+from bot_code.database.database import execute_query, get_game_session_by_guild_id
 
 class TimerButton(nextcord.ui.Button):
     def __init__(self, bot, style=nextcord.ButtonStyle.primary, label="Click me!", timer_value=0):
@@ -18,7 +18,7 @@ class TimerButton(nextcord.ui.Button):
         self.timer_value = timer_value
 
     async def callback(self, interaction: nextcord.Interaction):
-        global paused_games, game_cache
+        global game_cache
         try:
             await interaction.response.defer(ephemeral=True)
         except nextcord.errors.NotFound:
@@ -27,7 +27,7 @@ class TimerButton(nextcord.ui.Button):
             try:
                 await interaction.send("Adventurer! You attempt to click the button...", ephemeral=True)
             except nextcord.errors.NotFound:
-                logger.error("Interaction not found after retry. Skipping...")
+                Failed_Interactions.increment()
                 return
         
         task_run_time = datetime.datetime.now(timezone.utc)
@@ -39,13 +39,19 @@ class TimerButton(nextcord.ui.Button):
                 game_id = game_session['game_id']
                 button_message = await get_button_message(game_id, self.bot)
                 embed = button_message.embeds[0]
-
-                user_data = user_manager.get_user_from_cache(interaction.user.id)
+                user_id = interaction.user.id
+                if user_id is None:
+                    logger.error(f'User ID is None for interaction {interaction}')
+                    return
+                
+                user_data = user_manager.get_user_from_cache(user_id=user_id)
                 if user_data is not None:
+                    latest_click_time_user, cooldown_expiration = None, None
                     cooldown_expiration = user_data['cooldown_expiration']
+                    latest_click_time_user = user_data['latest_click_time']
+                    
                     if cooldown_expiration is not None:
                         cooldown_remaining = int((cooldown_expiration - click_time).total_seconds())
-                        
                         if cooldown_remaining > 0:
                             formatted_cooldown = f"{format(int(cooldown_remaining//3600), '02d')}:{format(int(cooldown_remaining%3600//60), '02d')}:{format(int(cooldown_remaining%60), '02d')}"
                             await interaction.followup.send(f'You have already clicked the button in the last 6 hours. Please try again in {formatted_cooldown}', ephemeral=True)
@@ -144,9 +150,6 @@ class TimerButton(nextcord.ui.Button):
                 game_cache.update_game_cache(game_id, click_time, total_clicks, total_players, display_name, current_timer_value)
                 lock.release()
                 
-                if paused_games and game_id in paused_games:
-                    paused_games.remove(game_id)
-                    
                 from theButton import menu_timer
                 if not menu_timer.update_timer_task.is_running():
                     logger.info('Starting update timer task...')

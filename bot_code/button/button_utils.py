@@ -1,9 +1,10 @@
+# Button 
 import datetime
 from datetime import timezone
 import traceback
-from utils import logger
-from game_cache import button_message_cache
-from database import update_local_game_sessions, game_sessions_dict
+from bot_code.utils.utils import logger
+from bot_code.game.game_cache import button_message_cache
+from bot_code.database.database import update_local_game_sessions, game_sessions_dict
 
 async def get_button_message(game_id, bot):
     task_run_time = datetime.datetime.now(timezone.utc)
@@ -21,10 +22,10 @@ async def get_button_message(game_id, bot):
         logger.error(f'No game session found for game {game_id}')
         update_local_game_sessions()
         game_session_config = game_sessions_dict()[game_id]
-    button_channel = await bot.get_channel(int(game_session_config['button_channel_id']))
+    button_channel = bot.get_channel(int(game_session_config['button_channel_id']))
     
     is_message_found = False
-    async for message in button_channel.history(limit=5):
+    async for message in button_channel.history(limit=1):
         if message.author == bot.user and message.embeds:
             is_message_found = True
             await message.delete()
@@ -33,10 +34,25 @@ async def get_button_message(game_id, bot):
     if is_message_found:
         logger.error(f'No existing button message found for game {game_id}, creating a new one...')
         
-        from button_functions import create_button_message
+        from bot_code.button.button_functions import create_button_message
         message = await create_button_message(game_id, bot)
         button_message_cache.update_message_cache(message, game_id)
         task_run_time = datetime.datetime.now(timezone.utc) - task_run_time
         logger.info(f'Get button message run time: {task_run_time.total_seconds()} seconds')
         return message
     return None
+
+class Failed_Interaction_Count:
+    def __init__(self):
+        self.failed_count = 0
+
+    def increment(self):
+        self.failed_count += 1
+
+    def reset(self):
+        self.failed_count = 0
+
+    def get(self):
+        return self.failed_count
+    
+Failed_Interactions = Failed_Interaction_Count()

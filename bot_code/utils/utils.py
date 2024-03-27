@@ -92,10 +92,7 @@ def generate_timer_image(timer_value):
         image_path = f"..\\assets\\TheButtonTemplate{image_number:02d}.png"
         image = Image.open(image_path)
         
-        # image_width = 800
-        # image_height = 400
-        # image = Image.new('RGB', (image_width, image_height), color)
-
+        # Draw the timer text on the image
         draw = ImageDraw.Draw(image)
         font_size = int(120 * 0.32)
         font = ImageFont.truetype('..\\assets\\Mercy Christole.ttf', font_size)

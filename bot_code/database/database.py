@@ -3,7 +3,7 @@ import mysql.connector
 from mysql.connector.pooling import MySQLConnectionPool
 import traceback
 
-from utils import config, logger
+from bot_code.utils.utils import config, logger
 
 db_pool = None
 db_pool_timer = None
@@ -29,15 +29,6 @@ def get_current_new_cursor():
     if not cursor:
         cursor = db.cursor()
     return db, cursor
-
-def kill_sql_processes():
-    query = "SHOW PROCESSLIST"
-    processes = execute_query(query)
-    for process in processes:
-        if process[1] == 'root':
-            query = f"KILL {process[0]}"
-            execute_query(query, commit=True)
-    logger.info('SQL processes killed')
 
 def setup_pool(config=config):
     global db_pool, db_pool_timer
@@ -358,7 +349,6 @@ def get_all_game_channels():
         return GAME_CHANNELS
     GAME_CHANNELS = get_game_channels_from_db()
     return GAME_CHANNELS
-
 
 if setup_pool():
     logger.info('Connection pools set up successfully')

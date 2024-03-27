@@ -1,8 +1,8 @@
 import datetime
 from datetime import timezone
 import traceback
-from utils import logger
-from database import execute_query
+from bot_code.utils.utils import logger
+from bot_code.database.database import execute_query
 
 class UserManager:
     def __init__(self):
@@ -61,3 +61,6 @@ class UserManager:
         if cache:
             return cache
         return None
+    
+logger.info('User Manager loaded.')
+user_manager = UserManager()

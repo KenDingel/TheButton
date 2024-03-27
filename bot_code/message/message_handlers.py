@@ -3,13 +3,13 @@ import datetime
 from datetime import timezone
 import traceback
 import nextcord
-from database import *
-from utils import *
-from full_text import *
-from button_functions import setup_roles, create_button_message
+from bot_code.database.database import *
+from bot_code.utils.utils import *
+from bot_code.text.full_text import *
+from bot_code.button.button_functions import setup_roles, create_button_message, paused_games
 
 async def handle_message(message, bot, logger, menu_timer):
-    global cursor, db
+    global cursor, db, paused_games
     if message.author == bot.user and message.content.lower() != "sb": return
     if message.channel.id not in get_all_game_channels(): return
     
@@ -26,7 +26,6 @@ async def handle_message(message, bot, logger, menu_timer):
                             await m.delete()
                         except:
                             pass
-                
                 game_session = get_game_session_by_guild_id(message.guild.id)
                 if game_session:
                     await create_button_message(game_session['game_id'], bot)
@@ -55,6 +54,8 @@ async def handle_message(message, bot, logger, menu_timer):
                         update_local_game_sessions()
                         game_sessions_as_dict = game_sessions_dict()
                         game_sessions_as_dict = {game_id: game_session}
+                        
+                    paused_games.remove(game_id)
                     await setup_roles(message.guild.id)
                     await create_button_message(game_id, bot)
                     update_local_game_sessions()

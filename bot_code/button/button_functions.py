@@ -1,12 +1,12 @@
 # Button Functions
 import nextcord
 from nextcord.ext import tasks
-from utils import *
-from game_cache import *
-from database import *
-from full_text import *
-from end_game import get_end_game_embed
-from button_utils import get_button_message
+from bot_code.utils.utils import *
+from bot_code.game.game_cache import *
+from bot_code.database.database import *
+from bot_code.text.full_text import *
+from bot_code.game.end_game import get_end_game_embed
+from bot_code.button.button_utils import get_button_message, Failed_Interactions
 
 async def setup_roles(guild_id, bot):
     guild = bot.get_guild(guild_id)
@@ -24,14 +24,14 @@ async def create_button_message(game_id, bot):
         game_session_config = get_game_session_by_id(game_id)
         embed = nextcord.Embed(title='🚨 THE BUTTON! 🚨', description='**Keep the button alive!**')
         button_channel = bot.get_channel(game_session_config['button_channel_id'])
-        async for message in button_channel.history(limit=5):
+        async for message in button_channel.history(limit=15):
             if message.author == bot.user and message.embeds:
                 await message.delete()
                 
-        if not EXPLAINATION_TEXT in [msg.content async for msg in button_channel.history(limit=5)]:
+        if not EXPLAINATION_TEXT in [msg.content async for msg in button_channel.history(limit=2)]:
             await bot.get_channel(game_session_config['button_channel_id']).send(EXPLAINATION_TEXT)
         
-        from button_view import ButtonView
+        from bot_code.button.button_view import ButtonView
         message = await button_channel.send(embed=embed, view=ButtonView(game_session_config['timer_duration'], bot))
         button_message_cache.update_message_cache(message, game_id)
         return message
@@ -50,10 +50,16 @@ class MenuTimer(nextcord.ui.View):
     @tasks.loop(seconds=10)
     async def update_timer_task(self):
         global lock, paused_games, game_cache
+        failed_count = Failed_Interactions.get()
         for game_id, game_session in game_sessions_dict().items():
             if paused_games and game_id in paused_games:
                 logging.info(f'Game {game_id} is paused, skipping...')
                 continue
+            
+            if failed_count > 5:
+                await self.bot.get_channel(game_session['button_channel_id']).send('sb')
+                await asyncio.sleep(10)
+                
             game_id = str(game_id)
             try:
                 cache_data = game_cache.get_game_cache(game_id)
@@ -152,7 +158,7 @@ class MenuTimer(nextcord.ui.View):
                     pastel_color = get_color_state(timer_value)
                     embed.color = nextcord.Color.from_rgb(*pastel_color)
                     
-                    from button_view import ButtonView
+                    from bot_code.button.button_view import ButtonView
                     button_view = ButtonView(timer_value, self.bot)
                     await button_message.edit(embed=embed, file=file_buffer, view=button_view)
             except Exception as e:
