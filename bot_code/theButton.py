@@ -85,7 +85,7 @@ async def on_ready():
             await setup_roles(guild_id, bot)
             game_channel = bot.get_channel(game_session['button_channel_id'])
             if game_channel:
-                await game_channel.send("sb")
+                #await game_channel.send("sb")
                 logger.info(f"Button start message sent to channel {game_channel.name}")
             else:
                 logger.error(f"Button channel not found for game session {game_session['game_id']}")
@@ -95,19 +95,18 @@ async def on_ready():
     logger.info(f'Bot ready!')  
     await fix_missing_users(bot=bot)
         
-@bot.event
-async def on_disconnect():
-    logger.info(f'Bot disconnected')
-    close_disconnect_database()
-    
-    
 async def close_bot():
     close_disconnect_database()
     await bot.close()
     exit(0)
 
+@bot.event
+async def on_disconnect():
+    logger.info(f'Bot disconnected')
+    asyncio.create_task(close_bot())
+
 async def terminate_handler(signal, frame):
-    await asyncio.get_event_loop().run(close_bot())
+    asyncio.create_task(close_bot())
 
 signal.signal(signal.SIGINT, terminate_handler)
 

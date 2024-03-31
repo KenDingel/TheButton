@@ -103,7 +103,7 @@ class MenuTimer(nextcord.ui.View):
                 if last_update_time is None or not last_update_time:
                     last_update_time = datetime.datetime.now(timezone.utc)
                 
-                if datetime.datetime.now(timezone.utc) - last_update_time > datetime.timedelta(minutes=15):
+                if datetime.datetime.now(timezone.utc) - last_update_time > datetime.timedelta(hours=6):
                     logger.info(f'Clearing cache for game {game_id}, since last update was more than 15 minutes ago...')
                     game_cache.clear_game_cache(game_id)
                 
@@ -121,6 +121,9 @@ class MenuTimer(nextcord.ui.View):
                 except AttributeError:
                     logger.error(f'No embed found for game {game_id}, creating a new one...')
                     button_message = await create_button_message(game_id, self.bot)
+                    if button_message is None:
+                        return
+                    
                     embed = button_message.embeds[0]
                 except Exception as e:
                     tb = traceback.format_exc()
@@ -128,7 +131,9 @@ class MenuTimer(nextcord.ui.View):
                     return
                 
                 if timer_value <= 0:
-                    embed = get_end_game_embed(game_id)
+                    guild_id = game_session['guild_id']
+                    guild = self.bot.get_guild(guild_id)
+                    embed = get_end_game_embed(game_id, guild)
                     await button_message.edit(embed=embed)
                     self.update_timer_task.stop()
                     logger.info(f'Game {game_id} Ended!')

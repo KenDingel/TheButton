@@ -109,7 +109,7 @@ class TimerButton(nextcord.ui.Button):
                         return
                 except Exception as e:
                     tb = traceback.format_exc()
-                    logger.error(f'Error processing button click: {e}, {tb}')
+                    logger.error(f'Error 3 processing button click: {e}, {tb}')
                     return
                 
                 await lock.acquire()
@@ -149,14 +149,9 @@ class TimerButton(nextcord.ui.Button):
                 user_manager.add_or_update_user(interaction.user.id, current_expiration_end, timer_color_name, current_timer_value, display_name, game_id, latest_click_var=click_time)
                 game_cache.update_game_cache(game_id, click_time, total_clicks, total_players, display_name, current_timer_value)
                 lock.release()
-                
-                from theButton import menu_timer
-                if not menu_timer.update_timer_task.is_running():
-                    logger.info('Starting update timer task...')
-                    menu_timer.update_timer_task.start()
             except Exception as e:
                 tb = traceback.format_exc()
-                logger.error(f'Error processing button click: {e}, {tb}')
+                logger.error(f'Error 1 processing button click: {e}, {tb}')
                 await interaction.followup.send("An error occurred while processing the button click.", ephemeral=True)
             finally:
                 try:
@@ -167,4 +162,4 @@ class TimerButton(nextcord.ui.Button):
             logger.info(f'Callback run time: {task_run_time.total_seconds()} seconds')
         except Exception as e:
             tb = traceback.format_exc()
-            logger.error(f'Error processing button click: {e}, {tb}')
+            logger.error(f'Error 2 processing button click: {e}, {tb}')

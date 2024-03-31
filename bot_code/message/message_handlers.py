@@ -151,7 +151,7 @@ async def handle_message(message, bot, logger, menu_timer):
             num_entries = 5
             if len(message.content.split()) > 1:
                 try:
-                    num_entries = int(message.content.split()[1])
+                    num_entries = int(message.content.split(" ")[1])
                 except ValueError:
                     pass
             try:
@@ -307,6 +307,72 @@ async def handle_message(message, bot, logger, menu_timer):
                 logger.error(f'Error checking user cooldown: {e}, {tb}')
                 await message.channel.send('An error occurred while checking your cooldown status.')
 
+        elif message.content.lower() == 'ended':
+            try:
+                query = '''
+                    SELECT 
+                        u.user_name,
+                        COUNT(*) AS total_clicks,
+                        MIN(bc.timer_value) AS lowest_click_time,
+                        GROUP_CONCAT(
+                            CASE
+                                WHEN bc.timer_value >= 36000 THEN '🟣'
+                                WHEN bc.timer_value >= 28800 THEN '🔵'
+                                WHEN bc.timer_value >= 21600 THEN '🟢'
+                                WHEN bc.timer_value >= 14400 THEN '🟡'
+                                WHEN bc.timer_value >= 7200 THEN '🟠'
+                                ELSE '🔴'
+                            END
+                            ORDER BY bc.timer_value
+                            SEPARATOR ''
+                        ) AS color_sequence
+                    FROM button_clicks bc
+                    JOIN users u ON bc.user_id = u.user_id
+                    GROUP BY u.user_id
+                    ORDER BY lowest_click_time
+                '''
+                await lock.acquire()
+                success = execute_query(query, ())
+                lock.release()
+                all_users_data = success
+                
+                embed = nextcord.Embed(
+                    title='🎉 The Button Game Has Ended! 🎉',
+                    description='Here are the final results of all the brave adventurers who participated in this epic journey!'
+                )
+                
+                max_field_length = 1024
+                field_count = 1
+                all_users_value = ""
+                
+                for user, clicks, lowest_time, seq in all_users_data:
+                    user_data = f'{user.replace(".", "")}: {clicks} clicks, Lowest: {format_time(lowest_time)} {" ".join(emoji + "x" + str(seq.count(emoji)) for emoji in ["🟣", "🔵", "🟢", "🟡", "🟠", "🔴"] if emoji in seq)}\n'
+                    
+                    if len(all_users_value) + len(user_data) > max_field_length:
+                        embed.add_field(name=f'🏅 Adventurers of the Button (Part {field_count}) 🏅', value=all_users_value, inline=False)
+                        all_users_value = ""
+                        field_count += 1
+                    
+                    all_users_value += user_data
+                
+                if all_users_value:
+                    embed.add_field(name=f'🏅 Adventurers of the Button (Part {field_count}) 🏅', value=all_users_value, inline=False)
+                
+                if not all_users_data:
+                    embed.add_field(name='🏅 Adventurers of the Button 🏅', value='No data available', inline=False)
+                
+                if all_users_data:
+                    color = get_color_state(all_users_data[0][2])
+                    embed.color = nextcord.Color.from_rgb(*color)
+                else:
+                    embed.color = nextcord.Color.from_rgb(106, 76, 147)  # Default color if no data available
+
+                await message.channel.send(embed=embed)
+            except Exception as e:
+                tb = traceback.format_exc()
+                print(f'Error retrieving end game data: {e}, {tb}')
+                logger.error(f'Error retrieving end game data: {e}, {tb}')
+                await message.channel.send('An error occurred while retrieving the end game data. The button spirits are in turmoil!')
         elif message.content.lower() == 'lore':
             try:
                 embed = nextcord.Embed(title="📜 __The Lore of The Button__ 📜", description=LORE_TEXT)
