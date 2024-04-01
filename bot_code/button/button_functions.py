@@ -62,7 +62,7 @@ class MenuTimer(nextcord.ui.View):
                 
             game_id = str(game_id)
             try:
-                cache_data = game_cache.get_game_cache(game_id)
+                cache_data = game_cache.get_game_cache(game_id) ######################## ADD LOCK
                 last_update_time = None
                 if cache_data:
                     latest_click_time_overall = cache_data['latest_click_time']

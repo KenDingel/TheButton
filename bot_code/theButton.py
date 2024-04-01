@@ -7,12 +7,12 @@ import traceback
 import signal
 
 import nextcord
-from nextcord import Guild
-from nextcord.ext import commands, tasks
+#from nextcord import Guild
+from nextcord.ext import commands #, tasks
 
 from utils.utils import *
 from database.database import *
-from game.end_game import get_end_game_embed
+#from game.end_game import get_end_game_embed
 from text.full_text import *
 from game.game_cache import *
 from message.message_handlers import handle_message

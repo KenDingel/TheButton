@@ -17,6 +17,7 @@ class TimerButton(nextcord.ui.Button):
         self.bot = bot
         self.timer_value = timer_value
 
+    # Called when a user clicks the button, this updates the timer and the database.
     async def callback(self, interaction: nextcord.Interaction):
         global game_cache
         try:
@@ -30,9 +31,8 @@ class TimerButton(nextcord.ui.Button):
                 Failed_Interactions.increment()
                 return
         
-        task_run_time = datetime.datetime.now(timezone.utc)
         try:
-            click_time = datetime.datetime.now(timezone.utc)
+            click_time = task_run_time = datetime.datetime.now(timezone.utc)
             
             try:
                 game_session = get_game_session_by_guild_id(interaction.guild.id)
