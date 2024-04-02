@@ -1,13 +1,17 @@
 import nextcord
 from database.database import execute_query
-from utils.utils import logger, format_time
+from utils.utils import logger, lock, format_time
 
+# Get end game embed
+# This function gets the data for the entire game session and creates an embed to display the results.
+# The embed includes the total number of clicks, the duration of the game, the number of participants, the most active participant, the longest timer reached, and the color click distribution.
 def get_end_game_embed(game_session_id, guild):
+    global lock
     embed = nextcord.Embed(title='The Button Game', description='Game Ended!')
 
     query = 'SELECT COUNT(*) FROM button_clicks WHERE game_id = %s'
     params = (game_session_id,)
-    total_clicks = execute_query(query, params)
+    with lock: total_clicks = execute_query(query, params)
     if total_clicks is not None:
         total_clicks = total_clicks[0][0]
         embed.add_field(name='Total Button Clicks', value=str(total_clicks), inline=False)
@@ -17,7 +21,7 @@ def get_end_game_embed(game_session_id, guild):
 
     query = 'SELECT MIN(click_time), MAX(click_time) FROM button_clicks WHERE game_id = %s'
     params = (game_session_id,)
-    result = execute_query(query, params)
+    with lock: result = execute_query(query, params)
     if result is not None:
         start_time, end_time = result[0]
         duration = end_time - start_time
@@ -28,7 +32,8 @@ def get_end_game_embed(game_session_id, guild):
 
     query = 'SELECT COUNT(DISTINCT user_id) FROM button_clicks WHERE game_id = %s'
     params = (game_session_id,)
-    num_participants = execute_query(query, params)
+    with lock: num_participants = execute_query(query, params)
+    
     if num_participants is not None:
         num_participants = num_participants[0][0]
         embed.add_field(name='Number of Participants', value=str(num_participants), inline=False)
@@ -46,7 +51,7 @@ def get_end_game_embed(game_session_id, guild):
         LIMIT 1
     '''
     params = (game_session_id,)
-    most_active = execute_query(query, params)
+    with lock: most_active = execute_query(query, params)
     if most_active is not None:
         embed.add_field(name='Most Active Participant', value=f"{most_active[0][0]} ({most_active[0][1]} clicks)", inline=False)
     else:
@@ -55,7 +60,7 @@ def get_end_game_embed(game_session_id, guild):
 
     query = 'SELECT MAX(timer_value) FROM button_clicks WHERE game_id = %s'
     params = (game_session_id,)
-    longest_timer = execute_query(query, params)
+    with lock: longest_timer = execute_query(query, params)
     if longest_timer is not None:
         longest_timer = longest_timer[0][0]
         embed.add_field(name='Longest Timer Reached', value=format_time(longest_timer), inline=False)

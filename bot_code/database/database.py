@@ -3,7 +3,7 @@ import mysql.connector
 from mysql.connector.pooling import MySQLConnectionPool
 import traceback
 
-from utils.utils import config, logger
+from utils.utils import config, logger, lock, get_color_name
 
 db_pool = None
 db_pool_timer = None
@@ -13,12 +13,11 @@ cursor = None
 timer_db = None
 cursor_tb = None
 
-def get_db_connection():
-    return db_pool.get_connection()
+# Functions to get database connections
+def get_db_connection(): return db_pool.get_connection()
+def get_db_connection_timer(): return db_pool_timer.get_connection()
 
-def get_db_connection_timer():
-    return db_pool_timer.get_connection()
-
+# Function to get the current database connection and cursor
 def get_current_new_cursor():
     global db, cursor
     if not db:
@@ -30,15 +29,9 @@ def get_current_new_cursor():
         cursor = db.cursor()
     return db, cursor
 
+# Function to get the current database connection and cursor for the timer pool
 def setup_pool(config=config):
     global db_pool, db_pool_timer
-    """
-    Set up the connection pools for the main and timer databases.
-
-    Args:
-        config (dict): A dictionary containing the database configuration.
-
-    """
     try:
         # Create the main connection pool
         if not db_pool and db_pool is None:
@@ -73,13 +66,9 @@ def setup_pool(config=config):
         logger.error(f"Error setting up connection pools: {error}")
         return False
 
+# Function to close and disconnect all database connections, cursors, and pools
 def close_disconnect_database():
-    """
-    Close and disconnect all database connections, cursors, and pools.
-    """
-    global db_pool, db_pool_timer
-    global db, cursor
-    global timer_db, cursor_tb
+    global db_pool, db_pool_timer, db, cursor, timer_db, cursor_tb
 
     try:
         # Close the cursor if it exists
@@ -87,32 +76,28 @@ def close_disconnect_database():
             try:
                 cursor.close()
                 logger.info("Cursor closed successfully.")
-            except mysql.connector.Error as e:
-                logger.error(f"Error closing cursor: {e}")
+            except mysql.connector.Error as e: logger.error(f"Error closing cursor: {e}")
 
         # Close the database connection if it exists
         if db:
             try:
                 db.close()
                 logger.info("Database connection closed successfully.")
-            except mysql.connector.Error as e:
-                logger.error(f"Error closing database connection: {e}")
+            except mysql.connector.Error as e: logger.error(f"Error closing database connection: {e}")
 
         # Close the cursor if it exists
         if cursor_tb:
             try:
                 cursor_tb.close()
                 logger.info("Cursor closed successfully.")
-            except mysql.connector.Error as e:
-                logger.error(f"Error closing cursor: {e}")
+            except mysql.connector.Error as e: logger.error(f"Error closing cursor: {e}")
 
         # Close the database connection if it exists
         if timer_db:
             try:
                 timer_db.close()
                 logger.info("Database connection closed successfully.")
-            except mysql.connector.Error as e:
-                logger.error(f"Error closing database connection: {e}")
+            except mysql.connector.Error as e: logger.error(f"Error closing database connection: {e}")
                 
         # Close the connection pools
         if db_pool:
@@ -122,8 +107,7 @@ def close_disconnect_database():
                 db_pool.close()
                 db_pool = None
                 logger.info("Main connection pool closed successfully.")
-            except mysql.connector.Error as e:
-                logger.error(f"Error closing main connection pool: {e}")
+            except mysql.connector.Error as e: logger.error(f"Error closing main connection pool: {e}")
 
         if db_pool_timer:
             try:
@@ -132,11 +116,9 @@ def close_disconnect_database():
                 db_pool_timer.close()
                 db_pool_timer = None
                 logger.info("Timer connection pool closed successfully.")
-            except mysql.connector.Error as e:
-                logger.error(f"Error closing timer connection pool: {e}")
+            except mysql.connector.Error as e: logger.error(f"Error closing timer connection pool: {e}")
 
-    except Exception as e:
-        logger.error(f"Error closing database connections: {e}")
+    except Exception as e: logger.error(f"Error closing database connections: {e}")
 
     finally:
         db = None
@@ -144,7 +126,11 @@ def close_disconnect_database():
         db_pool = None
         db_pool_timer = None
         
-def execute_query(query, params=None, var_db=None, var_cursor=None, is_timer=False, retry_attempts=3, commit=False):
+# Function to execute a query on the database
+# This function will attempt to execute the query multiple times if it fails
+# It will return the result of the query if successful, or None if it fails
+# Accepts the query, parameters, and whether to commit the query
+def execute_query(query, params=None, is_timer=False, retry_attempts=3, commit=False):
     global db, cursor
     #logger.info(f'Executing query: {query}, Params: {params}')
     attempt = 0
@@ -152,8 +138,7 @@ def execute_query(query, params=None, var_db=None, var_cursor=None, is_timer=Fal
         while attempt < retry_attempts:
             if not is_timer:
                 try:
-                    if not db_pool or db_pool is None:
-                        setup_pool()
+                    if not db_pool or db_pool is None: setup_pool()
                     with db_pool.get_connection() as connection:
                         with connection.cursor() as cursor:
                             cursor.execute(query, params)
@@ -167,15 +152,12 @@ def execute_query(query, params=None, var_db=None, var_cursor=None, is_timer=Fal
                     attempt += 1
             else:
                 try:
-                    if not db_pool_timer or db_pool_timer is None:
-                        setup_pool()
+                    if not db_pool_timer or db_pool_timer is None: setup_pool()
                     with db_pool_timer.get_connection() as connection:
                         with connection.cursor() as cursor:
                             cursor.execute(query, params)
                             logger.info(f'Query executed successfully')
-                            if commit:
-                                connection.commit()
-                                return True
+                            if commit: connection.commit(); return True
                             return cursor.fetchall()
                 except mysql.connector.Error as e:
                     logger.error(f'Error executing query: Exception: {e}, Query: {query}, Params: {params}')
@@ -186,15 +168,17 @@ def execute_query(query, params=None, var_db=None, var_cursor=None, is_timer=Fal
         logger.error(f'Error executing query: Exception: {e}, Query: {query}, Params: {params}')
         return None
 
+# Global variables for the game sessions, game sessions as a dictionary, and game channels
 game_sessions = []
 game_sessions_as_dict = {}
+GAME_CHANNELS = None
 
+# Function to update the local game sessions list
 def update_local_game_sessions():
     logger.info('Updating local game sessions')
     global game_sessions, cursor, db
     
-    if not cursor:
-        db, cursor = get_current_new_cursor()
+    if not cursor: db, cursor = get_current_new_cursor()
         
     query = """
         SELECT 
@@ -217,8 +201,7 @@ def game_sessions_dict():
     global game_sessions, game_sessions_as_dict
     output = {}
     
-    if len(game_sessions) == len(game_sessions_as_dict.keys()):
-        return game_sessions_as_dict
+    if len(game_sessions) == len(game_sessions_as_dict.keys()): return game_sessions_as_dict
     
     logger.info(f'Creating game sessions dict, lengths - game_sessions: {len(game_sessions)}, game_sessions_as_dict: {len(game_sessions_as_dict.keys())}')
     for game in game_sessions:
@@ -234,7 +217,6 @@ def game_sessions_dict():
             "cooldown_duration": int(game[8])
         }
         output[game[0]] = formatted_output  
-    #logger.info(f'Game sessions dict created: {output}')
     game_sessions_as_dict = output
     return output
 
@@ -259,8 +241,7 @@ def get_game_session_by_id(game_id):
 def get_game_session_by_guild_id(guild_id):
     global game_sessions
     for game in game_sessions:
-        if game[2] == guild_id:
-            return get_game_session_by_id(game[0])
+        if game[2] == guild_id: return get_game_session_by_id(game[0])
     return None
 
 def get_game_session_count():
@@ -269,8 +250,7 @@ def get_game_session_count():
 
 def create_tables():
     global db, cursor
-    if not cursor:
-        db, cursor = get_current_new_cursor()
+    if not cursor: db, cursor = get_current_new_cursor()
         
     cursor.execute('''
         CREATE TABLE IF NOT EXISTS game_sessions (
@@ -314,21 +294,22 @@ def create_tables():
 
     db.commit()
     
+# Function to create a game session in the database
 def create_game_session(admin_role_id, guild_id, button_channel_id, game_chat_channel_id, start_time, timer_duration, cooldown_duration):
-    global cursor
+    global cursor, lock
     query = """
         INSERT INTO game_sessions (admin_role_id, guild_id, button_channel_id, game_chat_channel_id, start_time, timer_duration, cooldown_duration)
         VALUES (%s, %s, %s, %s, %s, %s, %s)
     """
     params = (admin_role_id, guild_id, button_channel_id, game_chat_channel_id, start_time, timer_duration, cooldown_duration)
-    execute_query(query, params)
+    with lock: execute_query(query, params)
     game_session_id = cursor.lastrowid
     return game_session_id
 
+# Function to get the game channels from the database
 def get_game_channels_from_db():
     global cursor, db
-    if not cursor:
-        db, cursor = get_current_new_cursor()
+    if not cursor: db, cursor = get_current_new_cursor()
     try:
         query = """
             SELECT button_channel_id, game_chat_channel_id FROM game_sessions
@@ -341,8 +322,7 @@ def get_game_channels_from_db():
         logger.error(f'Error getting game channels from db: {e}')
         return None
 
-GAME_CHANNELS = None
-
+# Function to get all game channels
 def get_all_game_channels():
     global GAME_CHANNELS
     if GAME_CHANNELS:
@@ -350,19 +330,19 @@ def get_all_game_channels():
     GAME_CHANNELS = get_game_channels_from_db()
     return GAME_CHANNELS
 
-if setup_pool():
-    logger.info('Connection pools set up successfully')
-else:
-    logger.error('Error setting up connection pools')
+# Setup the connection pools
+if setup_pool(): logger.info('Connection pools set up successfully')
+else: logger.error('Error setting up connection pools')
 
+# Initialize variables, get database connection and cursor, create tables, and update local game sessions
 GAME_CHANNELS = get_all_game_channels()
 db, cursor = get_current_new_cursor()
 create_tables()
 update_local_game_sessions()
 
+# Function to fix users with missing names in the database
 def get_missing_users():
     try:
-        # Get a connection from the pool
         connection = get_db_connection()
         cursor = connection.cursor()
 
@@ -376,24 +356,21 @@ def get_missing_users():
         """
         cursor.execute(query)
         missing_users = cursor.fetchall()
-
-        # Convert the result to a list of user_id values
         missing_user_ids = [user_id for user_id, in missing_users]
-
         return missing_user_ids
-
     except mysql.connector.Error as error:
         logger.error(f"Error getting missing users: {error}")
         return []
 
     finally:
-        # Close the cursor and connection
-        if cursor:
-            cursor.close()
-        if connection:
-            connection.close()
+        if cursor: cursor.close()
+        if connection: connection.close()
             
 
+# Function to fix missing users in the database
+# Specifically when a user is missing from the users table, but has click data in the button_clicks table
+# This function will fetch the latest click data for the user, get the total clicks, and insert the user data into the users table
+# Then correct the user data if the user already exists in the users table
 async def fix_missing_users(bot):
     global lock
     try:
@@ -416,12 +393,8 @@ async def fix_missing_users(bot):
                 '''
                 params = (user_id,)
                 
-                await lock.acquire()
-                result = execute_query(query, params)
-                lock.release()
-                if not result:
-                    logger.warning(f"No click data found for user {user_id}. Skipping...")
-                    continue
+                with lock: result = execute_query(query, params)
+                if not result: logger.warning(f"No click data found for user {user_id}. Skipping..."); continue
 
                 _, latest_click_time, lowest_click_time, game_id = result[0]
 
@@ -431,17 +404,14 @@ async def fix_missing_users(bot):
                     FROM button_clicks
                     WHERE user_id = %s
                 '''
-                await lock.acquire()
+                
                 params = (user_id,)
-                result = execute_query(query, params)
-                lock.release()
+                with lock: result = execute_query(query, params)
                 total_clicks = result[0][0] if result else 0
 
                 # Get the Discord user data
                 user = await bot.fetch_user(user_id)
-                if not user:
-                    logger.warning(f"Discord user {user_id} not found. Skipping...")
-                    continue
+                if not user: logger.warning(f"Discord user {user_id} not found. Skipping..."); continue
 
                 user_name = user.name
                 color_rank = get_color_name(lowest_click_time)
@@ -459,24 +429,21 @@ async def fix_missing_users(bot):
                         game_id = VALUES(game_id)
                 '''
                 params = (user_id, user_name, color_rank, total_clicks, lowest_click_time, latest_click_time, game_id)
-                await lock.acquire()
-                success = execute_query(query, params, commit=True)
-                lock.release()
+                with lock: success = execute_query(query, params, commit=True)
 
-                if success:
-                    logger.info(f"Fixed missing user {user_id} ({user_name})")
-                else:
-                    logger.error(f"Failed to fix missing user {user_id} ({user_name})")
+                if success: logger.info(f"Fixed missing user {user_id} ({user_name})")
+                else: logger.error(f"Failed to fix missing user {user_id} ({user_name})")
 
             except Exception as e:
                 logger.error(f"Error fixing missing user {user_id}: {e}")
                 traceback.print_exc()
-
+                
         logger.info("Finished fixing missing users.")
 
     except Exception as e:
         logger.error(f"Error fixing missing users: {e}")
         traceback.print_exc()
 
+# Fix missing users
 missing_users = get_missing_users()
 logger.info(f"Missing users: {missing_users}")

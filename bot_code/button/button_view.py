@@ -5,11 +5,12 @@ import traceback
 import datetime
 from datetime import timezone
 
-from utils.utils import *
-from database.database import *
-from game.game_cache import *
+# Local imports
+from utils.utils import get_color_state, get_button_style
 from utils.timer_button import TimerButton
 
+# ButtonView class
+# This class is used to create the button view for the timer button.
 class ButtonView(nextcord.ui.View):
     def __init__(self, timer_value, bot):
         super().__init__(timeout=None)

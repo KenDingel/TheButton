@@ -3,12 +3,13 @@ import datetime
 from datetime import timezone
 from database.database import logger
 
+# GameCache class
+# This class is used to cache game data for the timer button..
 class GameCache:
     def __init__(self):
         self.games = {}
 
     def update_game_cache(self, game_id, latest_click_time, total_clicks, total_players, latest_player_name, last_timer_value):
-        logger.info(f'Updating game cache for game {game_id}')
         game_id = int(game_id)
         self.games[game_id] = {
             'latest_click_time': latest_click_time,
@@ -26,31 +27,27 @@ class GameCache:
     
     def clear_game_cache(self, game_id):
         game_id = int(game_id)
-        logger.info(f'Clearing game cache for game {game_id}')
         self.games.pop(game_id, None)
         logger.info(f'Game cache cleared for game {game_id}, {self.games}')
 
+# ButtonMessageCache class
+# This class is used to cache button messages for the timer button.
 class ButtonMessageCache:
     def __init__(self):
         self.messages = {}
 
     def update_message_cache(self, message, game_id):
-        logger.info(f'Updating message cache for message {message.id}')
         self.messages[game_id] = message
         logger.info(f'Message cache updated for message {message.id}, {self.messages}')
 
     async def get_game_id(self, game_id):
         message = self.messages.get(game_id, None)
-        #test if message is still valid
         if message is not None:
-            try:
-                message = await message.channel.fetch_message(message.id)
-                return message
-            except Exception as e:
-                logger.error(f'Failed to fetch message {message.id}: {e}')
-                return None
+            try: message = await message.channel.fetch_message(message.id); return message
+            except Exception as e: logger.error(f'Failed to fetch message {message.id}: {e}'); return None
         else:
             return None
 
+# Create the GameCache and ButtonMessageCache instances
 game_cache = GameCache()
 button_message_cache = ButtonMessageCache()
