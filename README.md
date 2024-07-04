@@ -18,7 +18,7 @@ The Button Game is an interactive Discord bot that engages users in a collaborat
 
 1. Clone the repository:
    ```
-   git clone [https://github.com/KenDingel/the-button-game.git](https://github.com/KenDingel/TheButton)
+   git clone https://github.com/KenDingel/the-button-game.git
    ```
 
 2. Install the required dependencies:
