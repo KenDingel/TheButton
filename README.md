@@ -18,7 +18,7 @@ The Button Game is an interactive Discord bot that engages users in a collaborat
 
 1. Clone the repository:
    ```
-   git clone https://github.com/yourusername/the-button-game.git
+   git clone https://github.com/KenDingel/the-button-game.git
    ```
 
 2. Install the required dependencies:
@@ -32,7 +32,7 @@ The Button Game is an interactive Discord bot that engages users in a collaborat
 
 4. Configure the bot:
    - Create a new Discord bot application and obtain the bot token.
-   - Update the `config.json` file with your bot token and other desired settings.
+   - Update the `config.json` file with your bot token and other desired settings. (See below)
 
 5. Run the bot:
    ```
@@ -56,6 +56,21 @@ The Button Game is an interactive Discord bot that engages users in a collaborat
 
 Note this bot does not use a command prefix, so all commands are invoked directly without a prefix. Therefore, only give the bot permissions to the channels you want the game to be played in.
 
+## Configuration
+
+Inside assets/ create a new json file named 'config.json'. Copy the template below.
+```
+{
+    "discord_token": "TOKEN HERE AS STRING",
+    "sql_host": "sql_database_hostname.com",
+    "sql_user": "button_admin",
+    "sql_password": "password123",
+    "sql_database": "thebutton",
+    "sql_port": 3306,
+    "timer_duration": 43200,
+    "cooldown_duration": 3
+}
+```
 
 ## Acknowledgements
 
