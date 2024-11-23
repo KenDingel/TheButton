@@ -9,9 +9,10 @@ import os
 from PIL import Image, ImageDraw, ImageFont
 from io import BytesIO
 from nextcord import File, ButtonStyle
+from threading import Lock
 
 # Global lock to be imported by other modules
-lock = asyncio.Lock()
+lock = Lock()
 
 # Set up logging, as 'logger' to be imported by other modules
 # Save logs to a file with the current date in the name
@@ -30,29 +31,94 @@ def get_config():
 config = get_config()
 paused_games = []
 
+# Constants
 COLOR_STATES = [
-    (255, 89, 94),
-    (255, 146, 76),
-    (255, 202, 58),
-    (138, 201, 38),
-    (25, 130, 196),
-    (106, 76, 147)
+    (194, 65, 65),    # Red
+    (219, 124, 48),   # Orange
+    (203, 166, 53),   # Yellow
+    (80, 155, 105),   # Green
+    (64, 105, 192),   # Blue
+    (106, 76, 147)    # Purple
 ]
 
-def get_color_state(timer_value):
-    hours_remaining = int(timer_value) // 3600
-    color_index = min(int(hours_remaining // 2), len(COLOR_STATES) - 1)
-    return COLOR_STATES[color_index]
+def get_color_state(timer_value, timer_duration=43200):
+    """
+    Get the color state based on the remaining time, scaled to the timer duration.
+    
+    Args:
+        timer_value (int): Current time remaining in seconds
+        timer_duration (int): Total timer duration for this game session in seconds
+        
+    Returns:
+        tuple: RGB color values (R, G, B)
+    """
+    # Ensure timer_value and duration are valid
+    timer_value = max(0, min(timer_value, timer_duration))
+    timer_duration = max(1, timer_duration)  # Prevent division by zero
+    
+    # Calculate percentage of time remaining
+    percentage = (timer_value / timer_duration) * 100
+    
+    # Debug logging to track color transitions
+    logger.debug(f"Color calculation: timer_value={timer_value}, duration={timer_duration}, percentage={percentage}")
+    
+    if percentage >= 83.33:
+        return COLOR_STATES[5]  # Purple
+    elif percentage >= 66.67:
+        return COLOR_STATES[4]  # Blue
+    elif percentage >= 50:
+        return COLOR_STATES[3]  # Green
+    elif percentage >= 33.33:
+        return COLOR_STATES[2]  # Yellow
+    elif percentage >= 16.67:
+        return COLOR_STATES[1]  # Orange
+    else:
+        return COLOR_STATES[0]  # Red
 
-def get_color_name(timer_value):
-    color = get_color_state(timer_value)
-    if color == COLOR_STATES[0]: return "Red"
-    elif color == COLOR_STATES[1]: return "Orange"
-    elif color == COLOR_STATES[2]: return "Yellow"
-    elif color == COLOR_STATES[3]: return "Green"
-    elif color == COLOR_STATES[4]: return "Blue"
-    elif color == COLOR_STATES[5]: return "Purple"
-    return None
+
+def get_color_emoji(timer_value, timer_duration=43200):
+    """
+    Get the color emoji based on the remaining time, scaled to the timer duration.
+    """
+    timer_value = max(0, min(timer_value, timer_duration))
+    timer_duration = max(1, timer_duration)
+    
+    percentage = (timer_value / timer_duration) * 100
+    
+    if percentage >= 83.33:
+        return '🟣'  # Purple
+    elif percentage >= 66.67:
+        return '🔵'  # Blue
+    elif percentage >= 50:
+        return '🟢'  # Green
+    elif percentage >= 33.33:
+        return '🟡'  # Yellow
+    elif percentage >= 16.67:
+        return '🟠'  # Orange
+    else:
+        return '🔴'  # Red
+
+def get_color_name(timer_value, timer_duration=43200):
+    """
+    Get the color name based on the remaining time, scaled to the timer duration.
+    """
+    timer_value = max(0, min(timer_value, timer_duration))
+    timer_duration = max(1, timer_duration)
+    
+    percentage = (timer_value / timer_duration) * 100
+    
+    if percentage >= 83.33:
+        return 'Purple'
+    elif percentage >= 66.67:
+        return 'Blue'
+    elif percentage >= 50:
+        return 'Green'
+    elif percentage >= 33.33:
+        return 'Yellow'
+    elif percentage >= 16.67:
+        return 'Orange'
+    else:
+        return 'Red'
 
 def get_button_style(color):
     style = ButtonStyle.gray
@@ -64,15 +130,6 @@ def get_button_style(color):
     elif color == COLOR_STATES[5]: style = ButtonStyle.primary
     return style
 
-def get_color_emoji(timer_value):
-    color = get_color_state(timer_value)
-    if color == (255, 89, 94): return "🔴"
-    elif color == (255, 146, 76): return "🟠"
-    elif color == (255, 202, 58): return "🟡"
-    elif color == (138, 201, 38): return "🟢"
-    elif color == (25, 130, 196): return "🔵"
-    elif color == (106, 76, 147): return "🟣"
-
 def format_time(timer_value):
     timer_value = int(timer_value)
     time = str(datetime.timedelta(seconds=timer_value))
@@ -81,10 +138,10 @@ def format_time(timer_value):
 # Generate an image of the timer with text, color, and time left.
 # Utilizes templates for each color state.
 # Uses Pillow for image manipulation.
-def generate_timer_image(timer_value):
+def generate_timer_image(timer_value, timer_duration=43200):
     try:
         # Prepare the image data and template
-        color = get_color_state(timer_value)
+        color = get_color_state(timer_value, timer_duration)
         image_number = 6 - (COLOR_STATES.index(color))
         image_path = f"..\\..\\assets\\TheButtonTemplate{image_number:02d}.png"
         image = Image.open(image_path)

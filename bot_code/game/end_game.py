@@ -21,7 +21,7 @@ def get_end_game_embed(game_session_id, guild):
 
     query = 'SELECT MIN(click_time), MAX(click_time) FROM button_clicks WHERE game_id = %s'
     params = (game_session_id,)
-    with lock: result = execute_query(query, params)
+    result = execute_query(query, params)
     if result is not None:
         start_time, end_time = result[0]
         duration = end_time - start_time

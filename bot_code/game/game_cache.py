@@ -37,15 +37,19 @@ class ButtonMessageCache:
         self.messages = {}
 
     def update_message_cache(self, message, game_id):
-        self.messages[game_id] = message
-        logger.info(f'Message cache updated for message {message.id}, {self.messages}')
+        message_id = message.id
+        self.messages[game_id] = message_id
+        logger.info(f'Message cache updated for message {message_id}, {self.messages}')
 
-    async def get_game_id(self, game_id):
-        message = self.messages.get(game_id, None)
-        if message is not None:
-            try: message = await message.channel.fetch_message(message.id); return message
-            except Exception as e: logger.error(f'Failed to fetch message {message.id}: {e}'); return None
+    async def get_message_cache(self, game_id):
+        message_id = self.messages.get(game_id, None)
+        if message_id is not None:
+            try: 
+                return message_id
+            except Exception as e: 
+                logger.error(f'Failed to fetch message {message_id}: {e}'); return None
         else:
+            logger.error(f'No message found for game {game_id} in cache')
             return None
 
 # Create the GameCache and ButtonMessageCache instances

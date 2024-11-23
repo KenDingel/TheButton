@@ -19,18 +19,18 @@ class UserManager:
         global lock
         try:
             query = '''
-                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, latest_click_time, user_name, game_id)
+                INSERT INTO users (user_id, cooldown_expiration, color_rank, total_clicks, lowest_click_time, last_click_time, user_name, game_session)
                 VALUES (%s, %s, %s, 1, %s, %s, %s, %s)
                 ON DUPLICATE KEY UPDATE
                     cooldown_expiration = VALUES(cooldown_expiration),
                     color_rank = VALUES(color_rank),
                     total_clicks = total_clicks + 1,
                     lowest_click_time = LEAST(lowest_click_time, VALUES(lowest_click_time)),
-                    latest_click_time = VALUES(latest_click_time)
+                    last_click_time = VALUES(last_click_time)
             '''
             latest_click_time = latest_click_var if latest_click_var else datetime.datetime.now(timezone.utc)
             params = (user_id, cooldown_expiration, color_rank, timer_value, latest_click_time, user_name, game_id)
-            with lock: success = execute_query(query, params, commit=True)
+            success = execute_query(query, params, commit=True)
             if not success: return False
             
             self.user_cache[user_id] = {
@@ -53,7 +53,7 @@ class UserManager:
         try:
             query = 'UPDATE users SET cooldown_expiration = NULL WHERE cooldown_expiration <= %s'
             params = (datetime.datetime.now(timezone.utc),)
-            with lock: success = execute_query(query, params, commit=True)
+            success = execute_query(query, params, commit=True)
             if not success: return
         except Exception as e:
             tb = traceback.format_exc()

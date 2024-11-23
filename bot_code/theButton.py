@@ -11,8 +11,9 @@ from nextcord.ext import commands
 # Local imports
 from utils.utils import logger, config
 from database.database import setup_pool, close_disconnect_database, fix_missing_users, get_game_session_by_guild_id
-from message.message_handlers import handle_message
+from message.message_handlers import handle_message, start_boot_game
 from button.button_functions import setup_roles, MenuTimer
+from button.button_view import ButtonView
 
 # Bot setup, intents, and event handlers
 intents = nextcord.Intents.default()
@@ -55,20 +56,52 @@ async def on_error(event, *args, **kwargs):
             await asyncio.sleep(float(retry_after * 2))
             return
     raise
+async def restore_button_views():
+    """Restore persistent button views for all active games"""
+    try:
+        for guild in bot.guilds:
+            game_session = get_game_session_by_guild_id(guild.id)
+            if game_session:
+                channel = bot.get_channel(game_session['button_channel_id'])
+                if channel:
+                    # Fetch the most recent button message
+                    async for message in channel.history(limit=5):
+                        if message.author == bot.user and message.embeds:
+                            view = ButtonView(
+                                timer_value=game_session['timer_duration'],
+                                bot=bot,
+                                game_id=game_session['game_id']
+                            )
+                            # Add the view without modifying the message
+                            bot.add_view(view, message_id=message.id)
+                            logger.info(f"Restored button view for game {game_session['game_id']} in {guild.name}")
+                            break
+                    
+    except Exception as e:
+        tb = traceback.format_exc()
+        logger.error(f"Error restoring button views: {e}\n{tb}")
 
 # Bot event handler for bot on_ready, on_disconnect, termination
-# Additonally the close_bot function is called to close the bot and exit the program
 @bot.event
 async def on_ready():
     global menu_timer
     print(f"Starting bot... ")
-    
+
+    # Print what servers the bot is connected to
+    for guild in bot.guilds:
+        print(f'Connected to guild: {guild.name}')
+        logger.info(f'Connected to guild: {guild.name}')
+
     if not setup_pool(): 
         logger.error(f"Failed to initialize database pools.")
         return 
     
     if menu_timer is None:
         menu_timer = MenuTimer(bot)
+        menu_timer.update_timer_task.start()
+
+    # Restore persistent views for existing button messages
+    await restore_button_views()
         
     print(f'Bot started as {bot.user}')
     logger.info(f'Bot started as {bot.user}')
@@ -78,14 +111,13 @@ async def on_ready():
         logger.info(f'Connected to guild: {guild.name}')
         guild_id = guild.id
         game_session = get_game_session_by_guild_id(guild_id)
+        logger.info(f"Game session: {game_session}")
+        channel = bot.get_channel(game_session['button_channel_id'])
+        await start_boot_game(bot, guild_id, game_session['button_channel_id'], menu_timer)
         
         if game_session:
             await setup_roles(guild_id, bot)
-            game_channel = bot.get_channel(game_session['button_channel_id'])
-            if game_channel: logger.info(f"Button start message sent to channel {game_channel.name}")
-            else: logger.error(f"Button channel not found for game session {game_session['game_id']}")
-        else: logger.info(f"No game session found for guild {guild.id}")
-        
+            
     logger.info(f'Bot ready!')  
     await fix_missing_users(bot=bot)
         
@@ -98,11 +130,10 @@ async def close_bot():
 async def on_disconnect():
     logger.info(f'Bot disconnected')
     asyncio.create_task(close_bot())
+    # Signal handler for termination (When the user presses Ctrl+C, SIGINT is sent)
+    def terminate_handler(signal, frame): asyncio.create_task(close_bot())
 
-# Signal handler for termination (When the user presses Ctrl+C, SIGINT is sent)
-async def terminate_handler(signal, frame): asyncio.create_task(close_bot())
-
-# Signal handler for SIGINT
-signal.signal(signal.SIGINT, terminate_handler)
+    # Signal handler for SIGINT
+    signal.signal(signal.SIGINT, terminate_handler)
 
 bot.run(config['discord_token'])
