@@ -375,11 +375,126 @@ async def handle_message(message, bot, menu_timer):
             finally:
                 await message.remove_reaction('⏳', bot.user)
 
+        elif message.content.lower().startswith('clicklist'):
+            await message.add_reaction('⌛')
+            try:
+                # Parse command arguments
+                args = message.content.lower().split()
+                limit = 25  # Default limit
+                is_global = False
+                
+                # Process arguments
+                for arg in args[1:]:
+                    if arg.isdigit():
+                        limit = min(int(arg), 100)  # Cap at 100 entries
+                    elif arg == 'global':
+                        is_global = True
+
+                game_session = get_game_session_by_guild_id(message.guild.id)
+                if not game_session and not is_global:
+                    await message.channel.send('No active game session found in this server!')
+                    return
+
+                # Construct the SQL query based on whether it's global or server-specific
+                if is_global:
+                    query = '''
+                        SELECT 
+                            bc.timer_value,
+                            bc.click_time,
+                            u.user_name,
+                            gs.guild_id,
+                            gs.id as game_session_id
+                        FROM button_clicks bc
+                        JOIN users u ON bc.user_id = u.user_id
+                        JOIN game_sessions gs ON bc.game_id = gs.id
+                        ORDER BY bc.timer_value ASC
+                        LIMIT %s
+                    '''
+                    params = (limit,)
+                else:
+                    query = '''
+                        SELECT 
+                            bc.timer_value,
+                            bc.click_time,
+                            u.user_name,
+                            gs.guild_id,
+                            gs.id as game_session_id
+                        FROM button_clicks bc
+                        JOIN users u ON bc.user_id = u.user_id
+                        JOIN game_sessions gs ON bc.game_id = gs.id
+                        WHERE bc.game_id = %s
+                        ORDER BY bc.timer_value ASC
+                        LIMIT %s
+                    '''
+                    params = (game_session['game_id'], limit)
+
+                results = execute_query(query, params)
+                
+                if not results:
+                    await message.channel.send('No clicks found!')
+                    await message.remove_reaction('⌛', bot.user)
+                    return
+
+                # Create embed
+                title = f"🎯 The Button - {'Global ' if is_global else ''}Lowest {limit} Clicks"
+                embed = nextcord.Embed(title=title)
+                
+                # Process results in chunks to respect Discord's field length limits
+                current_field = ""
+                field_count = 1
+                
+                for timer_value, click_time, user_name, guild_id, game_session_id in results:
+                    # Get color emoji based on timer value
+                    color_emoji = get_color_emoji(timer_value)
+                    
+                    # Format the click entry
+                    entry = f"{color_emoji} **{user_name}** - {format_time(timer_value)} - "
+                    entry += f"<t:{int(click_time.timestamp())}:R>\n"
+                    
+                    if is_global:
+                        guild = bot.get_guild(guild_id)
+                        guild_name = guild.name if guild else f"Unknown Server ({guild_id})"
+                        entry += f"Server: {guild_name}\n"
+                    
+                    entry += "\n"  # Add spacing between entries
+                    
+                    # Check if adding this entry would exceed Discord's field limit
+                    if len(current_field) + len(entry) > 1024:
+                        embed.add_field(
+                            name=f"Clicks (Part {field_count})", 
+                            value=current_field, 
+                            inline=False
+                        )
+                        current_field = entry
+                        field_count += 1
+                    else:
+                        current_field += entry
+
+                # Add the last field if there's any content
+                if current_field:
+                    embed.add_field(
+                        name=f"Clicks {f'(Part {field_count})' if field_count > 1 else ''}", 
+                        value=current_field, 
+                        inline=False
+                    )
+
+                await message.channel.send(embed=embed)
+
+            except Exception as e:
+                tb = traceback.format_exc()
+                logger.error(f'Error retrieving click list: {e}\n{tb}')
+                await message.channel.send('An error occurred while retrieving the click list!')
+            finally:
+                await message.remove_reaction('⌛', bot.user)
+
         elif message.content.lower() == 'help':
-            embed = nextcord.Embed(title='Help', description='How to use `myrank` and `leaderboard`')
+            embed = nextcord.Embed(title='Help', description='Available Commands')
             embed.add_field(name='myrank', value='Check your personal stats', inline=False)
-            embed.add_field(name='leaderboard',value='Check the top 10 clickers', inline=False)
+            embed.add_field(name='leaderboard', value='Check the top 10 clickers', inline=False)
             embed.add_field(name='check', value='Check if you have a click ready', inline=False)
+            embed.add_field(name='clicklist [number] [global]', 
+                          value='View the lowest click times. Add number (max 100) to see more entries, add global to see all servers.', 
+                          inline=False)
             embed.set_footer(text='May your clicks be swift and true, adventurer!')
             color = (106, 76, 147)
             embed.color = nextcord.Color.from_rgb(*color)
