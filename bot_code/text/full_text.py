@@ -4,7 +4,7 @@ EXPLAINATION_TEXT = (
     "Prepare yourselves for **The Button Game**\n"
     "A mysterious 12-hour countdown has begun, and the fate of the world rests in your hands! ⏰\n"
     "Keep the button alive and prevent the timer from reaching zero!\n"
-    "You only get **1 click every 3 hours**. Choose wisely!\n\n"
+    "You only get **1 click every 1 hours and will increase as the game progresses**. Choose wisely!\n\n"
     "The button color represents the remaining time:\n"
     "- 🔴 Red: 0-2 hrs (Danger Zone!)\n"
     "- 🟠 Orange: 2-4 hrs (Getting Risky!)\n"

@@ -10,7 +10,7 @@ from nextcord.ext import commands
 
 # Local imports
 from utils.utils import logger, config
-from database.database import setup_pool, close_disconnect_database, fix_missing_users, get_game_session_by_guild_id
+from database.database import setup_pool, close_disconnect_database, fix_missing_users, get_game_session_by_guild_id, execute_query
 from message.message_handlers import handle_message, start_boot_game
 from button.button_functions import setup_roles, MenuTimer
 from button.button_view import ButtonView
@@ -81,6 +81,7 @@ async def restore_button_views():
         tb = traceback.format_exc()
         logger.error(f"Error restoring button views: {e}\n{tb}")
 
+
 # Bot event handler for bot on_ready, on_disconnect, termination
 @bot.event
 async def on_ready():
@@ -110,6 +111,22 @@ async def on_ready():
     for guild in bot.guilds:
         logger.info(f'Connected to guild: {guild.name}')
         guild_id = guild.id
+        
+        logger.info(f"Updating guild names: {guild.name}")
+        query = """
+            INSERT INTO guild_names (guild_id, guild_name, last_updated)
+            SELECT %s, %s, UTC_TIMESTAMP()
+            WHERE NOT EXISTS (
+                SELECT 1 FROM guild_names WHERE guild_id = %s
+            )
+        """
+        for guild in bot.guilds:
+            try:
+                params = (guild.id, guild.name, guild.id)
+                execute_query(query, params)
+            except Exception as e:
+                logger.error(f"Failed to update guild name for {guild.id}: {e}")
+
         game_session = get_game_session_by_guild_id(guild_id)
         logger.info(f"Game session: {game_session}")
         channel = bot.get_channel(game_session['button_channel_id'])

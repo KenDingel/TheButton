@@ -76,4 +76,8 @@ def get_end_game_embed(game_session_id, guild):
             color_distribution.append(f"- {color}: {count}")
     embed.add_field(name='Color Click Distribution', value='\n'.join(color_distribution), inline=False)
 
-    return embed
+    image_path = f"..\\..\\assets\\end_game.png"
+    file = nextcord.File(image_path, filename='end_game.png')
+    embed.set_image(url='attachment://end_game.png')
+    embed.set_footer(text='Game Ended! Thank you for playing The Button Game!')
+    return embed, file

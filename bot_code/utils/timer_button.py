@@ -110,16 +110,16 @@ class TimerButton(nextcord.ui.Button):
                     logger.info(f'User data inserted for {interaction.user}!')
 
                 # SQL query to get the latest click time, total clicks, and total players for the game
-                query = f'''
+                query = '''
                     SELECT
-                        (SELECT MAX(click_time) FROM button_clicks WHERE game_id = {game_id}) AS latest_click_time_overall,
-                        MAX(IF(user_id = %s AND click_time >= DATE_SUB(UTC_TIMESTAMP(), INTERVAL 3 HOUR), click_time, NULL)) AS latest_click_time_user,
-                        (SELECT COUNT(*) FROM button_clicks WHERE game_id = {game_id}) AS total_clicks,
-                        (SELECT COUNT(DISTINCT user_id) FROM button_clicks WHERE game_id = {game_id}) AS total_players
+                        (SELECT MAX(click_time) FROM button_clicks WHERE game_id = %s) AS latest_click_time_overall,
+                        MAX(IF(user_id = %s AND click_time >= DATE_SUB(UTC_TIMESTAMP(), INTERVAL %s HOUR), click_time, NULL)) AS latest_click_time_user,
+                        (SELECT COUNT(*) FROM button_clicks WHERE game_id = %s) AS total_clicks,
+                        (SELECT COUNT(DISTINCT user_id) FROM button_clicks WHERE game_id = %s) AS total_players
                     FROM button_clicks
-                    WHERE game_id = {game_id}
+                    WHERE game_id = %s
                 '''
-                params = (interaction.user.id,)
+                params = (game_id, interaction.user.id, cooldown_duration, game_id, game_id, game_id)
                 success = execute_query(query, params)
                 if not success:
                     await interaction.followup.send("Alas the button is stuck, try again later.", ephemeral=True)
@@ -142,20 +142,31 @@ class TimerButton(nextcord.ui.Button):
                 # Check if the user is on cooldown and alert them if they are, since the cache was not used, and therefore the database data must be checked
                 try:
                     if latest_click_time_user is not None:
-                        cooldown_duration = game_session['cooldown_duration']
-                        latest_click_time_user = latest_click_time_user.replace(tzinfo=timezone.utc)
-                        cooldown_remaining = int(((latest_click_time_user + datetime.timedelta(hours=cooldown_duration)) - click_time).total_seconds())
-                        formatted_cooldown = f"{format(int(cooldown_remaining//3600), '02d')}:{format(int(cooldown_remaining%3600//60), '02d')}:{format(int(cooldown_remaining%60), '02d')}"
-                        await interaction.followup.send(f'You have already clicked the button in the last {cooldown_duration} hours. Please try again in {formatted_cooldown}', ephemeral=True)
-                        logger.info(f'Button click rejected. User {interaction.user} is on cooldown for {formatted_cooldown}')
-                        current_expiration_end = latest_click_time_user + datetime.timedelta(hours=cooldown_duration)
-                        display_name = interaction.user.display_name
-                        if not display_name: display_name = interaction.user.name
-                        with lock: user_manager.add_or_update_user(interaction.user.id, current_expiration_end, timer_color_name, current_timer_value, display_name, game_id, latest_click_var=latest_click_time_user)
-                        return
+                        query = '''
+                            SELECT MAX(click_time)
+                            FROM button_clicks
+                            WHERE user_id = %s
+                            AND click_time >= DATE_SUB(UTC_TIMESTAMP(), INTERVAL %s HOUR)
+                        '''
+                        params = (interaction.user.id, cooldown_duration)
+                        result = execute_query(query, params)
+                        
+                        if result and result[0][0] is not None:
+                            latest_click_time_user = result[0][0].replace(tzinfo=timezone.utc)
+                            cooldown_remaining = int(((latest_click_time_user + datetime.timedelta(hours=cooldown_duration)) - click_time).total_seconds())
+                            formatted_cooldown = f"{format(int(cooldown_remaining//3600), '02d')}:{format(int(cooldown_remaining%3600//60), '02d')}:{format(int(cooldown_remaining%60), '02d')}"
+                            await interaction.followup.send(f'You have already clicked the button in the last {cooldown_duration} hours. Please try again in {formatted_cooldown}', ephemeral=True)
+                            logger.info(f'Button click rejected. User {interaction.user} is on cooldown for {formatted_cooldown}')
+                            current_expiration_end = latest_click_time_user + datetime.timedelta(hours=cooldown_duration)
+                            display_name = interaction.user.display_name
+                            if not display_name:
+                                display_name = interaction.user.name
+                            with lock:
+                                user_manager.add_or_update_user(interaction.user.id, current_expiration_end, timer_color_name, current_timer_value, display_name, game_id, latest_click_var=latest_click_time_user)
+                            return
                 except Exception as e:
                     tb = traceback.format_exc()
-                    logger.error(f'Error 3 processing button click: {e}, {tb}')
+                    logger.error(f'Error processing cooldown check: {e}, {tb}')
                     return
             
                 # Insert the button click data into the database

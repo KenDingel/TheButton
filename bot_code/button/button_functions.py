@@ -218,9 +218,9 @@ class MenuTimer(nextcord.ui.View):
                     if timer_value <= 0:
                         guild_id = game_session['guild_id']
                         guild = self.bot.get_guild(guild_id)
-                        embed = get_end_game_embed(game_id, guild)
+                        embed, file = get_end_game_embed(game_id, guild)
                         try:
-                            await button_message.edit(embed=embed)
+                            await button_message.edit(embed=embed, file=file)
                             self.update_timer_task.stop()
                             logger.info(f'Game {game_id} Ended!')
                         except nextcord.NotFound:

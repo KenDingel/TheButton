@@ -25,7 +25,9 @@ async def handle_message(message, bot, menu_timer):
         1236468062107209758, 1236468247856156722, # Moon's Server
         1305588554210087105, 1305588592147693649, 
         1305622604261883955, 1305683310525288448, 
-        1308486315502997574, 1308488586215292988 # Goon Squad
+        1308486315502997574, 1308488586215292988, # Goon Squad
+        1310445586394382357, 1310445611652223047, # Lilith's Den
+        1311011995868336209, 1311012042907586601
         ]: return #get_all_game_channels() and message.content.lower() != 'sb': return
     
     logger.info(f"Message received in {message.guild.name}: {message.content}")
@@ -504,11 +506,28 @@ async def handle_message(message, bot, menu_timer):
             await message.add_reaction('⏳')
             user_check_id = message.author.id
             try:
-                query = 'SELECT COUNT(*) AS click_count FROM button_clicks WHERE user_id = %s AND click_time >= DATE_SUB(UTC_TIMESTAMP(), INTERVAL 3 HOUR)' # NOTE: REFACTOR TO NOT BE HARD CODED.
-                params = (user_check_id,)
-                success = execute_query(query, params)
-                if not success: logger.error('Failed to retrieve data.'); await message.add_reaction('❌'); return
+                # Get the game session to access the cooldown duration
+                game_session = get_game_session_by_guild_id(message.guild.id)
+                if not game_session:
+                    await message.channel.send('No active game session found in this server!')
+                    await message.remove_reaction('‚è≥', bot.user)
+                    return
 
+                cooldown_duration = game_session['cooldown_duration']
+                
+                query = '''
+                    SELECT COUNT(*) AS click_count 
+                    FROM button_clicks 
+                    WHERE user_id = %s 
+                    AND click_time >= DATE_SUB(UTC_TIMESTAMP(), INTERVAL %s HOUR)
+                '''
+                params = (user_check_id, cooldown_duration)
+                success = execute_query(query, params)
+                if not success:
+                    logger.error('Failed to retrieve data.')
+                    await message.add_reaction('‚ùå')
+                    return
+                
                 result = success[0]
                 click_count = result[0]
                 if click_count == 0: response = "✅ Ah, my brave adventurer! Your spirit is ready, and the button awaits your valiant click. Go forth and claim your glory!"
@@ -519,7 +538,7 @@ async def handle_message(message, bot, menu_timer):
             except Exception as e:
                 tb = traceback.format_exc()
                 logger.error(f'Error checking user cooldown: {e}, {tb}')
-                await message.channel.send('An error occurred while checking your cooldown status.')
+                await message.channel.send('Alas noble warrior, an error occurred while checking your cooldown. The button spirits are in disarray!')
             finally:
                 await message.remove_reaction('⏳', bot.user)
 
