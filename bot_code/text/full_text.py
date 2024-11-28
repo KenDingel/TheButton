@@ -4,7 +4,7 @@ EXPLAINATION_TEXT = (
     "Prepare yourselves for **The Button Game**\n"
     "A mysterious 12-hour countdown has begun, and the fate of the world rests in your hands! ⏰\n"
     "Keep the button alive and prevent the timer from reaching zero!\n"
-    "You only get **1 click every 1 hours and will increase as the game progresses**. Choose wisely!\n\n"
+    "Each adventurer must wait between clicks to regain their strength. Choose wisely!\n\n"
     "The button color represents the remaining time:\n"
     "- 🔴 Red: 0-2 hrs (Danger Zone!)\n"
     "- 🟠 Orange: 2-4 hrs (Getting Risky!)\n"
@@ -15,6 +15,7 @@ EXPLAINATION_TEXT = (
     "As a reward for your bravery, you'll earn the colored circle of the time you clicked!\n"
     "Use `myrank` to check your personal stats and `leaderboard` to see how you stack up against other fearless clickers!\nUse 'check' to see if you have a click ready for action! \n\n"
     "Do you have what it takes to keep the button alive and prevent the timer from reaching zero?\n\n"
+    "Live Game Stats: https://thebuttongame.click/\n\n"
     "*Based on the Reddit April Fools event in 2015. https://en.wikipedia.org/wiki/The_Button_(Reddit)*"
 )
 

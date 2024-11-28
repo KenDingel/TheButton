@@ -67,7 +67,12 @@ async def create_button_message(game_id, bot, force_new=False):
                     return message
 
         # If no message found or forcing new, create new message
-        embed = nextcord.Embed(title='🚨 THE BUTTON! 🚨', description='**Keep the button alive!**')
+        cooldown_hours = game_session_config['cooldown_duration']
+        embed = nextcord.Embed(
+            title='🚨 THE BUTTON! 🚨', 
+            description=f'**Keep the button alive!**\nEach adventurer must wait **{cooldown_hours} hours** between clicks to regain their strength!'
+        )
+        
         if force_new:
             # Only clear old messages if forcing new
             async for message in button_channel.history(limit=15):
@@ -263,7 +268,7 @@ class MenuTimer(nextcord.ui.View):
                     embed.add_field(name='🎨 Next Color Change', value=color_change_info, inline=False)
                     
                     embed.description = f'__The game ends when the timer hits 0__.\nClick the button to reset the clock and keep the game going!\n\nWill you join the ranks of the brave and keep the button alive? 🛡️🗡️'
-                    embed.set_footer(text=f'The Button Game by Regen2Moon; Inspired by Josh Wardle')
+                    embed.set_footer(text=f'The Button Game by Regen2Moon; Inspired by Josh Wardle\nLive Stats: https://thebuttongame.click/')
                     
                     # Generate and add timer image
                     file_buffer = generate_timer_image(timer_value, game_session['timer_duration'])

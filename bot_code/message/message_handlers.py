@@ -117,19 +117,33 @@ async def handle_message(message, bot, menu_timer):
                 tb = traceback.format_exc()
                 logger.error(f'Error inserting first click: {e}, {tb}')
         
-        elif message.content.lower() == 'myrank' or message.content.lower() == 'rank':
-            await message.add_reaction('⏳')
+        elif message.content.lower().startswith(('myrank', 'rank', 'urrank')):
+            await message.add_reaction('⌛')
             game_session = get_game_session_by_guild_id(message.guild.id)
             if not game_session:
                 await message.channel.send('No active game session found in this server!')
                 return
 
+            # Determine target user
+            target_user_id = message.author.id
             is_other_user = False
-            if len(message.content.split(" ")) > 1:
-                user_check_id = int(message.content.split(" ")[1][3:-1])
-                is_other_user = True
-            else:
-                user_check_id = message.author.id
+            
+            # Check if this is a urrank command or if additional arguments are provided
+            command_parts = message.content.lower().split()
+            if len(command_parts) > 1:
+                # Check for user mention
+                if len(message.mentions) > 0:
+                    target_user_id = message.mentions[0].id
+                    is_other_user = True
+                # Handle the existing ID extraction from message content
+                elif command_parts[0] != 'urrank' and command_parts[1].startswith('<@') and command_parts[1].endswith('>'):
+                    try:
+                        target_user_id = int(command_parts[1][2:-1].replace('!', ''))
+                        is_other_user = True
+                    except ValueError:
+                        await message.channel.send('Invalid user mention format!')
+                        await message.remove_reaction('⌛', bot.user)
+                        return
 
             try:
                 # Get user's clicks for current game session
@@ -159,13 +173,13 @@ async def handle_message(message, bot, menu_timer):
                     AND bc.user_id = %s
                     ORDER BY bc.click_time
                 '''
-                params = (game_session['game_id'], user_check_id, game_session['game_id'], 
-                         game_session['game_id'], game_session['game_id'], user_check_id)
+                params = (game_session['game_id'], target_user_id, game_session['game_id'], 
+                         game_session['game_id'], game_session['game_id'], target_user_id)
                 success = execute_query(query, params)
                 if not success: 
                     logger.error('Error retrieving user rank data')
                     await message.channel.send('An error occurred while retrieving rank data!')
-                    await message.remove_reaction('⏳', bot.user)
+                    await message.remove_reaction('⌛', bot.user)
                     await message.add_reaction('❌')
                     return
 
@@ -190,43 +204,51 @@ async def handle_message(message, bot, menu_timer):
                     total_players = clicks[0][3]  # Get total players from first row
 
                     if not is_other_user:
-                        user_check_name = message.author.display_name if message.author.display_name else message.author.name
+                        user_name = message.author.display_name if message.author.display_name else message.author.name
                         embed = nextcord.Embed(title='Your Heroic Journey')
-                        embed.add_field(name='🎖️ Adventurer', value=user_check_name, inline=False)
-                        embed.add_field(name='👑 Current Rank', value=f'#{rank} out of {total_players} adventurers', inline=False)
-                        embed.add_field(name='📜 Click History', value=emoji_sequence, inline=False)
-                        embed.add_field(name='🎨 Color Summary', value=color_summary, inline=False)
-                        embed.add_field(name='⏱️ Total Time Claimed*', value=format_time(total_claimed_time), inline=False)
-                        embed.set_footer(text="*Total time claimed represents the amount of time you've prevented the clock from reaching zero.")
+                        embed.add_field(name='🎑☘ Adventurer', value=user_name, inline=False)
                     else:
-                        user = await bot.fetch_user(user_check_id)
-                        user_check_name = user.display_name if user.display_name else user.name
-                        embed = nextcord.Embed(title=f'Heroic Journey of {user_check_name}')
-                        embed.add_field(name='🎖️ Adventurer', value=user_check_name, inline=False)
-                        embed.add_field(name='👑 Current Rank', value=f'#{rank} out of {total_players} adventurers', inline=False)
-                        embed.add_field(name='📜 Click History', value=emoji_sequence, inline=False)
-                        embed.add_field(name='🎨 Color Summary', value=color_summary, inline=False)
-                        embed.add_field(name='⏱️ Total Time Claimed*', value=format_time(total_claimed_time), inline=False)
-                        embed.set_footer(text="*Total time claimed represents the amount of time they've prevented the clock from reaching zero.")
+                        target_user = await bot.fetch_user(target_user_id)
+                        if target_user is None:
+                            await message.channel.send('Unable to find that user!')
+                            await message.remove_reaction('⌛', bot.user)
+                            return
+                        user_name = target_user.display_name if hasattr(target_user, 'display_name') else target_user.name
+                        embed = nextcord.Embed(title=f'Heroic Journey of {user_name}')
+                        embed.add_field(name='🎑☘ Adventurer', value=user_name, inline=False)
+
+                    embed.add_field(name='🎎 Current Rank', value=f'#{rank} out of {total_players} adventurers', inline=False)
+                    embed.add_field(name='🎚 Click History', value=emoji_sequence, inline=False)
+                    embed.add_field(name='🎨 Color Summary', value=color_summary, inline=False)
+                    embed.add_field(name='⏱☘ Total Time Claimed*', value=format_time(total_claimed_time), inline=False)
+                    
+                    footer_text = "Total time claimed represents the amount of time "
+                    footer_text += "you've" if not is_other_user else "they've"
+                    footer_text += " prevented the clock from reaching zero."
+                    embed.set_footer(text=footer_text)
+                    
                     await message.channel.send(embed=embed)
                 else:
-                    if not is_other_user: 
-                        await message.channel.send('Alas, noble warrior, your journey has yet to begin. Step forth and make your mark upon the button!')
+                    msg = 'Alas, noble warrior, '
+                    if not is_other_user:
+                        msg += 'your journey has yet to begin. Step forth and make your mark upon the button!'
                     else:
-                        await message.channel.send('Alas, noble warrior, their journey has yet to begin. Step forth and make your mark upon the button!')
+                        msg += 'their journey has yet to begin. They must step forth and make their mark upon the button!'
+                    await message.channel.send(msg)
 
             except Exception as e:
                 tb = traceback.format_exc()
-                logger.error(f'Error retrieving user rank: {e}, {tb}')
-                if not is_other_user:
-                    await message.channel.send('An error occurred while retrieving your rank. The button spirits are displeased!')
-                else:
-                    await message.channel.send('An error occurred while retrieving the user rank. The button spirits are displeased!')
+                logger.error(f'Error retrieving user rank: {e}\n{tb}')
+                msg = 'An error occurred while retrieving '
+                msg += 'your' if not is_other_user else 'the user\'s'
+                msg += ' rank. The button spirits are displeased!'
+                await message.channel.send(msg)
             finally:
                 try:
-                    await message.remove_reaction('⏳', bot.user)
+                    await message.remove_reaction('⌛', bot.user)
                 except:
                     pass
+
 
         elif message.content.lower() in ['leaderboard', 'scores', 'scoreboard', 'top']:
             await message.add_reaction('⏳')
@@ -541,6 +563,38 @@ async def handle_message(message, bot, menu_timer):
                 await message.channel.send('Alas noble warrior, an error occurred while checking your cooldown. The button spirits are in disarray!')
             finally:
                 await message.remove_reaction('⏳', bot.user)
+
+        elif message.content.lower() == 'force_update_button':
+            if message.author.id != 692926265405079632:
+                if not message.author.guild_permissions.administrator:
+                    await message.channel.send('You need administrator permissions to use this command.')
+                    return
+            try:
+                game_session = get_game_session_by_guild_id(message.guild.id)
+                if not game_session:
+                    await message.channel.send('No active game session found in this server!')
+                    return
+                
+                # Clear the button message cache for this game
+                button_message_cache.messages.pop(game_session['game_id'], None)
+                
+                # Create new button message with forced new creation
+                new_message = await create_button_message(game_session['game_id'], bot, force_new=True)
+                
+                if new_message:
+                    await message.channel.send('Button message has been reset successfully!', delete_after=5)
+                else:
+                    await message.channel.send('Failed to reset button message. Please try again.')
+                
+                try:
+                    await message.delete()
+                except:
+                    pass
+                    
+            except Exception as e:
+                tb = traceback.format_exc()
+                logger.error(f'Error resetting button message: {e}\n{tb}')
+                await message.channel.send('An error occurred while resetting the button message.')
 
         elif message.content.lower() == 'ended':
             try:
