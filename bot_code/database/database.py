@@ -5,87 +5,173 @@ import traceback
 
 from utils.utils import config, logger, lock, get_color_name
 
-db_pool = None
-db_pool_timer = None
-
 db = None
 cursor = None
 timer_db = None
 cursor_tb = None
 
+# Global connection pools
+db_pool = None
+db_pool_timer = None
+
+# Constants for pool configuration
+MAIN_POOL_SIZE = 5
+TIMER_POOL_SIZE = 1
+CONNECTION_TIMEOUT = 120
+
 # Functions to get database connections
 def get_db_connection():
-    global db_pool
-    if db_pool:
-        return db_pool.get_connection()
-    else:
-        setup_pool()
-        return db_pool.get_connection()
+    """
+    Gets a connection from the main connection pool.
     
-def get_db_connection_timer(): return db_pool_timer.get_connection()
+    Returns:
+        MySQLConnection: A connection from the main pool
+        
+    Raises:
+        mysql.connector.Error: If unable to get connection
+    """
+    global db_pool
+    if db_pool is None:
+        setup_pool()
+    return db_pool.get_connection()
 
-# Function to get the current database connection and cursor
+def get_db_connection_timer():
+    """
+    Gets a connection from the timer connection pool.
+    
+    Returns:
+        MySQLConnection: A connection from the timer pool
+        
+    Raises:
+        mysql.connector.Error: If unable to get connection
+    """
+    global db_pool_timer
+    if db_pool_timer is None:
+        setup_pool()
+    return db_pool_timer.get_connection()
+
 def get_current_new_cursor():
-    global db, cursor
-    if not db:
-        global cursor
-        db = get_db_connection()
-        cursor = db.cursor()
-        return db, cursor
-    if not cursor:
-        cursor = db.cursor()
-    return db, cursor
+    """
+    DEPRECATED: This function is maintained for backward compatibility.
+    Use execute_query() for new code.
+    
+    Returns:
+        tuple: (connection, cursor) from the main pool
+    """
+    logger.warning("get_current_new_cursor is deprecated. Please use execute_query instead.")
+    connection = get_db_connection()
+    return connection, connection.cursor()
 
 # Function to get the current database connection and cursor for the timer pool
 # In database.py, replace the setup_pool and execute_query functions:
 
 def setup_pool(config=config):
+    """
+    Sets up MySQL connection pools for main operations and timer operations.
+    Creates pools if they don't exist or have been closed.
+    
+    Args:
+        config (dict): Configuration dictionary containing database credentials
+        
+    Returns:
+        bool: True if pools were successfully set up, False otherwise
+        
+    Raises:
+        mysql.connector.Error: If there's an error creating the connection pools
+    """
     global db_pool, db_pool_timer
+    
+    # If both pools exist, no need to recreate
+    if db_pool is not None and db_pool_timer is not None:
+        try:
+            # Test connections from both pools
+            with db_pool.get_connection() as conn:
+                with conn.cursor() as cursor:
+                    cursor.execute("SELECT 1")
+            with db_pool_timer.get_connection() as conn:
+                with conn.cursor() as cursor:
+                    cursor.execute("SELECT 1")
+            return True
+        except mysql.connector.Error:
+            # If test fails, pools might be stale - proceed to recreate them
+            logger.warning("Existing pools failed connection test - recreating...")
+            db_pool = None
+            db_pool_timer = None
+
     try:
-        # Create the main connection pool if it doesn't exist
+        # Common pool configuration
+        pool_config = {
+            'host': config['sql_host'],
+            'user': config['sql_user'],
+            'password': config['sql_password'],
+            'database': config['sql_database'],
+            'port': config['sql_port'],
+            'pool_reset_session': True,
+            'connect_timeout': CONNECTION_TIMEOUT
+        }
+
+        # Create main pool if needed
         if db_pool is None:
             db_pool = MySQLConnectionPool(
                 pool_name="button_pool",
-                pool_size=5,
-                host=config['sql_host'],
-                user=config['sql_user'],
-                password=config['sql_password'],
-                database=config['sql_database'],
-                port=config['sql_port'],
-                pool_reset_session=True,
-                connect_timeout=120
+                pool_size=MAIN_POOL_SIZE,
+                **pool_config
             )
+            logger.info("Main connection pool created successfully")
 
-        # Create the timer connection pool if it doesn't exist
+        # Create timer pool if needed
         if db_pool_timer is None:
             db_pool_timer = MySQLConnectionPool(
                 pool_name="button_pool_timer",
-                pool_size=1,
-                host=config['sql_host'],
-                user=config['sql_user'],
-                password=config['sql_password'],
-                database=config['sql_database'],
-                port=config['sql_port']
+                pool_size=TIMER_POOL_SIZE,
+                **pool_config
             )
+            logger.info("Timer connection pool created successfully")
 
         return True
 
     except mysql.connector.Error as error:
         logger.error(f"Error setting up connection pools: {error}")
+        logger.error(traceback.format_exc())
+        # Clean up if partial setup occurred
+        if db_pool is not None:
+            db_pool = None
+        if db_pool_timer is not None:
+            db_pool_timer = None
         return False
 
 def execute_query(query, params=None, is_timer=False, retry_attempts=3, commit=False):
+    """
+    Executes a database query using the appropriate connection pool with retry logic.
+    
+    Args:
+        query (str): SQL query to execute
+        params (tuple, optional): Parameters for the query
+        is_timer (bool): Whether to use the timer pool (default: False)
+        retry_attempts (int): Number of retry attempts for failed queries (default: 3)
+        commit (bool): Whether to commit the transaction (default: False)
+        
+    Returns:
+        list/bool: Query results if SELECT, True if successful INSERT/UPDATE/DELETE, None if failed
+        
+    Raises:
+        mysql.connector.Error: If database error occurs after all retries
+    """
     global db_pool, db_pool_timer
     
+    # Ensure pools are set up
     if db_pool is None or db_pool_timer is None:
-        setup_pool()
-        
-    attempt = 0
-    while attempt < retry_attempts:
+        if not setup_pool():
+            logger.error("Failed to setup database pools")
+            return None
+            
+    pool = db_pool_timer if is_timer else db_pool
+    last_error = None
+    
+    for attempt in range(retry_attempts):
         connection = None
         cursor = None
         try:
-            pool = db_pool_timer if is_timer else db_pool
             connection = pool.get_connection()
             cursor = connection.cursor()
             
@@ -94,29 +180,43 @@ def execute_query(query, params=None, is_timer=False, retry_attempts=3, commit=F
             if commit:
                 connection.commit()
                 
+            # For SELECT queries, fetch results
             result = cursor.fetchall() if cursor.description else True
 
-            logger.info(f"Query executed successfully: {query}, Params: {params}")
-            logger.info(f"Result: {result}")
-            
-            if cursor:
-                cursor.close()
-            if connection:
-                connection.close()
-            close_disconnect_database()
-
-            return result
-        except mysql.connector.Error as error:
-            logger.error(f"Database error (attempt {attempt + 1}/{retry_attempts}): {error}")
-            logger.error(f"Query: {query}, Params: {params}")
-            logger.error(traceback.format_exc())
-            attempt += 1
-            if attempt == retry_attempts:
-                raise
-        except Exception as e:
-            tb = traceback.format_exc()
-            logger.error(f"Error executing query: {e}, {tb}")
+            if attempt > 0:  # Log if this was a retry
+                logger.info(f"Query succeeded on attempt {attempt + 1}")
                 
+            return result
+
+        except mysql.connector.Error as error:
+            last_error = error
+            logger.warning(
+                f"Database error (attempt {attempt + 1}/{retry_attempts}): {error}\n"
+                f"Query: {query}, Params: {params}"
+            )
+            if attempt < retry_attempts - 1:  # Don't sleep on last attempt
+                time.sleep(min(2 ** attempt, 10))  # Exponential backoff
+                
+        except Exception as e:
+            logger.error(f"Unexpected error executing query: {e}")
+            logger.error(traceback.format_exc())
+            raise
+            
+        finally:
+            try:
+                if cursor:
+                    cursor.close()
+                if connection:
+                    connection.close()
+            except Exception as e:
+                logger.error(f"Error closing database resources: {e}")
+
+    # If we get here, all attempts failed
+    logger.error(
+        f"Query failed after {retry_attempts} attempts. Last error: {last_error}\n"
+        f"Query: {query}, Params: {params}"
+    )
+    raise last_error
 
 # Function to close and disconnect all database connections, cursors, and pools
 def close_disconnect_database():
@@ -238,11 +338,13 @@ GAME_CHANNELS = None
 
 # Function to update the local game sessions list
 def update_local_game_sessions():
-    logger.info('Updating local game sessions')
-    global game_sessions, cursor, db
+    """
+    Updates the local cache of game sessions from the database.
     
-    if not cursor: db, cursor = get_current_new_cursor()
-        
+    Returns:
+        list: Updated list of game sessions
+    """
+    logger.info('Updating local game sessions')
     query = """
         SELECT 
             id,
@@ -256,10 +358,16 @@ def update_local_game_sessions():
             cooldown_duration
         FROM game_sessions
     """
-    cursor.execute(query)
-    game_sessions = cursor.fetchall()
-    logger.info(f'Game sessions updated: {game_sessions}')
-    return game_sessions
+    try:
+        result = execute_query(query)
+        global game_sessions
+        game_sessions = result
+        logger.info(f'Game sessions updated: {len(game_sessions)} sessions')
+        return game_sessions
+    except Exception as e:
+        logger.error(f'Error updating game sessions: {e}')
+        logger.error(traceback.format_exc())
+        return []
     
 def game_sessions_dict(game_sessions_arg=None):
     global game_sessions, game_sessions_as_dict
@@ -381,18 +489,24 @@ def create_game_session(admin_role_id, guild_id, button_channel_id, game_chat_ch
 
 # Function to get the game channels from the database
 def get_game_channels_from_db():
-    global cursor, db
-    if not cursor: db, cursor = get_current_new_cursor()
+    """
+    Retrieves game channel IDs from the database.
+    
+    Returns:
+        list: List of channel IDs or None if query fails
+    """
     try:
         query = """
-            SELECT button_channel_id, game_chat_channel_id FROM game_sessions
+            SELECT button_channel_id, game_chat_channel_id 
+            FROM game_sessions
         """
-        cursor.execute(query)
-        channels = cursor.fetchall()
-        channels_list = [list(channel) for channel in channels]
-        return channels_list[0]
+        channels = execute_query(query)
+        if channels:
+            return list(channels[0])
+        return None
     except Exception as e:
         logger.error(f'Error getting game channels from db: {e}')
+        logger.error(traceback.format_exc())
         return None
 
 # Function to get all game channels

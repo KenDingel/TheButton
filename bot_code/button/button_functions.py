@@ -145,7 +145,7 @@ class MenuTimer(nextcord.ui.View):
         global lock, paused_games, game_cache, logger
         
         for game_id, game_session in game_sessions_dict().items():
-            await asyncio.sleep(1)
+            await asyncio.sleep(0.2)
             if paused_games and game_id in paused_games: 
                 logger.info(f'Game {game_id} is paused, skipping...') 
                 continue
