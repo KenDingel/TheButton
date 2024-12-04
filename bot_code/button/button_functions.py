@@ -140,11 +140,12 @@ class MenuTimer(nextcord.ui.View):
         self.bot = bot
         self.button_message_restore_attempts = {}  # Track restore attempts per game
         
-    @tasks.loop(seconds=10)
+    @tasks.loop(seconds=2)
     async def update_timer_task(self):
         global lock, paused_games, game_cache, logger
         
         for game_id, game_session in game_sessions_dict().items():
+            await asyncio.sleep(1)
             if paused_games and game_id in paused_games: 
                 logger.info(f'Game {game_id} is paused, skipping...') 
                 continue

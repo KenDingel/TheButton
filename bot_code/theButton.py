@@ -36,7 +36,6 @@ async def on_http_ratelimit(limit, remaining, reset_after, bucket, scope):
     logger.warning(f"HTTP Rate limited.")
     logger.warning(f"{limit=} {remaining=} {reset_after=} {bucket=} {scope=}")
     await asyncio.sleep(reset_after)
-    await asyncio.sleep(reset_after)
 
 @bot.event
 async def on_global_ratelimit(retry_after):
@@ -56,6 +55,7 @@ async def on_error(event, *args, **kwargs):
             await asyncio.sleep(float(retry_after * 2))
             return
     raise
+
 async def restore_button_views():
     """Restore persistent button views for all active games"""
     try:
@@ -76,7 +76,6 @@ async def restore_button_views():
                             bot.add_view(view, message_id=message.id)
                             logger.info(f"Restored button view for game {game_session['game_id']} in {guild.name}")
                             break
-                    
     except Exception as e:
         tb = traceback.format_exc()
         logger.error(f"Error restoring button views: {e}\n{tb}")
@@ -119,13 +118,12 @@ async def on_ready():
             WHERE NOT EXISTS (
                 SELECT 1 FROM guild_names WHERE guild_id = %s
             )
-        """
-        for guild in bot.guilds:
-            try:
-                params = (guild.id, guild.name, guild.id)
-                execute_query(query, params)
-            except Exception as e:
-                logger.error(f"Failed to update guild name for {guild.id}: {e}")
+            """
+        try:
+            params = (guild.id, guild.name, guild.id)
+            execute_query(query, params)
+        except Exception as e:
+            logger.error(f"Failed to update guild name for {guild.id}: {e}")
 
         game_session = get_game_session_by_guild_id(guild_id)
         logger.info(f"Game session: {game_session}")
@@ -133,8 +131,11 @@ async def on_ready():
         await start_boot_game(bot, guild_id, game_session['button_channel_id'], menu_timer)
         
         if game_session:
-            await setup_roles(guild_id, bot)
-            
+            try:
+                await setup_roles(guild_id, bot)
+            except:
+                pass
+    
     logger.info(f'Bot ready!')  
     await fix_missing_users(bot=bot)
         
