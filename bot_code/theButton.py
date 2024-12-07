@@ -33,16 +33,14 @@ async def on_message(message):
 @bot.event
 async def on_http_ratelimit(limit, remaining, reset_after, bucket, scope):
     print(f"{limit=} {remaining=} {reset_after=} {bucket=} {scope=}")
-    logger.warning(f"HTTP Rate limited.")
-    logger.warning(f"{limit=} {remaining=} {reset_after=} {bucket=} {scope=}")
-    await asyncio.sleep(reset_after)
+    logger.warning(f"HTTP Rate limited. {limit=} {remaining=} {reset_after=} {bucket=} {scope=}")
+    await asyncio.sleep(reset_after + 0.5)
 
 @bot.event
 async def on_global_ratelimit(retry_after):
     print(f"{retry_after=}")
-    logger.warning(f"Global Rate limited.")
-    logger.warning(f"{retry_after=}")
-    await asyncio.sleep(retry_after)
+    logger.warning(f"Global Rate limited. {retry_after=}")
+    await asyncio.sleep(retry_after + 0.5)
     
 @bot.event
 async def on_error(event, *args, **kwargs):
@@ -55,6 +53,16 @@ async def on_error(event, *args, **kwargs):
             await asyncio.sleep(float(retry_after * 2))
             return
     raise
+
+@bot.event
+async def on_socket_raw_receive(msg):
+    if msg and isinstance(msg, str) and "heartbeat" not in msg.lower():
+        logger.debug(f"Socket Received: {msg[:100]}...")  # Log first 100 chars to avoid spam
+
+@bot.event
+async def on_resumed():
+    logger.info("Session resumed successfully")
+    await restore_button_views()  # Restore views after resume
 
 async def restore_button_views():
     """Restore persistent button views for all active games"""
@@ -139,19 +147,47 @@ async def on_ready():
     logger.info(f'Bot ready!')  
     await fix_missing_users(bot=bot)
         
-async def close_bot():
-    close_disconnect_database()
-    await bot.close()
-    exit(0)
-
 @bot.event
 async def on_disconnect():
-    logger.info(f'Bot disconnected')
-    asyncio.create_task(close_bot())
-    # Signal handler for termination (When the user presses Ctrl+C, SIGINT is sent)
-    def terminate_handler(signal, frame): asyncio.create_task(close_bot())
+    logger.warning("Bot disconnecting - attempting graceful shutdown")
+    try:
+        # Give pending operations a chance to complete
+        await asyncio.sleep(2)
+        await close_bot()
+    except Exception as e:
+        logger.error(f"Error during disconnect handling: {e}")
+        logger.error(traceback.format_exc())
+    finally:
+        logger.info("Disconnect handling completed")
 
-    # Signal handler for SIGINT
-    signal.signal(signal.SIGINT, terminate_handler)
+async def close_bot():
+    """Gracefully close the bot with proper cleanup"""
+    logger.info("Starting graceful shutdown...")
+    try:
+        # Cancel any pending tasks
+        tasks = [t for t in asyncio.all_tasks() if t is not asyncio.current_task()]
+        for task in tasks:
+            task.cancel()
+        logger.info(f"Cancelled {len(tasks)} pending tasks")
+        
+        # Wait briefly for tasks to clean up
+        await asyncio.sleep(1)
+        
+        # Close database connections
+        close_disconnect_database()
+        
+        logger.info("Graceful shutdown completed")
+    except Exception as e:
+        logger.error(f"Error during shutdown: {e}")
+        logger.error(traceback.format_exc())
+    finally:
+        # Use sys.exit instead of exit() to avoid raising SystemExit
+        import sys
+        sys.exit(0)
+
+# Modify your existing signal handler
+def terminate_handler(signal, frame):
+    logger.info("Termination signal received")
+    asyncio.create_task(close_bot())
 
 bot.run(config['discord_token'])

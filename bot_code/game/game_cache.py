@@ -51,6 +51,21 @@ class ButtonMessageCache:
         else:
             logger.error(f'No message found for game {game_id} in cache')
             return None
+        
+    async def cleanup_stale_messages(self):
+        """Remove any stale message references"""
+        stale_games = []
+        for game_id, message_id in self.messages.items():
+            try:
+                if not message_id:
+                    stale_games.append(game_id)
+            except Exception as e:
+                logger.error(f"Error checking message {message_id} for game {game_id}: {e}")
+                stale_games.append(game_id)
+        
+        for game_id in stale_games:
+            self.messages.pop(game_id, None)
+            logger.info(f"Removed stale message cache for game {game_id}")
 
 # Create the GameCache and ButtonMessageCache instances
 game_cache = GameCache()

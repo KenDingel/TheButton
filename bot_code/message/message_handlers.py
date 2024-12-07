@@ -22,7 +22,7 @@ from button.button_functions import setup_roles, create_button_message, paused_g
 async def handle_message(message, bot, menu_timer):
     global paused_games, lock, logger
     if message.author == bot.user and message.content.lower() != "sb": return
-    if message.channel.id not in [
+    if not isinstance(message.channel, nextcord.DMChannel) and message.channel.id not in [
         1236468062107209758, 1236468247856156722, # Moon's Server
         1305588554210087105, 1305588592147693649, 
         1305622604261883955, 1305683310525288448, 
@@ -31,7 +31,10 @@ async def handle_message(message, bot, menu_timer):
         1311011995868336209, 1311012042907586601
         ]: return #get_all_game_channels() and message.content.lower() != 'sb': return
     
-    logger.info(f"Message received in {message.guild.name}: {message.content}")
+    try:
+        logger.info(f"Message received in {message.guild.name}: {message.content}")
+    except:
+        logger.info(f"Message received in DM: {message.content}")
     try:
         
         if message.content.lower() == 'startbutton' or message.content.lower() == 'sb':
