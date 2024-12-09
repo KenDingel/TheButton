@@ -20,6 +20,9 @@ async def get_button_message(game_id, bot):
     task_run_time = datetime.datetime.now(timezone.utc)
     
     try:
+        # Clean up stale messages periodically
+        await button_message_cache.cleanup_stale_messages()
+
         # Try to get message from cache first
         if game_id in button_message_cache.messages:
             try:
@@ -95,17 +98,29 @@ async def get_button_message(game_id, bot):
         return None
 
 
-# Failed Interaction Count
-# Used to keep track of the number of failed interactions.
-# Then the bot can take action if the number of failed interactions exceeds a certain threshold.
+# Only updating the Failed_Interaction_Count class - rest of file remains identical
 class Failed_Interaction_Count:
-    def __init__(self): self.failed_count = 0
+    def __init__(self):
+        self.failed_count = 0
+        self.last_reset = datetime.datetime.now(timezone.utc)
+        self.failure_threshold = 10
 
-    def increment(self): self.failed_count += 1
+    def increment(self):
+        self.failed_count += 1
+        current_time = datetime.datetime.now(timezone.utc)
+        # Auto-reset if it's been more than an hour
+        if (current_time - self.last_reset).total_seconds() > 3600:
+            self.reset()
+        # Log if we hit threshold
+        if self.failed_count >= self.failure_threshold:
+            logger.warning(f"High interaction failure rate detected: {self.failed_count} failures since {self.last_reset}")
 
-    def reset(self): self.failed_count = 0
+    def reset(self):
+        self.failed_count = 0
+        self.last_reset = datetime.datetime.now(timezone.utc)
 
-    def get(self): return self.failed_count
+    def get(self):
+        return self.failed_count
     
 # Create the Failed_Interactions instance
 Failed_Interactions = Failed_Interaction_Count()

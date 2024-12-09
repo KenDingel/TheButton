@@ -208,7 +208,6 @@ def execute_query(query, params=None, is_timer=False, retry_attempts=3, commit=F
             logger.error(f"Unexpected error executing query: {e}")
             logger.error(traceback.format_exc())
             raise
-            
         finally:
             try:
                 if cursor:
