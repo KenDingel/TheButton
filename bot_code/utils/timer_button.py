@@ -31,19 +31,30 @@ class TimerButton(nextcord.ui.Button):
     # Callback method for the button, called when the button is clicked
     async def callback(self, interaction: nextcord.Interaction):
         global game_cache
-        try: await interaction.response.defer(ephemeral=True)
-        except nextcord.errors.NotFound:
-            logger.warning("Interaction not found. Retrying...")
-            await asyncio.sleep(1)
-            try: await interaction.send("Adventurer! You attempt to click the button...", ephemeral=True)
-            except nextcord.errors.NotFound: 
-                logger.error("Interaction not found. Failed to retry.")
-                # Inform the user that the interaction failed
-                await interaction.followup.send("The button is stuck! Push harder!!.", ephemeral=True)
-                Failed_Interactions.increment()
-                return
-        
         try:
+            # First attempt with standard defer
+            try:
+                await interaction.response.defer(ephemeral=True)
+            except nextcord.errors.NotFound:
+                logger.warning(f"Initial interaction defer failed for user {interaction.user.id}. Attempting recovery...")
+                # Short sleep to allow for potential race condition resolution
+                await asyncio.sleep(0.5)
+                try:
+                    # Attempt direct message send as fallback
+                    await interaction.followup.send("Processing your click...", ephemeral=True)
+                except nextcord.errors.NotFound as e:
+                    logger.error(f"Complete interaction failure for user {interaction.user.id}: {str(e)}")
+                    logger.error(traceback.format_exc())
+                    Failed_Interactions.increment()
+                    return
+                except Exception as e:
+                    logger.error(f"Unexpected error in interaction recovery: {str(e)}")
+                    logger.error(traceback.format_exc())
+                    Failed_Interactions.increment()
+                    return
+            
+            # Followup with user that the click is being processed
+            await interaction.followup.send("You attempt a click...", ephemeral=True)
             click_time = task_run_time = datetime.datetime.now(timezone.utc)
             
             try:
@@ -214,9 +225,50 @@ class TimerButton(nextcord.ui.Button):
             except Exception as e:
                 tb = traceback.format_exc()
                 logger.error(f'Error 1 processing button click: {e}, {tb}')
-                await interaction.followup.send("An error occurred while processing the button click.", ephemeral=True)
+                await interaction.followup.send("An error 1 occurred while processing the button click.", ephemeral=True)
             task_run_time = datetime.datetime.now(timezone.utc) - task_run_time
             logger.info(f'Callback run time: {task_run_time.total_seconds()} seconds')
+
+            # Use AI to generate a positive affirmation message!
+            # Details:
+            # - Utilize another discord bot called JuwuL. Guilde 1082416982537797672 channel 1314720128868417588.
+            # - Send a message to the channel with the user's name and the timer color name.
+            # - The bot will respond with a positive affirmation message.
+            # - The message will be sent to the user in the chat channel.
+            try:
+                affirmation_channel = self.bot.get_channel(1314720128868417588)
+                if affirmation_channel:
+                    await affirmation_channel.send(f"{display_name} just clicked the button and earned a {timer_color_name} click at {formatted_remaining_time} left in the game! They are from the guild {interaction.guild.name}.")
+                    # Wait for JuwuL's response
+    
+                    await asyncio.sleep(5)
+                    
+                    affirmation_message = None
+                    while True:
+                        try:
+                            msg = await affirmation_channel.history(limit=5).flatten()[0]
+                            if msg.content:
+                                affirmation_message = msg
+                                break
+                        except asyncio.TimeoutError:
+                            logger.warning("Timeout waiting for JuwuL response")
+                            # Check if last message was sent by JuwuL
+    
+
+                            break
+                        await asyncio.sleep(0.5)
+
+                    
+                    if affirmation_message:
+                        affirmation_message = affirmation_message[0].content
+                        await chat_channel.send(affirmation_message)
+                    else:
+                        logger.warning("No affirmation message received from JuwuL")
+                else:
+                    logger.warning("No affirmation message received from JuwuL")
+            except Exception as e:
+                tb = traceback.format_exc()
+                logger.error(f'Error sending affirmation message: {e}, {tb}')
         except Exception as e:
             tb = traceback.format_exc()
             logger.error(f'Error 2 processing button click: {e}, {tb}')
