@@ -2,6 +2,7 @@
 import datetime
 from datetime import timezone
 import traceback
+from typing import Dict, List, Tuple
 import nextcord
 
 # Local imports
@@ -21,7 +22,7 @@ from button.button_functions import setup_roles, create_button_message, paused_g
 async def handle_message(message, bot, menu_timer):
     global paused_games, lock, logger
     if message.author == bot.user and message.content.lower() != "sb": return
-    if message.channel.id not in [
+    if not isinstance(message.channel, nextcord.DMChannel) and message.channel.id not in [
         1236468062107209758, 1236468247856156722, # Moon's Server
         1305588554210087105, 1305588592147693649, 
         1305622604261883955, 1305683310525288448, 
@@ -30,7 +31,10 @@ async def handle_message(message, bot, menu_timer):
         1311011995868336209, 1311012042907586601
         ]: return #get_all_game_channels() and message.content.lower() != 'sb': return
     
-    logger.info(f"Message received in {message.guild.name}: {message.content}")
+    try:
+        logger.info(f"Message received in {message.guild.name}: {message.content}")
+    except:
+        logger.info(f"Message received in DM: {message.content}")
     try:
         
         if message.content.lower() == 'startbutton' or message.content.lower() == 'sb':
@@ -249,6 +253,93 @@ async def handle_message(message, bot, menu_timer):
                 except:
                     pass
 
+        elif message.content.lower() == 'showclicks':
+            await message.add_reaction('🔄')
+            try:
+                game_session = get_game_session_by_guild_id(message.guild.id)
+                if not game_session:
+                    await message.channel.send('No active game session found in this server!')
+                    return
+
+                # Get all clicks for the current game session ordered by click time
+                query = '''
+                    SELECT timer_value 
+                    FROM button_clicks 
+                    WHERE game_id = %s 
+                    ORDER BY click_time ASC
+                '''
+                params = (game_session['game_id'],)
+                success = execute_query(query, params)
+                
+                if not success:
+                    logger.error('Failed to retrieve click data')
+                    await message.channel.send('An error occurred while retrieving click data!')
+                    await message.remove_reaction('🔄', bot.user)
+                    return
+
+                clicks = success
+                if not clicks:
+                    await message.channel.send('No clicks found for this game session!')
+                    await message.remove_reaction('🔄', bot.user)
+                    return
+
+                # Convert timer values to emojis
+                click_emojis = [get_color_emoji(click[0], game_session['timer_duration']) for click in clicks]
+                
+                # Count occurrences of each emoji
+                emoji_counts = {
+                    '🟣': click_emojis.count('🟣'),  # Purple
+                    '🔵': click_emojis.count('🔵'),  # Blue
+                    '🟢': click_emojis.count('🟢'),  # Green
+                    '🟡': click_emojis.count('🟡'),  # Yellow
+                    '🟠': click_emojis.count('🟠'),  # Orange
+                    '🔴': click_emojis.count('🔴')   # Red
+                }
+
+                # Create rows of 10 emojis
+                rows = []
+                current_row = []
+                for emoji in click_emojis:
+                    current_row.append(emoji)
+                    if len(current_row) == 10:
+                        rows.append(''.join(current_row))
+                        current_row = []
+                
+                # Add any remaining emojis
+                if current_row:
+                    rows.append(''.join(current_row))
+
+                # Create the embed
+                embed = nextcord.Embed(
+                    title=f'All Clicks From Game #{game_session["game_id"]}',
+                    description='\n'.join(rows)
+                )
+
+                # Add color summary
+                summary = '\n'.join([f'{emoji}: {count}' for emoji, count in emoji_counts.items() if count > 0])
+                embed.add_field(name='Color Summary', value=summary, inline=False)
+
+                # Add total clicks
+                embed.add_field(name='Total Clicks', value=str(len(click_emojis)), inline=False)
+
+                try:
+                    await message.channel.send(embed=embed)
+                except nextcord.errors.HTTPException as e:
+                    if e.status == 400:
+                        # If the message is too long, send a truncated version
+                        logger.warning(f'Message too long, truncating clicks for game {game_session["game_id"]}')
+                        truncated_rows = rows[:50]  # Show first 500 clicks (50 rows of 10)
+                        embed.description = '\n'.join(truncated_rows) + '\n... [Additional clicks truncated]'
+                        await message.channel.send(embed=embed)
+                    else:
+                        raise e
+
+            except Exception as e:
+                tb = traceback.format_exc()
+                logger.error(f'Error showing clicks: {e}\n{tb}')
+                await message.channel.send('An error occurred while showing clicks!')
+            finally:
+                await message.remove_reaction('🔄', bot.user)
 
         elif message.content.lower() in ['leaderboard', 'scores', 'scoreboard', 'top']:
             await message.add_reaction('⏳')
@@ -266,32 +357,54 @@ async def handle_message(message, bot, menu_timer):
 
             try:
                 # Most clicks in current game session
+                # Update the leaderboard query
                 query = '''
-                        SELECT 
-                            u.user_name,
-                            COUNT(*) AS total_clicks,
-                            GROUP_CONCAT(
-                                CASE
-                                    WHEN (bc.timer_value / %s) * 100 >= 83.33 THEN '🟣'
-                                    WHEN (bc.timer_value / %s) * 100 >= 66.67 THEN '🔵'
-                                    WHEN (bc.timer_value / %s) * 100 >= 50 THEN '🟢'
-                                    WHEN (bc.timer_value / %s) * 100 >= 33.33 THEN '🟡'
-                                    WHEN (bc.timer_value / %s) * 100 >= 16.67 THEN '🟠'
-                                    ELSE '🔴'
+                    SELECT 
+                        u.user_name,
+                        COUNT(*) AS total_clicks,
+                        GROUP_CONCAT(
+                            CASE
+                                WHEN (bc.timer_value / %s) * 100 >= 83.33 THEN '🟣'
+                                WHEN (bc.timer_value / %s) * 100 >= 66.67 THEN '🔵'
+                                WHEN (bc.timer_value / %s) * 100 >= 50 THEN '🟢'
+                                WHEN (bc.timer_value / %s) * 100 >= 33.33 THEN '🟡'
+                                WHEN (bc.timer_value / %s) * 100 >= 16.67 THEN '🟠'
+                                ELSE '🔴'
+                            END
+                            ORDER BY bc.timer_value
+                            SEPARATOR ''
+                        ) AS color_sequence,
+                        SUM(
+                            POWER(2, 5 - FLOOR((bc.timer_value / %s) * 100 / 16.66667)) * 
+                            (1 + 
+                                CASE 
+                                    WHEN (bc.timer_value / %s) * 100 < 33.33 
+                                    THEN 1 - ((bc.timer_value / %s) * 100 % 16.66667) / 16.66667
+                                    ELSE 1 - ABS(0.5 - ((bc.timer_value / %s) * 100 % 16.66667) / 16.66667)
                                 END
-                                ORDER BY bc.timer_value
-                                SEPARATOR ''
-                            ) AS color_sequence
-                        FROM button_clicks bc
-                        JOIN users u ON bc.user_id = u.user_id
-                        WHERE bc.game_id = %s
-                        GROUP BY u.user_id
-                        ORDER BY total_clicks DESC
-                        LIMIT %s
-                        '''
-                params = (game_session['timer_duration'], game_session['timer_duration'], 
-                        game_session['timer_duration'], game_session['timer_duration'],
-                        game_session['timer_duration'], game_session['game_id'], num_entries)
+                            ) * (%s / 43200)
+                        ) AS mmr_score
+                    FROM button_clicks bc
+                    JOIN users u ON bc.user_id = u.user_id
+                    WHERE bc.game_id = %s
+                    GROUP BY u.user_id
+                    ORDER BY mmr_score DESC, total_clicks DESC
+                    LIMIT %s
+                '''
+                params = (
+                    game_session['timer_duration'],
+                    game_session['timer_duration'],
+                    game_session['timer_duration'],
+                    game_session['timer_duration'],
+                    game_session['timer_duration'],
+                    game_session['timer_duration'],
+                    game_session['timer_duration'],
+                    game_session['timer_duration'],
+                    game_session['timer_duration'],
+                    game_session['timer_duration'],
+                    game_session['game_id'],
+                    num_entries
+                )
                 success = execute_query(query, params)
                 most_clicks = success
 
@@ -334,25 +447,36 @@ async def handle_message(message, bot, menu_timer):
                 '''
                 success = execute_query(query, (game_session['game_id'], num_entries))
                 most_time_claimed = success
-
                 embed = nextcord.Embed(
                     title='🏆 The Leaderboard Legends of the Button 🏆')
 
+                # Helper function to get display name
+                def get_display_name(username):
+                    try:
+                        # First try to get member object
+                        member = message.guild.get_member_named(username)
+                        if member:
+                            return member.nick or member.display_name or member.name.replace(".", "")
+                        return username.replace(".", "")
+                    except:
+                        return username.replace(".", "")
+
                 top_clicks_value = '\n'.join(
-                    f'{user.replace(".", "")}: {clicks} clicks ({" ".join(emoji + "x" + str(seq.count(emoji)) for emoji in ["🟣", "🔵", "🟢", "🟡", "🟠", "🔴"] if emoji in seq)})'
-                    for user, clicks, seq in most_clicks
-                )
+                    f'__{get_display_name(user)}__: {clicks} clicks (MMR: {mmr_score:.1f})\n'
+                    f'{" ".join(emoji + "x" + str(seq.count(emoji)) for emoji in ["🟣", "🔵", "🟢", "🟡", "🟠", "🔴"] if emoji in seq)}'
+                    for user, clicks, seq, mmr_score in most_clicks
+                ) + '\n'
                 embed.add_field(name='⚔️ Mightiest Clickers ⚔️', 
-                              value='The adventurers who have clicked the button the most times in this game.', 
+                              value='The adventurers who have clicked the button the most times in this game, ranked by MMR.', 
                               inline=False)
                 embed.add_field(name='Top Clickers', 
                               value=top_clicks_value if top_clicks_value else 'No data available', 
                               inline=False)
 
                 lowest_individual_clicks_value = '\n'.join(
-                    f'{get_color_emoji(click_time)} {user.replace(".", "")}: {format_time(click_time)}'
+                    f'{get_color_emoji(click_time)} __{get_display_name(user)}__: {format_time(click_time)}'
                     for user, click_time in lowest_individual_clicks
-                )
+                ) + '\n'
                 embed.add_field(name='⚡ Swiftest Clicks ⚡', 
                               value='The adventurers who have clicked the button with the lowest time remaining in this game.', 
                               inline=False)
@@ -361,20 +485,20 @@ async def handle_message(message, bot, menu_timer):
                               inline=False)
 
                 lowest_user_clicks_value = '\n'.join(
-                    f'{get_color_emoji(click_time)} {user.replace(".", "")}: {format_time(click_time)}'
+                    f'{get_color_emoji(click_time)} __{get_display_name(user)}__: {format_time(click_time)}'
                     for user, click_time in lowest_user_clicks
-                )
-                embed.add_field(name='🎯 Nimblest Warriors 🎯', 
-                              value='The adventurers who have the lowest personal best click time in this game.', 
-                              inline=False)
-                embed.add_field(name='Lowest Personal Best', 
-                              value=lowest_user_clicks_value if lowest_user_clicks_value else 'No data available', 
-                              inline=False)
+                ) + '\n'
+                # embed.add_field(name='🎯 Nimblest Warriors 🎯', 
+                #               value='The adventurers who have the lowest personal best click time in this game.', 
+                #               inline=False)
+                # embed.add_field(name='Lowest Personal Best', 
+                #               value=lowest_user_clicks_value if lowest_user_clicks_value else 'No data available', 
+                #               inline=False)
 
                 most_time_claimed_value = '\n'.join(
-                    f'{user.replace(".", "")}: {format_time(time_claimed)}'
-                    for user, time_claimed in most_time_claimed
-                )
+                    f'__{get_display_name(username)}__: {format_time(time_claimed)}'
+                    for username, time_claimed in most_time_claimed
+                ) + '\n'
                 embed.add_field(name='⏳ Temporal Titans ⏳', 
                               value='The adventurers who have claimed the most time by resetting the clock in this game.', 
                               inline=False)
@@ -747,3 +871,45 @@ async def start_boot_game(bot, button_guild_id, message_button_channel, menu_tim
     if menu_timer and not menu_timer.update_timer_task.is_running():
         logger.info('Starting update timer task...')
         menu_timer.update_timer_task.start()
+
+def calculate_mmr(timer_value, timer_duration):
+    """
+    Calculate MMR for a click based on:
+    1. Color bracket (16.66% intervals)
+    2. Precise timing within bracket
+    3. Scaled against timer_duration
+    
+    Args:
+        timer_value (int): Time remaining when button was clicked
+        timer_duration (int): Total duration of timer (cooldown)
+    
+    Returns:
+        float: Calculated MMR value
+    """
+    percentage = (timer_value / timer_duration) * 100
+    bracket_size = 16.66667  # Each color represents 16.66667% of the timer
+    
+    # Determine which bracket (0-5, where 0 is red and 5 is purple)
+    bracket = min(5, int(percentage / bracket_size))
+    
+    # Calculate position within bracket (0.0 to 1.0)
+    bracket_position = (percentage % bracket_size) / bracket_size
+    
+    # Base points exponentially increase as brackets get rarer
+    # Red (0) = 32, Orange (1) = 16, Yellow (2) = 8, Green (3) = 4, Blue (4) = 2, Purple (5) = 1
+    base_points = 2 ** (5 - bracket)
+    
+    # Position multiplier: rewards riskier timing within each bracket
+    # For red/orange (rarest), rewards getting closer to zero
+    # For other colors, rewards consistency in hitting the bracket
+    if bracket <= 1:  # Red or Orange
+        position_multiplier = 1 - bracket_position
+    else:
+        position_multiplier = 1 - abs(0.5 - bracket_position)
+    
+    # Scale final score by timer_duration to account for game difficulty
+    time_scale = timer_duration / 43200  # Normalize to 12-hour standard
+    
+    mmr = base_points * (1 + position_multiplier) * time_scale
+    
+    return mmr
