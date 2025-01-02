@@ -11,7 +11,7 @@ from database.database import game_sessions_dict
 
 class ButtonView(nextcord.ui.View):
     def __init__(self, timer_value, bot, game_id=None):
-        super().__init__(timeout=None)
+        super().__init__(timeout=None)  # Correct timeout placement
         self.timer_value = timer_value
         self.bot = bot
         self.game_id = game_id
@@ -30,28 +30,26 @@ class ButtonView(nextcord.ui.View):
             color = get_color_state(self.timer_value, timer_duration)
             style = get_button_style(color)
             self.clear_items()
+            
+            # Match parameters with TimerButton's __init__ signature
             button = TimerButton(
-                style=style, 
-                label=button_label, 
-                timer_value=self.timer_value, 
                 bot=self.bot,
+                style=style,
+                label=button_label,
+                timer_value=self.timer_value,
                 game_id=self.game_id
             )
             self.add_item(button)
         except Exception as e:
             logger.error(f"Error in ButtonView.add_button: {e}")
-            tb = traceback.format_exc()
-            logger.error(tb)
-            # Fallback to default values if there's an error
-            button_label = "Click me!"
-            color = get_color_state(self.timer_value, 43200)
-            style = get_button_style(color)
-            self.clear_items()
+            logger.error(traceback.format_exc())
+            
+            # Fallback with correct parameter order
             button = TimerButton(
-                style=style,
-                label=button_label,
-                timer_value=self.timer_value,
                 bot=self.bot,
+                style=nextcord.ButtonStyle.primary,
+                label="Click me!",
+                timer_value=self.timer_value,
                 game_id=self.game_id
             )
             self.add_item(button)

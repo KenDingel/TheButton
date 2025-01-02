@@ -60,13 +60,9 @@
             0% { transform: rotate(0deg); }
             100% { transform: rotate(360deg); }
         }
-        /* Ensure the tooltip appears above other elements */
+
         #activityTooltip {
             z-index: 1000;
-        }
-
-        /* Optional: Smooth transition for the tooltip */
-        #activityTooltip {
             transition: opacity 0.2s ease-in-out;
             opacity: 0;
         }
@@ -74,53 +70,174 @@
         .group:hover #activityTooltip {
             opacity: 1;
         }
+
+        /* Side Panel Animation */
+        .side-panel {
+            transition: transform 0.5s ease-in-out;
+            transform: translateX(100%);
+        }
+
+        .side-panel.active {
+            transform: translateX(0);
+        }
+
+        .main-content {
+            transition: transform 0.5s ease-in-out;
+        }
+
+        .main-content.shifted {
+            transform: translateX(-20%);
+        }
+
+        /* Image grid hover effect */
+        .game-screenshot {
+            transition: transform 0.3s ease;
+        }
+        
+        .game-screenshot:hover {
+            transform: scale(1.05);
+        }
     </style>
 </head>
-<body class="bg-gray-900 text-gray-100 min-h-screen">
-    <!-- Header -->
-    <header class="bg-gray-800 shadow-lg border-b border-gray-700">
-        <div class="container mx-auto px-4 py-6">
-            <h1 class="text-4xl font-bold text-center text-gray-100">The Button Game Stats</h1>
-            <br>
-            <h2 class="text-lg font-bold text-center text-gray-400">By Regen2Moon (K3N), Inspired by Josh Wardle.</h2>
+<body class="bg-gray-900 text-gray-100 min-h-screen relative">
+    <!-- Side Panel -->
+    <div id="sidePanel" class="side-panel fixed top-0 right-0 w-4/5 h-full bg-gray-900 shadow-2xl overflow-y-auto z-50 border-l border-gray-700">
+        <button onclick="closeSidePanel()" class="absolute top-6 right-6 text-gray-400 hover:text-white">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+        </button>
+        
+        <div class="p-8">
+            <div class="bg-gray-800 rounded-xl p-6 mb-6">
+                <h2 class="text-3xl font-bold mb-4">The Button Game</h2>
+                <p class="text-gray-300 mb-4">Hello! My name is K3N, and I would like to tell you about a community game bot called "The Button" that I created.</p>
+                <p class="text-gray-300 mb-4">It's basically like playing "keep the balloon up"/"hot potato"/"don't let the bomb explode" but in Discord.</p>
+                <p class="text-gray-300 mb-6">Everyone works together to keep a timer from hitting zero by clicking, so when someone clicks, it resets for everyone. The closer to zero the button gets, the rarer the color it changes to. So a user might be waiting to grab a specific color, and someone swoops in and "steals" it from them. I've seen some cool user interaction with this!</p>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="bg-gray-700 rounded-lg p-4 game-screenshot">
+                        <img src="assets/TheButtonTemplate01.png" alt="Button Game Screenshot 1" class="w-full h-auto rounded-lg mb-2">
+                        <p class="text-sm text-gray-300">The button in its initial purple state</p>
+                    </div>
+                    <div class="bg-gray-700 rounded-lg p-4 game-screenshot">
+                        <img src="assets/TheButtonTemplate02.png" alt="Button Game Screenshot 2" class="w-full h-auto rounded-lg mb-2">
+                        <p class="text-sm text-gray-300">Button transitioning to blue color</p>
+                    </div>
+                    <div class="bg-gray-700 rounded-lg p-4 game-screenshot">
+                        <img src="assets/TheButtonTemplate03.png" alt="Button Game Screenshot 3" class="w-full h-auto rounded-lg mb-2">
+                        <p class="text-sm text-gray-300">Green state as time decreases</p>
+                    </div>
+                    <div class="bg-gray-700 rounded-lg p-4 game-screenshot">
+                        <img src="assets/TheButtonTemplate04.png" alt="Button Game Screenshot 4" class="w-full h-auto rounded-lg mb-2">
+                        <p class="text-sm text-gray-300">Yellow state indicating urgency</p>
+                    </div>
+                    <div class="bg-gray-700 rounded-lg p-4 game-screenshot">
+                        <img src="assets/TheButtonTemplate05.png" alt="Button Game Screenshot 5" class="w-full h-auto rounded-lg mb-2">
+                        <p class="text-sm text-gray-300">Orange state - time running low!</p>
+                    </div>
+                    <div class="bg-gray-700 rounded-lg p-4 game-screenshot">
+                        <img src="assets/TheButtonTemplate06.png" alt="Button Game Screenshot 6" class="w-full h-auto rounded-lg mb-2">
+                        <p class="text-sm text-gray-300">Red state - critical time remaining</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-gray-800 rounded-xl p-6 mb-6">
+                <h3 class="text-2xl font-bold mb-4">Current Stats</h3>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="bg-gray-700 rounded-lg p-4">
+                        <h4 class="font-bold text-lg mb-2">My Server</h4>
+                        <p class="text-gray-300">14 players</p>
+                        <p class="text-gray-300">12 days alive</p>
+                        <p class="text-gray-300">64 clicks</p>
+                    </div>
+                    <div class="bg-gray-700 rounded-lg p-4">
+                        <h4 class="font-bold text-lg mb-2">Private Server</h4>
+                        <p class="text-gray-300">10 players</p>
+                        <p class="text-gray-300">12 days alive</p>
+                        <p class="text-gray-300">68 clicks</p>
+                    </div>
+                    <div class="bg-gray-700 rounded-lg p-4">
+                        <h4 class="font-bold text-lg mb-2">The Collective</h4>
+                        <p class="text-gray-300">18 players</p>
+                        <p class="text-gray-300">11 days alive</p>
+                        <p class="text-gray-300">112 clicks</p>
+                    </div>
+                    <div class="bg-gray-700 rounded-lg p-4">
+                        <h4 class="font-bold text-lg mb-2">The Goon Squad</h4>
+                        <p class="text-gray-300">21 players</p>
+                        <p class="text-gray-300">4 days alive</p>
+                        <p class="text-gray-300">78 clicks</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-gray-800 rounded-xl p-6">
+                <h3 class="text-2xl font-bold mb-4">Technical Details</h3>
+                <div class="text-gray-300 space-y-4">
+                    <p>The bot's code is closed source, which means I plan on hosting the bot. However, I am happy to share the code for transparency to review.</p>
+                    <p>The bot needs permissions to manage the color roles and to edit/delete messages in the game chat. The perms can be set up so the color ranks and the button bot are both at the bottom of the role hierarchy, so that the bot is limited to editing just the button game's roles.</p>
+                    <p>The bot requires 2 channels:</p>
+                    <ul class="list-disc list-inside pl-4">
+                        <li>A channel that stores the button and rules/explanation</li>
+                        <li>A channel for chatting and seeing the 'button clicked' message</li>
+                    </ul>
+                </div>
+            </div>
         </div>
-    </header>
+    </div>
 
     <!-- Main Content -->
-    <main class="container mx-auto px-4 py-8">
-        <!-- Loading State -->
-        <div id="loadingState" class="flex items-center justify-center py-12">
-            <div class="loading-spinner"></div>
-            <span class="ml-3 text-gray-300">Loading game data...</span>
-        </div>
-
-        <!-- Error State -->
-        <div id="errorState" class="hidden bg-red-900 border-l-4 border-red-500 text-red-100 p-4 mb-8" role="alert">
-            <p class="font-bold">Error</p>
-            <p>Failed to load game data. Please try again later.</p>
-        </div>
-
-        <!-- Active Games Grid -->
-        <div id="activeGames" class="hidden grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-            <!-- Games will be inserted here by JavaScript -->
-        </div>
-
-        <!-- Recent Clicks Section -->
-        <section class="bg-gray-800 rounded-xl shadow-lg p-6 mb-8">
-            <h2 class="text-2xl font-bold mb-6 text-gray-100">Most Recent Clicks</h2>
-            <div id="recentClicks" class="space-y-4">
-                <!-- Recent clicks will be inserted here -->
+    <div id="mainContent" class="main-content">
+        <!-- Header -->
+        <header class="bg-gray-800 shadow-lg border-b border-gray-700">
+            <div class="container mx-auto px-4 py-6 relative">
+                <button onclick="openSidePanel()" class="absolute right-4 top-1/2 -translate-y-1/2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors duration-200">
+                    About The Game
+                </button>
+                <h1 class="text-4xl font-bold text-center text-gray-100">The Button Game Stats</h1>
+                <br>
+                <h2 class="text-lg font-bold text-center text-gray-400">By Regen2Moon (K3N), Inspired by Josh Wardle.</h2>
             </div>
-        </section>
+        </header>
 
-        <!-- Lowest Times Section -->
-        <section class="bg-gray-800 rounded-xl shadow-lg p-6">
-            <h2 class="text-2xl font-bold mb-6 text-gray-100">Global Leaderboard - Lowest Times</h2>
-            <div id="lowestTimes" class="space-y-4">
-                <!-- Lowest times will be inserted here -->
+        <!-- Main Content -->
+        <main class="container mx-auto px-4 py-8">
+            <!-- Loading State -->
+            <div id="loadingState" class="flex items-center justify-center py-12">
+                <div class="loading-spinner"></div>
+                <span class="ml-3 text-gray-300">Loading game data...</span>
             </div>
-        </section>
-    </main>
+
+            <!-- Error State -->
+            <div id="errorState" class="hidden bg-red-900 border-l-4 border-red-500 text-red-100 p-4 mb-8" role="alert">
+                <p class="font-bold">Error</p>
+                <p>Failed to load game data. Please try again later.</p>
+            </div>
+
+            <!-- Active Games Grid -->
+            <div id="activeGames" class="hidden grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
+                <!-- Games will be inserted here by JavaScript -->
+            </div>
+
+            <!-- Recent Clicks Section -->
+            <section class="bg-gray-800 rounded-xl shadow-lg p-6 mb-8">
+                <h2 class="text-2xl font-bold mb-6 text-gray-100">Most Recent Clicks</h2>
+                <div id="recentClicks" class="space-y-4">
+                    <!-- Recent clicks will be inserted here -->
+                </div>
+            </section>
+
+            <!-- Lowest Times Section -->
+            <section class="bg-gray-800 rounded-xl shadow-lg p-6">
+                <h2 class="text-2xl font-bold mb-6 text-gray-100">Global Leaderboard - Lowest Times</h2>
+                <div id="lowestTimes" class="space-y-4">
+                    <!-- Lowest times will be inserted here -->
+                </div>
+            </section>
+        </main>
+    </div>
 
     <!-- Leaderboard Modal -->
     <div id="leaderboardModal" class="fixed inset-0 z-50 hidden">
@@ -146,6 +263,7 @@
         </div>
     </div>
 
+    <!-- Activity Modal -->
     <div id="activityModal" class="fixed inset-0 z-50 hidden">
         <div class="modal-backdrop absolute inset-0"></div>
         <div class="fixed inset-0 flex items-center justify-center p-4">
@@ -170,6 +288,18 @@
     </div>
 
     <script>
+        function openSidePanel() {
+            document.getElementById('sidePanel').classList.add('active');
+            document.getElementById('mainContent').classList.add('shifted');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeSidePanel() {
+            document.getElementById('sidePanel').classList.remove('active');
+            document.getElementById('mainContent').classList.remove('shifted');
+            document.body.style.overflow = 'auto';
+        }
+
         function closeActivity() {
             document.getElementById('activityModal').classList.add('hidden');
         }
@@ -182,7 +312,6 @@
             const secs = Math.floor(seconds % 60);
             return `${String(hours).padStart(2, '0')}:${String(minutes).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
         }
-
 
         function getColorClass(timeValue, duration) {
             const percentage = (timeValue / duration) * 100;
@@ -263,15 +392,12 @@
                 const lastClickStr = timer.dataset.lastclick;
                 const timerDuration = parseInt(timer.dataset.duration);
                 
-                // Parse the date and ensure UTC handling
-                const lastClick = new Date(lastClickStr + 'Z'); // Ensure UTC
+                const lastClick = new Date(lastClickStr + 'Z');
                 const now = new Date();
                 
-                // Convert both to UTC timestamps
                 const elapsedSinceClick = Math.floor((now.getTime() - lastClick.getTime()) / 1000);
                 const remaining = Math.max(0, timerDuration - elapsedSinceClick);
                 
-                // Sanity check - never show more than timer duration
                 const timeToShow = Math.min(remaining, timerDuration);
                 
                 timer.textContent = formatTime(timeToShow);
@@ -295,7 +421,6 @@
                 document.getElementById('activeGames').classList.remove('hidden');
                 
                 const gamesHtml = games.map(game => {
-                    // Default values for missing stats
                     const stats = game.stats || {
                         time_to_beat: game.timer_duration,
                         record_holder: 'No record yet',
@@ -305,8 +430,6 @@
                         total_clicks: 0
                     };
 
-
-                    // Default value for missing color pattern
                     const colorPattern = game.color_pattern || [];
 
                     return `
@@ -390,7 +513,6 @@
                 const data = await response.json();
                 const stats = data.data;
                 
-                // Create activity heatmap
                 const hours = Array.from({ length: 24 }, (_, i) => i);
                 const maxClicks = Math.max(...stats.map(s => s.click_count));
                 
@@ -404,7 +526,6 @@
                                     <div class="aspect-square relative group cursor-pointer" data-hour="${hour}" data-clicks="${hourStat.click_count}">
                                         <div class="absolute inset-0 bg-blue-500" style="opacity: ${intensity / 100};"></div>
                                     </div>
-
                                 `;
                             }).join('')}
                         </div>
@@ -449,7 +570,6 @@
             const hour = cell.dataset.hour;
             const clicks = cell.dataset.clicks;
 
-            // Create tooltip element
             const tooltip = document.createElement('div');
             tooltip.id = 'activityTooltip';
             tooltip.className = 'fixed bg-gray-900 text-white px-2 py-1 rounded text-sm z-50 pointer-events-none';
@@ -457,14 +577,12 @@
 
             document.body.appendChild(tooltip);
 
-            // Position the tooltip
             function positionTooltip(event) {
                 tooltip.style.left = event.clientX + 15 + 'px';
                 tooltip.style.top = event.clientY + 15 + 'px';
             }
 
             cell.addEventListener('mousemove', positionTooltip);
-
             cell._tooltipMouseMoveHandler = positionTooltip;
         }
 
@@ -477,82 +595,6 @@
             if (cell._tooltipMouseMoveHandler) {
                 cell.removeEventListener('mousemove', cell._tooltipMouseMoveHandler);
                 delete cell._tooltipMouseMoveHandler;
-            }
-        }
-
-        // Fetch and update click lists:
-        async function fetchClickLists() {
-            try {
-                // Fetch and display recent clicks
-                const recentResponse = await fetch('api.php?action=getRecentClicks');
-                const recentData = await recentResponse.json();
-                const recentClicks = Array.isArray(recentData.data) ? recentData.data : recentData;
-                
-                const recentClicksHtml = recentClicks.map(click => `
-                    <div class="bg-gray-700 rounded-lg p-4">
-                        <div class="flex justify-between items-start">
-                            <div>
-                                <div class="flex items-center gap-2">
-                                    <p class="font-bold text-gray-100">${click.user_name}</p>
-                                    <span class="text-xs text-gray-400">${click.guild_name || `Server ${click.guild_id}`}</span>
-                                </div>
-                                <div class="mt-1 ${getColorClass(click.timer_value, click.timer_duration)} text-white px-3 py-1 rounded-md inline-block">
-                                    ${formatTime(click.timer_value)} remaining
-                                </div>
-                            </div>
-                            <div class="text-right">
-                                <p class="text-sm text-gray-300">
-                                    ${new Date(click.click_time).toLocaleString()}
-                                </p>
-                                <p class="text-xs text-gray-400">
-                                    Game #${click.game_id}
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                `).join('');
-                
-                document.getElementById('recentClicks').innerHTML = recentClicksHtml;
-
-                // Fetch and display lowest clicks
-                const lowestResponse = await fetch('api.php?action=getLowestClicks');
-                const lowestData = await lowestResponse.json();
-                const lowestClicks = Array.isArray(lowestData.data) ? lowestData.data : lowestData;
-                
-                const lowestClicksHtml = lowestClicks.map((click, index) => `
-                    <div class="bg-gray-700 rounded-lg p-4 ${index === 0 ? 'ring-2 ring-yellow-500' : ''}">
-                        <div class="flex justify-between items-start">
-                            <div class="flex-1">
-                                <div class="flex items-center gap-2">
-                                    <span class="text-lg font-semibold text-gray-300">#${index + 1}</span>
-                                    <div>
-                                        <p class="font-bold text-gray-100">${click.user_name}</p>
-                                        <p class="text-xs text-gray-400">${click.guild_name || `Server ${click.guild_id}`}</p>
-                                    </div>
-                                </div>
-                                <div class="mt-1 ${getColorClass(click.timer_value, click.timer_duration)} text-white px-3 py-1 rounded-md inline-block">
-                                    ${formatTime(click.timer_value)} remaining
-                                </div>
-                            </div>
-                            <div class="text-right">
-                                <p class="text-sm text-gray-300">
-                                    ${new Date(click.click_time).toLocaleString()}
-                                </p>
-                                <p class="text-xs text-gray-400">
-                                    Game #${click.game_id}
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                `).join('');
-                
-                document.getElementById('lowestTimes').innerHTML = lowestClicksHtml;
-            } catch (error) {
-                console.error('Error fetching click lists:', error);
-                document.getElementById('recentClicks').innerHTML = 
-                    '<div class="text-red-400 p-4">Failed to load recent clicks.</div>';
-                document.getElementById('lowestTimes').innerHTML = 
-                    '<div class="text-red-400 p-4">Failed to load lowest times.</div>';
             }
         }
 
@@ -605,6 +647,7 @@
             if (e.key === 'Escape') {
                 closeActivity();
                 closeLeaderboard();
+                closeSidePanel();
             }
         });
         
@@ -613,6 +656,7 @@
                 closeActivity();
             }
         });
+
         // Start the application
         initialize();
     </script>

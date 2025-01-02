@@ -100,6 +100,16 @@ async def on_ready():
         print(f'Connected to guild: {guild.name}')
         logger.info(f'Connected to guild: {guild.name}')
 
+    for guild in bot.guilds:
+        game_session = get_game_session_by_guild_id(guild.id)
+        if game_session:
+            view = ButtonView(
+                timer_value=game_session['timer_duration'],
+                bot=bot,
+                game_id=game_session['game_id']
+            )
+            bot.add_view(view)
+
     if not setup_pool(): 
         logger.error(f"Failed to initialize database pools.")
         return 

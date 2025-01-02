@@ -11,14 +11,20 @@ class GameCache:
 
     def update_game_cache(self, game_id, latest_click_time, total_clicks, total_players, latest_player_name, last_timer_value):
         game_id = int(game_id)
-        self.games[game_id] = {
-            'latest_click_time': latest_click_time,
-            'total_clicks': total_clicks,
-            'total_players': total_players,
-            'last_update_time': datetime.datetime.now(timezone.utc),
-            'latest_player_name': latest_player_name,
-            'last_timer_value': last_timer_value
-        }
+        # self.games[game_id] = {
+        #     'latest_click_time': latest_click_time,
+        #     'total_clicks': total_clicks,
+        #     'total_players': total_players,
+        #     'last_update_time': datetime.datetime.now(timezone.utc),
+        #     'latest_player_name': latest_player_name,
+        #     'last_timer_value': last_timer_value
+        # }
+        # Instead we want to update the values instead of overwriting the entire dictionary
+        if game_id in self.games:
+            self.games[game_id]['latest_click_time'] = latest_click_time
+            self.games[game_id]['last_update_time'] = datetime.datetime.now(timezone.utc)
+            self.games[game_id]['latest_player_name'] = latest_player_name
+            self.games[game_id]['last_timer_value'] = last_timer_value
         logger.info(f'Game cache updated for game {game_id}, {self.games}')
 
     def get_game_cache(self, game_id):

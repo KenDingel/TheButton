@@ -3,6 +3,8 @@ import mysql.connector
 from mysql.connector.pooling import MySQLConnectionPool
 import traceback
 import time
+import datetime
+from datetime import timezone
 
 from utils.utils import config, logger, lock, get_color_name
 
@@ -215,7 +217,7 @@ def execute_query(query, params=None, is_timer=False, retry_attempts=3, commit=F
                 if connection:
                     connection.close()
             except Exception as e:
-                logger.error(f"Error closing database resources: {e}")
+                pass
 
     # If we get here, all attempts failed
     logger.error(
@@ -346,12 +348,27 @@ GAME_CHANNELS = None
 def update_local_game_sessions():
     """
     Updates the local cache of game sessions from the database.
+    Only returns the latest session per guild based on start_time.
     
     Returns:
         list: Updated list of game sessions
     """
     logger.info('Updating local game sessions')
     query = """
+        WITH LatestSessions AS (
+            SELECT 
+                id,
+                admin_role_id,
+                guild_id,
+                button_channel_id,
+                game_chat_channel_id,
+                start_time,
+                end_time,
+                timer_duration,
+                cooldown_duration,
+                ROW_NUMBER() OVER (PARTITION BY guild_id ORDER BY start_time DESC) as rn
+            FROM game_sessions
+        )
         SELECT 
             id,
             admin_role_id,
@@ -362,7 +379,9 @@ def update_local_game_sessions():
             end_time,
             timer_duration,
             cooldown_duration
-        FROM game_sessions
+        FROM LatestSessions
+        WHERE rn = 1
+        ORDER BY start_time DESC
     """
     try:
         result = execute_query(query)
@@ -379,9 +398,6 @@ def game_sessions_dict(game_sessions_arg=None):
     global game_sessions, game_sessions_as_dict
     output = {}
     if game_sessions_arg: game_sessions = game_sessions_arg
-    
-    if len(game_sessions) == len(game_sessions_as_dict.keys()): 
-        return game_sessions_as_dict
     
     logger.info(f'Creating game sessions dict, lengths - game_sessions: {len(game_sessions)}, game_sessions_as_dict: {len(game_sessions_as_dict.keys())}')
     for game in game_sessions:
@@ -701,6 +717,59 @@ def insert_first_click(game_id, user_id, user_name, timer_value):
         logger.error(traceback.format_exc())
         return None
 
+def update_or_create_game_session(admin_role_id, guild_id, button_channel_id, game_chat_channel_id, start_time, timer_duration, cooldown_duration, force_create=False):
+    """
+    Updates existing game session or creates new one for a guild.
+    If existing session's timer has expired, it will be updated with new values.
+    """
+    try:
+        # Check for existing game session with expired timer
+        query = """
+            SELECT gs.id, MAX(bc.click_time), MAX(bc.timer_value)
+            FROM game_sessions gs
+            LEFT JOIN button_clicks bc ON gs.id = bc.game_id
+            WHERE gs.guild_id = %s
+            GROUP BY gs.id
+        """
+        result = execute_query(query, (guild_id,))
+        
+        # force_create
+        if force_create:
+            return create_game_session(admin_role_id, guild_id, button_channel_id, game_chat_channel_id, 
+                                       start_time, timer_duration, cooldown_duration)
+
+        if result and result[0]:
+            game_id, last_click, last_timer = result[0]
+            if last_click and last_timer:
+                # Calculate if timer has expired
+                elapsed = (datetime.datetime.now(timezone.utc) - last_click.replace(tzinfo=timezone.utc)).total_seconds()
+                if elapsed > last_timer:
+                    # Update existing session
+                    update_query = """
+                        UPDATE game_sessions 
+                        SET admin_role_id = %s,
+                            button_channel_id = %s,
+                            game_chat_channel_id = %s,
+                            start_time = %s,
+                            end_time = NULL,
+                            timer_duration = %s,
+                            cooldown_duration = %s
+                        WHERE id = %s
+                    """
+                    execute_query(update_query, (admin_role_id, button_channel_id, game_chat_channel_id, 
+                                              start_time, timer_duration, cooldown_duration, game_id), commit=True)
+                    update_local_game_sessions()
+                    return game_id
+            
+        # If no session exists or timer hasn't expired, create new session
+        return create_game_session(admin_role_id, guild_id, button_channel_id, game_chat_channel_id, 
+                                 start_time, timer_duration, cooldown_duration)
+                                 
+    except Exception as e:
+        logger.error(f"Error in update_or_create_game_session: {e}")
+        logger.error(traceback.format_exc())
+        return None
+    
 # Fix missing users
 missing_users = get_missing_users()
 logger.info(f"Missing users: {missing_users}")

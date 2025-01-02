@@ -140,7 +140,7 @@ class MenuTimer(nextcord.ui.View):
         self.bot = bot
         self.button_message_restore_attempts = {}  # Track restore attempts per game
         
-    @tasks.loop(seconds=5)
+    @tasks.loop(seconds=10)
     async def update_timer_task(self):
         global lock, paused_games, game_cache, logger
         
@@ -228,7 +228,7 @@ class MenuTimer(nextcord.ui.View):
                         embed, file = get_end_game_embed(game_id, guild)
                         try:
                             await button_message.edit(embed=embed, file=file)
-                            self.update_timer_task.stop()
+                            #self.update_timer_task.stop()
                             logger.info(f'Game {game_id} Ended!')
                         except nextcord.NotFound:
                             logger.error(f'Message was deleted when trying to end game {game_id}')
@@ -281,8 +281,9 @@ class MenuTimer(nextcord.ui.View):
                     embed.color = nextcord.Color.from_rgb(*pastel_color)
                     
                     # Update the message
-                    button_view = ButtonView(timer_value, self.bot)
                     try:
+                        # Keep the view persistent by using game_id
+                        button_view = ButtonView(timer_value, self.bot, game_id)  # Make sure game_id is passed
                         await button_message.edit(embed=embed, file=file_buffer, view=button_view)
                     except nextcord.NotFound:
                         logger.warning(f'Message was deleted, creating new one for game {game_id}')
@@ -290,6 +291,12 @@ class MenuTimer(nextcord.ui.View):
                     except Exception as e:
                         logger.error(f'Error updating button message: {str(e)}')
                         Failed_Interactions.increment()
+
+                    try:
+                        await button_message.clear_reactions()
+                    except:
+                        logger.error(f'Error clearing reactions for game {game_id}')
+                        pass
 
                 except Exception as e:
                     tb = traceback.format_exc()
@@ -309,3 +316,6 @@ class MenuTimer(nextcord.ui.View):
     # Ensure the loop is canceled if timeout occurs
     async def on_timeout(self): 
         self.update_timer_task.cancel()
+        # Add a delay before restarting the task
+        await asyncio.sleep(2)
+        self.update_timer_task.start()

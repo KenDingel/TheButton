@@ -6,10 +6,11 @@ from typing import Dict, List, Tuple
 import nextcord
 
 # Local imports
-from database.database import get_game_session_by_guild_id, create_game_session, get_game_session_by_id, get_all_game_channels, execute_query, game_sessions_dict, update_local_game_sessions, insert_first_click
+from database.database import get_game_session_by_guild_id, create_game_session, update_or_create_game_session, get_game_session_by_id, get_all_game_channels, execute_query, game_sessions_dict, update_local_game_sessions, insert_first_click
 from utils.utils import config, logger, lock, format_time, get_color_emoji, get_color_state
 from text.full_text import LORE_TEXT
 from button.button_functions import setup_roles, create_button_message, paused_games
+from game.game_cache import game_cache
 
 
 # Handle message function
@@ -342,7 +343,7 @@ async def handle_message(message, bot, menu_timer):
             finally:
                 await message.remove_reaction('🔄', bot.user)
 
-        elif message.content.lower() in ['leaderboard', 'scores', 'scoreboard', 'top']:
+        elif 'leaderboard' in message.content.lower() and len(message.content.split()) <= 2 and message.content.split()[0].lower() == 'leaderboard':
             await message.add_reaction('⏳')
             game_session = get_game_session_by_guild_id(message.guild.id)
             if not game_session:
@@ -365,11 +366,11 @@ async def handle_message(message, bot, menu_timer):
                         COUNT(*) AS total_clicks,
                         GROUP_CONCAT(
                             CASE
-                                WHEN (bc.timer_value / %s) * 100 >= 83.33 THEN '🟣'
-                                WHEN (bc.timer_value / %s) * 100 >= 66.67 THEN '🔵'
-                                WHEN (bc.timer_value / %s) * 100 >= 50 THEN '🟢'
-                                WHEN (bc.timer_value / %s) * 100 >= 33.33 THEN '🟡'
-                                WHEN (bc.timer_value / %s) * 100 >= 16.67 THEN '🟠'
+                                WHEN ROUND((bc.timer_value / %s) * 100, 2) >= 83.33 THEN '🟣'
+                                WHEN ROUND((bc.timer_value / %s) * 100, 2) >= 66.67 THEN '🔵'
+                                WHEN ROUND((bc.timer_value / %s) * 100, 2) >= 50.00 THEN '🟢'
+                                WHEN ROUND((bc.timer_value / %s) * 100, 2) >= 33.33 THEN '🟡'
+                                WHEN ROUND((bc.timer_value / %s) * 100, 2) >= 16.67 THEN '🟠'
                                 ELSE '🔴'
                             END
                             ORDER BY bc.timer_value
@@ -422,23 +423,47 @@ async def handle_message(message, bot, menu_timer):
                 lowest_individual_clicks = success
 
                 # Lowest user clicks in current game session
+                # Update the Lowest individual clicks query
                 query = '''
-                    SELECT u.user_name, MIN(bc.timer_value) AS lowest_click_time
+                    SELECT 
+                        u.user_name, 
+                        bc.timer_value,
+                        CASE
+                            WHEN ROUND((bc.timer_value / %s) * 100, 2) >= 83.33 THEN '🟣'
+                            WHEN ROUND((bc.timer_value / %s) * 100, 2) >= 66.67 THEN '🔵'
+                            WHEN ROUND((bc.timer_value / %s) * 100, 2) >= 50.00 THEN '🟢'
+                            WHEN ROUND((bc.timer_value / %s) * 100, 2) >= 33.33 THEN '🟡'
+                            WHEN ROUND((bc.timer_value / %s) * 100, 2) >= 16.67 THEN '🟠'
+                            ELSE '🔴'
+                        END as color_emoji
                     FROM button_clicks bc
                     JOIN users u ON bc.user_id = u.user_id
                     WHERE bc.game_id = %s
-                    GROUP BY u.user_id
-                    ORDER BY lowest_click_time
+                    ORDER BY bc.timer_value
                     LIMIT %s
                 '''
-                success = execute_query(query, (game_session['game_id'], num_entries))
-                lowest_user_clicks = success
+                params = (
+                    game_session['timer_duration'],
+                    game_session['timer_duration'],
+                    game_session['timer_duration'],
+                    game_session['timer_duration'],
+                    game_session['timer_duration'],
+                    game_session['game_id'],
+                    num_entries
+                )
+                success = execute_query(query, params)
+                lowest_individual_clicks = success
 
                 # Most time claimed in current game session
                 query = '''
                     SELECT
                         u.user_name,
-                        SUM(43200 - bc.timer_value) AS total_time_claimed
+                        SUM(
+                            CASE 
+                                WHEN bc.timer_value <= %s THEN %s - bc.timer_value
+                                ELSE 0  -- Safety check for any invalid timer values
+                            END
+                        ) AS total_time_claimed
                     FROM button_clicks bc
                     JOIN users u ON bc.user_id = u.user_id
                     WHERE bc.game_id = %s
@@ -446,7 +471,13 @@ async def handle_message(message, bot, menu_timer):
                     ORDER BY total_time_claimed DESC
                     LIMIT %s
                 '''
-                success = execute_query(query, (game_session['game_id'], num_entries))
+                params = (
+                    game_session['timer_duration'],  # For the <= check
+                    game_session['timer_duration'],  # For the subtraction
+                    game_session['game_id'],
+                    num_entries
+                )
+                success = execute_query(query, params)
                 most_time_claimed = success
                 embed = nextcord.Embed(
                     title='🏆 The Leaderboard Legends of the Button 🏆')
@@ -475,9 +506,10 @@ async def handle_message(message, bot, menu_timer):
                               inline=False)
 
                 lowest_individual_clicks_value = '\n'.join(
-                    f'{get_color_emoji(click_time)} __{get_display_name(user)}__: {format_time(click_time)}'
-                    for user, click_time in lowest_individual_clicks
+                    f'{color_emoji} __{get_display_name(user)}__: {format_time(click_time)}'
+                    for user, click_time, color_emoji in lowest_individual_clicks
                 ) + '\n'
+
                 embed.add_field(name='⚡ Swiftest Clicks ⚡', 
                               value='The adventurers who have clicked the button with the lowest time remaining in this game.', 
                               inline=False)
@@ -485,10 +517,10 @@ async def handle_message(message, bot, menu_timer):
                               value=lowest_individual_clicks_value if lowest_individual_clicks_value else 'No data available', 
                               inline=False)
 
-                lowest_user_clicks_value = '\n'.join(
-                    f'{get_color_emoji(click_time)} __{get_display_name(user)}__: {format_time(click_time)}'
-                    for user, click_time in lowest_user_clicks
-                ) + '\n'
+                # lowest_user_clicks_value = '\n'.join(
+                #     f'{get_color_emoji(click_time)} __{get_display_name(user)}__: {format_time(click_time)}'
+                #     for user, click_time in lowest_user_clicks
+                # ) + '\n'
                 # embed.add_field(name='🎯 Nimblest Warriors 🎯', 
                 #               value='The adventurers who have the lowest personal best click time in this game.', 
                 #               inline=False)
@@ -730,11 +762,11 @@ async def handle_message(message, bot, menu_timer):
                         MIN(bc.timer_value) AS lowest_click_time,
                         GROUP_CONCAT(
                             CASE
-                                WHEN bc.timer_value >= 36000 THEN '🟣'
-                                WHEN bc.timer_value >= 28800 THEN '🔵'
-                                WHEN bc.timer_value >= 21600 THEN '🟢'
-                                WHEN bc.timer_value >= 14400 THEN '🟡'
-                                WHEN bc.timer_value >= 7200 THEN '🟠'
+                                WHEN ROUND((bc.timer_value / %s) * 100, 2) >= 83.33 THEN '🟣'
+                                WHEN ROUND((bc.timer_value / %s) * 100, 2) >= 66.67 THEN '🔵'
+                                WHEN ROUND((bc.timer_value / %s) * 100, 2) >= 50.00 THEN '🟢'
+                                WHEN ROUND((bc.timer_value / %s) * 100, 2) >= 33.33 THEN '🟡'
+                                WHEN ROUND((bc.timer_value / %s) * 100, 2) >= 16.67 THEN '🟠'
                                 ELSE '🔴'
                             END
                             ORDER BY bc.timer_value
@@ -745,7 +777,8 @@ async def handle_message(message, bot, menu_timer):
                     GROUP BY u.user_id
                     ORDER BY lowest_click_time
                 '''
-                success = execute_query(query, ())
+                params = (game_session['timer_duration'],) * 5  # For each CASE condition
+                success = execute_query(query, params)
                 all_users_data = success
                 
                 embed = nextcord.Embed(
@@ -790,31 +823,39 @@ async def handle_message(message, bot, menu_timer):
                 logger.error(f'Error retrieving lore: {e}, {tb}')
                 await message.channel.send('❌ **An error occurred while retrieving the lore.** *The ancient archives seem to be temporarily sealed!* ❌')
 
-        elif message.content.lower() == 'add_new_game':
+        elif message.content.lower() == 'i would like a new button please!':
+            """
+            Command to add a new game session to the database. This will add a new game session with default settings.
+            Regardless of the current state of the game, this command will create a new game session.
+            """
+            #Check admin
+            if message.author.guild_permissions.administrator or message.author.id == 219948826964918272:
+                await message.channel.send('🎉 **ON IT BOSS...**')
+            else:
+                await message.channel.send('🚫 **You do not have the necessary permissions to use this command.**')
+                return
+            
             try:
-                query = 'SELECT * FROM game_sessions'
-                success = execute_query(query)
-                game_sessions = success
-                if game_sessions:
-                    for game_session in game_sessions:
-                        game_id = game_session[0]
-                        game_channel_id = game_session[1]
-                        chat_channel_id = game_session[2]
-                        start_time = game_session[3]
-                        timer_duration = game_session[4]
-                        cooldown_duration = game_session[5]
-                        admin_role_id = game_session[6]
-                        guild_id = game_session[7]
-                        paused_games.append(game_id)
-                        create_game_session(admin_role_id, guild_id, game_channel_id, chat_channel_id, start_time, timer_duration, cooldown_duration)
-                        logger.info(f'Game session {game_id} added to paused games.')
-                    await message.channel.send('Game sessions added to paused games.')
+                # Create a new game session
+                start_time = datetime.datetime.now(timezone.utc)
+                timer_duration = config['timer_duration']
+                cooldown_duration = config['cooldown_duration']
+                chat_channel_id = message.channel.id
+                game_id = update_or_create_game_session(0, message.guild.id, message.channel.id, chat_channel_id, start_time, timer_duration, cooldown_duration, True)
+                
+                game_session = get_game_session_by_id(game_id)
+                game_sessions_as_dict = game_sessions_dict()
+                if game_sessions_as_dict:
+                    game_sessions_as_dict[game_id] = game_session
                 else:
-                    await message.channel.send('No game sessions found.')
+                    game_sessions_as_dict = {game_id: game_session}
+                
+                update_local_game_sessions()
+                await message.channel.send(f'HUZZAH!! A new game session has been created! Game ID: {game_id}')
             except Exception as e:
                 tb = traceback.format_exc()
-                logger.error(f'Error adding game sessions: {e}, {tb}')
-                await message.channel.send('An error occurred while adding game sessions.')
+                logger.error(f'Error adding new game session: {e}, {tb}')
+                await message.channel.send('An error occurred while adding a new game session.')
     
     except Exception as e:
         tb = traceback.format_exc()
@@ -822,13 +863,13 @@ async def handle_message(message, bot, menu_timer):
 
 async def start_boot_game(bot, button_guild_id, message_button_channel, menu_timer):
     global paused_games, lock, logger
+    logger.info(f"Starting boot game for guild {button_guild_id}")
+    
     game_session = get_game_session_by_guild_id(button_guild_id)
     guild = bot.get_guild(button_guild_id)
-    if game_session:
-        await create_button_message(game_session['game_id'], bot)
-        logger.info(f"Button game already started in {button_guild_id}")
-    else:
-        logger.info(f"Starting button game in {button_guild_id}")
+    
+    if not game_session:
+        logger.info(f"No existing game session found for {button_guild_id}, creating new one")
         start_time = datetime.datetime.now(timezone.utc)
         timer_duration = config['timer_duration']
         cooldown_duration = config['cooldown_duration']
@@ -837,15 +878,15 @@ async def start_boot_game(bot, button_guild_id, message_button_channel, menu_tim
         admin_role_id = 0
         try:
             admin_role = nextcord.utils.get(guild.roles, name='Button Master')
-            if not admin_role: admin_role = await guild.create_role(name='Button Master')
+            if not admin_role:
+                admin_role = await guild.create_role(name='Button Master')
             admin_role_id = admin_role.id
         except Exception as e:
             tb = traceback.format_exc()
             logger.error(f'Error adding role: {e}, {tb}')
             logger.info('Skipping role addition...')
-            pass
             
-        game_id = create_game_session(admin_role_id, guild.id, message_button_channel, chat_channel_id, start_time, timer_duration, cooldown_duration)
+        game_id = update_or_create_game_session(admin_role_id, guild.id, message_button_channel, chat_channel_id, start_time, timer_duration, cooldown_duration)
         
         game_session = get_game_session_by_id(game_id)
         game_sessions_as_dict = game_sessions_dict()
@@ -863,7 +904,6 @@ async def start_boot_game(bot, button_guild_id, message_button_channel, menu_tim
             except Exception as e:
                 tb = traceback.format_exc()
                 logger.error(f'Error removing game session from paused games: {e}, {tb}')
-                pass
         
         await setup_roles(guild.id, bot)
         update_local_game_sessions()
