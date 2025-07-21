@@ -1,6 +1,5 @@
-<!DOCTYPE html>
-<html lang="en" class="dark">
-<head>
+<!-- Header -->
+<header class="bg-gray-800 shadow-lg border-b border-gray-700">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Button Game Stats</title>
@@ -109,80 +108,179 @@
         </button>
         
         <div class="p-8">
-            <div class="bg-gray-800 rounded-xl p-6 mb-6">
-                <h2 class="text-3xl font-bold mb-4">The Button Game</h2>
-                <p class="text-gray-300 mb-4">Hello! My name is K3N, and I would like to tell you about a community game bot called "The Button" that I created.</p>
-                <p class="text-gray-300 mb-4">It's basically like playing "keep the balloon up"/"hot potato"/"don't let the bomb explode" but in Discord.</p>
-                <p class="text-gray-300 mb-6">Everyone works together to keep a timer from hitting zero by clicking, so when someone clicks, it resets for everyone. The closer to zero the button gets, the rarer the color it changes to. So a user might be waiting to grab a specific color, and someone swoops in and "steals" it from them. I've seen some cool user interaction with this!</p>
-                
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div class="bg-gray-700 rounded-lg p-4 game-screenshot">
-                        <img src="assets/TheButtonTemplate01.png" alt="Button Game Screenshot 1" class="w-full h-auto rounded-lg mb-2">
-                        <p class="text-sm text-gray-300">The button in its initial purple state</p>
-                    </div>
-                    <div class="bg-gray-700 rounded-lg p-4 game-screenshot">
-                        <img src="assets/TheButtonTemplate02.png" alt="Button Game Screenshot 2" class="w-full h-auto rounded-lg mb-2">
-                        <p class="text-sm text-gray-300">Button transitioning to blue color</p>
-                    </div>
-                    <div class="bg-gray-700 rounded-lg p-4 game-screenshot">
-                        <img src="assets/TheButtonTemplate03.png" alt="Button Game Screenshot 3" class="w-full h-auto rounded-lg mb-2">
-                        <p class="text-sm text-gray-300">Green state as time decreases</p>
-                    </div>
-                    <div class="bg-gray-700 rounded-lg p-4 game-screenshot">
-                        <img src="assets/TheButtonTemplate04.png" alt="Button Game Screenshot 4" class="w-full h-auto rounded-lg mb-2">
-                        <p class="text-sm text-gray-300">Yellow state indicating urgency</p>
-                    </div>
-                    <div class="bg-gray-700 rounded-lg p-4 game-screenshot">
-                        <img src="assets/TheButtonTemplate05.png" alt="Button Game Screenshot 5" class="w-full h-auto rounded-lg mb-2">
-                        <p class="text-sm text-gray-300">Orange state - time running low!</p>
-                    </div>
-                    <div class="bg-gray-700 rounded-lg p-4 game-screenshot">
-                        <img src="assets/TheButtonTemplate06.png" alt="Button Game Screenshot 6" class="w-full h-auto rounded-lg mb-2">
-                        <p class="text-sm text-gray-300">Red state - critical time remaining</p>
+            <h2 class="text-3xl font-bold mb-4">The Button Game</h2>
+         
+            <div class="flex flex-col md:flex-row gap-8 mb-8">
+                <div class="md:w-1/2">
+                    <p class="text-gray-300 text-lg mb-6">Hello! My name is K3N, and I would like to tell you about a community game bot called "The Button" that I created.</p>
+                    
+                    <p class="text-gray-300 text-lg mb-6">It's basically like playing "keep the balloon up"/"hot potato"/"don't let the bomb explode" but in Discord.</p>
+                    
+                    <p class="text-gray-300 text-lg mb-6">Everyone works together to keep a timer from hitting zero by clicking, so when someone clicks, it resets for everyone. The closer to zero the button gets, the rarer the color it changes to. So a user might be waiting to grab a specific color, and someone swoops in and "steals" it from them. I've seen some cool user interaction with this!</p>
+         
+                    <div class="bg-gray-700 rounded-lg p-4 mt-4">
+                        <div class="h-40">
+                            <img src="image2.png" alt="A user obtaining a red button click" class="w-full h-full object-contain rounded-lg">
+                        </div>
+                        <p class="text-sm text-gray-300 mt-2 text-center">A user obtaining the rarest color! People were very excited.</p>
                     </div>
                 </div>
+         
+                <div class="md:w-1/2 bg-gray-700 rounded-lg p-4">
+                    <div class="h-[600px]">
+                        <img src="image1.png" alt="The Button Game Screenshot on Discord" class="w-full h-full object-contain rounded-lg">
+                    </div>
+                    <p class="text-sm text-gray-300 mt-2 text-center">The button game shown on Discord's mobile app.</p>
+                </div>
             </div>
-
-            <div class="bg-gray-800 rounded-xl p-6 mb-6">
-                <h3 class="text-2xl font-bold mb-4">Current Stats</h3>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <div class="bg-gray-700 rounded-lg p-4">
-                        <h4 class="font-bold text-lg mb-2">My Server</h4>
-                        <p class="text-gray-300">14 players</p>
-                        <p class="text-gray-300">12 days alive</p>
-                        <p class="text-gray-300">64 clicks</p>
-                    </div>
-                    <div class="bg-gray-700 rounded-lg p-4">
-                        <h4 class="font-bold text-lg mb-2">Private Server</h4>
-                        <p class="text-gray-300">10 players</p>
-                        <p class="text-gray-300">12 days alive</p>
-                        <p class="text-gray-300">68 clicks</p>
-                    </div>
-                    <div class="bg-gray-700 rounded-lg p-4">
-                        <h4 class="font-bold text-lg mb-2">The Collective</h4>
-                        <p class="text-gray-300">18 players</p>
-                        <p class="text-gray-300">11 days alive</p>
-                        <p class="text-gray-300">112 clicks</p>
-                    </div>
-                    <div class="bg-gray-700 rounded-lg p-4">
-                        <h4 class="font-bold text-lg mb-2">The Goon Squad</h4>
-                        <p class="text-gray-300">21 players</p>
-                        <p class="text-gray-300">4 days alive</p>
-                        <p class="text-gray-300">78 clicks</p>
-                    </div>
+         
+            <div class="bg-gray-800 rounded-xl p-6">
+                <h3 class="text-2xl font-bold mb-4">Global Statistics</h3>
+                <div id="globalStats" class="grid grid-cols-2 gap-4">
                 </div>
             </div>
 
             <div class="bg-gray-800 rounded-xl p-6">
-                <h3 class="text-2xl font-bold mb-4">Technical Details</h3>
+                <h3 class="text-2xl font-bold mb-4">Technical Overview</h3>
+                
+                <!-- TLDR Section -->
+                <div class="bg-gray-700 rounded-lg p-4 mb-6">
+                    <h4 class="text-xl font-bold mb-2">TL;DR</h4>
+                    <p class="text-gray-300">
+                        The Button is a Discord bot implementing a continuous community game where users collectively prevent a timer from reaching zero. It uses a MySQL database for persistence, handles concurrent interactions through connection pooling, and implements a sophisticated color-based ranking system that rewards risky timing-based gameplay.
+                    </p>
+                </div>
+            
+                <!-- Technical Deep Dive -->
                 <div class="text-gray-300 space-y-4">
-                    <p>The bot's code is closed source, which means I plan on hosting the bot. However, I am happy to share the code for transparency to review.</p>
-                    <p>The bot needs permissions to manage the color roles and to edit/delete messages in the game chat. The perms can be set up so the color ranks and the button bot are both at the bottom of the role hierarchy, so that the bot is limited to editing just the button game's roles.</p>
-                    <p>The bot requires 2 channels:</p>
-                    <ul class="list-disc list-inside pl-4">
-                        <li>A channel that stores the button and rules/explanation</li>
-                        <li>A channel for chatting and seeing the 'button clicked' message</li>
-                    </ul>
+                    <div class="mb-6">
+                        <h4 class="text-xl font-bold mb-2">Architecture Overview</h4>
+                        <p class="mb-2">The system implements a distributed real-time interactive game environment utilizing:</p>
+                        <ul class="list-disc list-inside pl-4 space-y-2">
+                            <li>Asynchronous event handling through Discord.py's event loop</li>
+                            <li>Connection pooling for database concurrency management</li>
+                            <li>Sophisticated state management with atomic operations</li>
+                            <li>Multi-layered caching system for performance optimization</li>
+                        </ul>
+                    </div>
+            
+                    <div class="mb-6">
+                        <h4 class="text-xl font-bold mb-2">Core Mechanics</h4>
+                        <p class="mb-2">The fundamental game loop operates on several key principles:</p>
+                        <ul class="list-disc list-inside pl-4 space-y-2">
+                            <li>Timer Mechanics: Implements a continuous countdown system with configurable duration (default: 43200 seconds)</li>
+                            <li>Color States: Utilizes six distinct states based on remaining time percentage:
+                                <ul class="list-disc list-inside pl-8 text-sm">
+                                    <li>Purple (83.33-100%): Lowest risk, lowest reward</li>
+                                    <li>Blue (66.67-83.32%): Low risk</li>
+                                    <li>Green (50.00-66.66%): Moderate risk</li>
+                                    <li>Yellow (33.33-49.99%): High risk</li>
+                                    <li>Orange (16.67-33.32%): Very high risk</li>
+                                    <li>Red (0-16.66%): Maximum risk, maximum reward</li>
+                                </ul>
+                            </li>
+                            <li>Concurrency Control: Implements mutex locking for critical sections and connection pooling for database operations</li>
+                        </ul>
+                    </div>
+            
+                    <div class="mb-6">
+                        <h4 class="text-xl font-bold mb-2">Technical Implementation Notes</h4>
+                        <p class="mb-2">Key technical considerations include:</p>
+                        <ul class="list-disc list-inside pl-4 space-y-2">
+                            <li>Race Condition Handling: Utilizes database transactions and row-level locking</li>
+                            <li>Cache Management: Implements multi-layer caching with TTL for game state and user data</li>
+                            <li>Error Recovery: Automatic reconnection and state recovery mechanisms</li>
+                            <li>Performance Optimization: Batch operations and connection pooling</li>
+                        </ul>
+                    </div>
+            
+                    <div class="bg-gray-700 rounded-lg p-4 mt-6">
+                        <h4 class="text-lg font-bold mb-2">Security & Privacy Notice</h4>
+                        <p>The bot requires minimal permissions: managing color roles and message management in designated channels. All role management is confined to game-specific roles at the bottom of the server hierarchy.</p>
+                        <p class="mt-2">Required channels:</p>
+                        <ul class="list-disc list-inside pl-4">
+                            <li>Button channel: Displays game state and controls</li>
+                            <li>Chat channel: Activity notifications and community interaction</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="setupPanel" class="fixed inset-0 z-50 hidden">
+        <div class="modal-backdrop absolute inset-0"></div>
+        <div class="fixed inset-0 flex items-center justify-center p-4">
+            <div class="bg-gray-800 rounded-xl shadow-xl w-full max-w-3xl max-h-[90vh] overflow-hidden border border-gray-700">
+                <div class="p-6 border-b border-gray-700">
+                    <div class="flex justify-between items-center">
+                        <h3 class="text-2xl font-bold text-gray-100">Setup Your Own Button Game</h3>
+                        <button onclick="closeSetupPanel()" class="text-gray-400 hover:text-gray-200">
+                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+                <div class="p-6 overflow-y-auto" style="max-height: calc(90vh - 150px);">
+                    <div class="space-y-6">
+                        <!-- Contact Info -->
+                        <div class="bg-blue-600/20 border border-blue-500 rounded-lg p-4 mb-6">
+                            <h4 class="text-xl font-bold mb-2">📬 First Step: Contact</h4>
+                            <p class="text-gray-300">
+                                Reach out to <span class="font-bold text-blue-400">Regen2Moon</span> on Discord to start the process.
+                            </p>
+                        </div>
+
+                        <!-- Setup Steps -->
+                        <div class="bg-gray-700 rounded-lg p-6">
+                            <h4 class="text-xl font-bold mb-4">🔧 Server Setup Steps</h4>
+                            
+                            <div class="space-y-4">
+                                <!-- Step 1: Bot Role -->
+                                <div class="bg-gray-800 rounded p-4">
+                                    <h5 class="font-bold text-blue-400 mb-2">Step 1: Create Bot Role</h5>
+                                    <p class="text-gray-300">Create a role called "The Button Bot" with no initial permissions</p>
+                                </div>
+
+                                <!-- Step 2: Channels -->
+                                <div class="bg-gray-800 rounded p-4">
+                                    <h5 class="font-bold text-blue-400 mb-2">Step 2: Create Required Channels</h5>
+                                    <div class="space-y-2">
+                                        <div class="bg-gray-700 p-3 rounded">
+                                            <code class="text-gray-300">#the-button-game</code>
+                                            <p class="text-sm text-gray-400 mt-1">Main channel for the button interface</p>
+                                        </div>
+                                        <div class="bg-gray-700 p-3 rounded">
+                                            <code class="text-gray-300">#the-button-chat</code>
+                                            <p class="text-sm text-gray-400 mt-1">Channel for game notifications and community interaction</p>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Step 3: Permissions -->
+                                <div class="bg-gray-800 rounded p-4">
+                                    <h5 class="font-bold text-blue-400 mb-2">Step 3: Channel Permissions</h5>
+                                    <p class="text-gray-300 mb-3">Give "The Button Bot" role these permissions in both channels:</p>
+                                    <ul class="list-disc list-inside space-y-1 text-gray-300 pl-4">
+                                        <li>Manage Messages</li>
+                                        <li>Add Images</li>
+                                        <li>Embed Links</li>
+                                        <li>Add Reactions</li>
+                                        <li>Manage Reactions</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Additional Info -->
+                        <div class="bg-green-600/20 border border-green-500 rounded-lg p-4">
+                            <h4 class="text-lg font-bold mb-2">✨ Ready to Go!</h4>
+                            <p class="text-gray-300">
+                                Once these steps are completed, contact Regen2Moon again and they'll help you get the bot set up and running in your server!
+                            </p>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -193,12 +291,17 @@
         <!-- Header -->
         <header class="bg-gray-800 shadow-lg border-b border-gray-700">
             <div class="container mx-auto px-4 py-6 relative">
-                <button onclick="openSidePanel()" class="absolute right-4 top-1/2 -translate-y-1/2 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors duration-200">
-                    About The Game
+            <div class="absolute right-4 top-1/2 -translate-y-1/2 flex gap-4">
+                <button onclick="openSetupPanel()" class="bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg transition-colors duration-200">
+                Want your own button?
                 </button>
-                <h1 class="text-4xl font-bold text-center text-gray-100">The Button Game Stats</h1>
-                <br>
-                <h2 class="text-lg font-bold text-center text-gray-400">By Regen2Moon (K3N), Inspired by Josh Wardle.</h2>
+                <button onclick="openSidePanel()" class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg transition-colors duration-200">
+                About The Game
+                </button>
+            </div>
+            <h1 class="text-4xl font-bold text-center text-gray-100">The Button Game Stats</h1>
+            <br>
+            <h2 class="text-lg font-bold text-center text-gray-400">By Regen2Moon (K3N), Inspired by Josh Wardle.</h2>
             </div>
         </header>
 
@@ -215,6 +318,8 @@
                 <p class="font-bold">Error</p>
                 <p>Failed to load game data. Please try again later.</p>
             </div>
+            
+            <div class="text-2xl font-bold text-center mb-8 bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-400">Game List</div>
 
             <!-- Active Games Grid -->
             <div id="activeGames" class="hidden grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
@@ -222,17 +327,21 @@
             </div>
 
             <!-- Recent Clicks Section -->
-            <section class="bg-gray-800 rounded-xl shadow-lg p-6 mb-8">
-                <h2 class="text-2xl font-bold mb-6 text-gray-100">Most Recent Clicks</h2>
-                <div id="recentClicks" class="space-y-4">
+            <section class="bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl shadow-xl p-6 mb-8 border border-gray-700">
+                <h2 class="text-3xl font-bold mb-6 text-gray-100 flex items-center">
+                    <span class="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-400">Most Recent Clicks</span>
+                </h2>
+                <div id="recentClicks" class="grid gap-4 grid-cols-1 lg:grid-cols-2 xl:grid-cols-3">
                     <!-- Recent clicks will be inserted here -->
                 </div>
             </section>
 
             <!-- Lowest Times Section -->
-            <section class="bg-gray-800 rounded-xl shadow-lg p-6">
-                <h2 class="text-2xl font-bold mb-6 text-gray-100">Global Leaderboard - Lowest Times</h2>
-                <div id="lowestTimes" class="space-y-4">
+            <section class="bg-gradient-to-br from-gray-800 to-gray-900 rounded-xl shadow-xl p-6 border border-gray-700">
+                <h2 class="text-3xl font-bold mb-6 text-gray-100 flex items-center">
+                    <span class="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 to-purple-400">Global Leaderboard - Lowest Times</span>
+                </h2>
+                <div id="lowestTimes" class="grid gap-4 grid-cols-1 lg:grid-cols-2 xl:grid-cols-3">
                     <!-- Lowest times will be inserted here -->
                 </div>
             </section>
@@ -416,11 +525,20 @@
                     throw new Error(result.error || 'Failed to fetch games');
                 }
                 
-                const games = result.data;
+                // Filter out games with 0 time remaining
+                const games = result.data.filter(game => {
+                    const lastClick = new Date(game.last_click + 'Z');
+                    const now = new Date();
+                    const elapsedSinceClick = Math.floor((now.getTime() - lastClick.getTime()) / 1000);
+                    const remaining = Math.max(0, game.timer_duration - elapsedSinceClick);
+                    return remaining > 0;
+                });
+
                 document.getElementById('loadingState').classList.add('hidden');
                 document.getElementById('activeGames').classList.remove('hidden');
                 
-                const gamesHtml = games.map(game => {
+                const gamesHtml = games.reverse().map(game => {
+                    // Rest of the existing game mapping code remains unchanged
                     const stats = game.stats || {
                         time_to_beat: game.timer_duration,
                         record_holder: 'No record yet',
@@ -498,6 +616,47 @@
                 console.error('Error fetching game data:', error);
                 document.getElementById('loadingState').classList.add('hidden');
                 document.getElementById('errorState').classList.remove('hidden');
+            }
+        }
+        
+        async function updateGlobalStats() {
+            try {
+                const response = await fetch('api.php?action=getCombinedStats');
+                const result = await response.json();
+                
+                if (!result.success) {
+                    throw new Error(result.error || 'Failed to fetch global stats');
+                }
+                
+                const stats = result.data;
+                const statsContainer = document.getElementById('globalStats');
+                
+                statsContainer.innerHTML = `
+                    <div class="bg-gray-700 rounded-lg p-4">
+                        <h4 class="font-bold text-lg mb-2">Active Games</h4>
+                        <p class="text-2xl font-bold text-blue-400">${stats.total_games}</p>
+                        <p class="text-gray-300">Total unique players: ${stats.total_unique_players}</p>
+                    </div>
+                    <div class="bg-gray-700 rounded-lg p-4">
+                        <h4 class="font-bold text-lg mb-2">Global Records</h4>
+                        <p class="text-gray-300">Best time: ${formatTime(stats.global_best_time)}</p>
+                        <p class="text-gray-300">By: ${stats.record_holder}</p>
+                    </div>
+                    <div class="bg-gray-700 rounded-lg p-4">
+                        <h4 class="font-bold text-lg mb-2">Activity Stats</h4>
+                        <p class="text-gray-300">Total clicks: ${stats.total_clicks}</p>
+                        <p class="text-gray-300">Most active: ${stats.most_active_player}</p>
+                    </div>
+                    <div class="bg-gray-700 rounded-lg p-4">
+                        <h4 class="font-bold text-lg mb-2">Time Stats</h4>
+                        <p class="text-gray-300">Total time saved: ${formatTime(stats.total_time_saved)}</p>
+                        <p class="text-gray-300">Longest game: ${formatDuration(stats.longest_game_duration * 1000)}</p>
+                    </div>
+                `;
+            } catch (error) {
+                console.error('Error fetching global stats:', error);
+                document.getElementById('globalStats').innerHTML = 
+                    '<div class="col-span-2 text-red-400 p-4 text-center">Failed to load global statistics.</div>';
             }
         }
 
@@ -618,11 +777,105 @@
             return `${minutes}m`;
         }
 
+        async function fetchClickLists() {
+            try {
+                // Fetch both recent clicks and lowest times in parallel
+                const [recentResponse, lowestResponse] = await Promise.all([
+                    fetch('api.php?action=getRecentClicks&limit=50'),
+                    fetch('api.php?action=getLowestClicks&limit=50')
+                ]);
+
+                const recentResult = await recentResponse.json();
+                const lowestResult = await lowestResponse.json();
+
+                if (!recentResult.success || !lowestResult.success) {
+                    throw new Error('Failed to fetch click lists');
+                }
+
+                // Update Recent Clicks section
+                const recentClicksContainer = document.getElementById('recentClicks');
+                recentClicksContainer.innerHTML = recentResult.data.map(click => `
+                    <div class="bg-gray-700 rounded-lg p-4 flex justify-between items-center">
+                        <div>
+                            <span class="font-bold text-gray-100">${click.user_name}</span>
+                            <span class="text-gray-400 ml-2 text-sm">
+                                ${click.guild_name || `Server ${click.guild_id}`}
+                            </span>
+                        </div>
+                        <div class="text-right">
+                            <div class="${getColorClass(click.timer_value, click.timer_duration)} px-3 py-1 rounded-full">
+                                ${formatTime(click.timer_value)}
+                            </div>
+                            <div class="text-gray-400 text-sm">
+                                ${new Date(click.click_time).toLocaleString()}
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+
+                // Update Lowest Times section
+                const lowestTimesContainer = document.getElementById('lowestTimes');
+                lowestTimesContainer.innerHTML = lowestResult.data.map((click, index) => `
+                    <div class="bg-gray-700 rounded-lg p-4 flex justify-between items-center ${index === 0 ? 'border-2 ' + getBorderColorClass(click.timer_value, click.timer_duration) : ''}">
+                        <div>
+                            <span class="font-bold text-gray-100">#${index + 1} ${click.user_name}</span>
+                            <span class="text-gray-400 ml-2 text-sm">
+                                ${click.guild_name || `Server ${click.guild_id}`}
+                            </span>
+                        </div>
+                        <div class="text-right">
+                            <div class="${getColorClass(click.timer_value, click.timer_duration)} px-3 py-1 rounded-full">
+                                ${formatTime(click.timer_value)}
+                            </div>
+                            <div class="text-gray-400 text-sm">
+                                ${new Date(click.click_time).toLocaleString()}
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+
+            } catch (error) {
+                console.error('Error fetching click lists:', error);
+                document.getElementById('recentClicks').innerHTML = 
+                    '<div class="text-red-400 p-4 text-center">Failed to load recent clicks.</div>';
+                document.getElementById('lowestTimes').innerHTML = 
+                    '<div class="text-red-400 p-4 text-center">Failed to load lowest times.</div>';
+            }
+        }
+
+        function openSetupPanel() {
+            document.getElementById('setupPanel').classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeSetupPanel() {
+            document.getElementById('setupPanel').classList.add('hidden');
+            document.body.style.overflow = 'auto';
+        }
+
+        // Add to your existing event listener for escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeActivity();
+                closeLeaderboard();
+                closeSidePanel();
+                closeSetupPanel(); // Add this line
+            }
+        });
+
+        // Add click outside to close
+        document.getElementById('setupPanel').addEventListener('click', (e) => {
+            if (e.target === document.getElementById('setupPanel')) {
+                closeSetupPanel();
+            }
+        });
+
         // Initialize and set up refresh intervals
         async function initialize() {
             await Promise.all([
                 fetchGameData(),
-                fetchClickLists()
+                fetchClickLists(),
+                updateGlobalStats()
             ]);
             
             // Update timers every second
@@ -633,6 +886,9 @@
             
             // Refresh click lists every minute
             setInterval(fetchClickLists, 60000);
+            
+            // Refresh global stats every 5 minutes
+            setInterval(updateGlobalStats, 300000);
         }
 
         // Close modal when clicking outside

@@ -1,2 +1,8 @@
 nextcord
 mysql-connector-python
+pillow
+giphy_client
+tiktoken
+google-genai
+matplotlib
+pytz

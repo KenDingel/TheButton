@@ -8,7 +8,7 @@ header('Access-Control-Allow-Methods: GET');
 header('Cache-Control: no-store, no-cache, must-revalidate, max-age=0');
 header('Cache-Control: post-check=0, pre-check=0', false);
 header('Pragma: no-cache');
-header('Expires: Sat, 26 Jul 1997 05:00:00 GMT'); // Past date to ensure no caching
+header('Expires: Sat, 26 Jul 1997 05:00:00 GMT');
 
 try {
     $db = new GameDatabase();
@@ -42,10 +42,13 @@ try {
             break;
 
         case 'getActivityStats':
-            if (!$gameId) {
-                throw new Exception('Game ID required');
-            }
+            if (!$gameId) throw new Exception('Game ID required');
             $response['data'] = $db->getActivityStats($gameId);
+            $response['success'] = true;
+            break;
+
+        case 'getCombinedStats':
+            $response['data'] = $db->getCombinedStats();
             $response['success'] = true;
             break;
             

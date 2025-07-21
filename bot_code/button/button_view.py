@@ -17,20 +17,28 @@ class ButtonView(nextcord.ui.View):
         self.game_id = game_id
         self.add_button()
 
-    def add_button(self):
+    async def get_game_session(self):
+        """Helper method to get game session asynchronously"""
         try:
             game_id = int(self.game_id) if self.game_id else None
-            sessions_dict = game_sessions_dict()
-            game_session = sessions_dict.get(game_id) if game_id else None
-            timer_duration = game_session['timer_duration'] if game_session else 43200
-            
-            logger.debug(f"ButtonView - Game ID: {game_id}, Timer Duration: {timer_duration}")
-            
+            if not game_id:
+                return None
+            sessions_dict = await game_sessions_dict()
+            return sessions_dict.get(str(game_id))
+        except Exception as e:
+            logger.error(f"Error getting game session: {e}")
+            return None
+
+    def add_button(self):
+        try:
+            # Set default timer duration
+            timer_duration = 43200  # Default 12 hours
+
             button_label = "Click me!"
             color = get_color_state(self.timer_value, timer_duration)
             style = get_button_style(color)
-            self.clear_items()
             
+            self.clear_items()
             # Match parameters with TimerButton's __init__ signature
             button = TimerButton(
                 bot=self.bot,
@@ -43,7 +51,6 @@ class ButtonView(nextcord.ui.View):
         except Exception as e:
             logger.error(f"Error in ButtonView.add_button: {e}")
             logger.error(traceback.format_exc())
-            
             # Fallback with correct parameter order
             button = TimerButton(
                 bot=self.bot,

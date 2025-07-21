@@ -39,7 +39,46 @@ class GameDatabase {
         return $games;
     }
 
-
+    public function getCombinedStats() {
+        try {
+            // Get overall stats across all games
+            $stmt = $this->pdo->prepare("
+                SELECT 
+                    COUNT(DISTINCT gs.id) as total_games,
+                    COUNT(DISTINCT bc.user_id) as total_unique_players,
+                    COUNT(bc.id) as total_clicks,
+                    MIN(bc.timer_value) as global_best_time,
+                    SUM(gs.timer_duration - bc.timer_value) as total_time_saved,
+                    (
+                        SELECT user_name 
+                        FROM users u 
+                        JOIN button_clicks bc2 ON u.user_id = bc2.user_id 
+                        WHERE bc2.timer_value = MIN(bc.timer_value)
+                        LIMIT 1
+                    ) as record_holder,
+                    (
+                        SELECT user_name
+                        FROM users u2
+                        JOIN (
+                            SELECT user_id, COUNT(*) as click_count
+                            FROM button_clicks
+                            GROUP BY user_id
+                            ORDER BY click_count DESC
+                            LIMIT 1
+                        ) top_clicker ON u2.user_id = top_clicker.user_id
+                    ) as most_active_player,
+                    MAX(TIMESTAMPDIFF(SECOND, gs.start_time, COALESCE(gs.end_time, NOW()))) as longest_game_duration
+                FROM game_sessions gs
+                LEFT JOIN button_clicks bc ON gs.id = bc.game_id
+                WHERE bc.id IS NOT NULL
+            ");
+            $stmt->execute();
+            return $stmt->fetch(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
+            throw new Exception("Failed to fetch combined stats: " . $e->getMessage());
+        }
+    }
+    
 
     public function getRecentClicks($limit) {
         $stmt = $this->pdo->prepare("
