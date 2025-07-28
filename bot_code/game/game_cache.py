@@ -67,6 +67,10 @@ class ButtonMessageCache:
             logger.error(f'No message found for game {game_id} in cache')
             return None
         
+    def get_message_id(self, game_id):
+        """Get the cached message ID for a specific game"""
+        return self.messages.get(game_id, None)
+
     async def cleanup_stale_messages(self):
         """Remove any stale message references"""
         stale_games = []

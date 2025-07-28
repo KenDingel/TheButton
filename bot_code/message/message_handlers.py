@@ -308,18 +308,6 @@ async def handle_message(message, bot, menu_timer):
 
     if not isinstance(message.channel, nextcord.DMChannel) and not is_button_chat:
         return
-        # and message.channel.id not in [
-        # 1236468062107209758, 1236468247856156722, # Moon's Server
-        # 1305588554210087105, 1305588592147693649, 
-        # 1305622604261883955, 1305683310525288448, 
-        # 1308486315502997574, 1308488586215292988, # Goon Squad
-        # 1315352789034995782, 1315353475328245874, # Midnight Vibes
-        # 1334978991148241040, 1334979071108579493, # Dan Server
-        # 1335041808073363578, 1335041777064869928 # Popup
-        # ]: return #get_all_game_channels() and message.content.lower() != 'sb': return
-    
-        # 1310445586394382357, 1310445611652223047, # Lilith's Den
-        # 1311011995868336209, 1311012042907586601, # BlackRoseThorns
 
     # Handle bot mentions and replies
     if bot.user in message.mentions or (message.reference and message.reference.resolved and message.reference.resolved.author == bot.user):
@@ -476,6 +464,7 @@ async def handle_message(message, bot, menu_timer):
                 '''
                 params = (game_session['game_id'], target_user_id, game_session['game_id'], 
                         game_session['game_id'], game_session['game_id'], target_user_id)
+                logger.info(f"Executing user rank query with params: {params}")
                 success = execute_query(query, params)
                 if not success: 
                     logger.error('Error retrieving user rank data')
@@ -498,6 +487,7 @@ async def handle_message(message, bot, menu_timer):
                 if clicks:
                     color_emojis = [get_color_emoji(timer_value, game_session['timer_duration']) for timer_value, _, _, _ in clicks]
                     color_counts = Counter(color_emojis)
+                    # Fix: Calculate time claimed as the elapsed time from max timer, not remaining time
                     total_claimed_time = sum(max(0, game_session['timer_duration'] - timer_value) for timer_value, _, _, _ in clicks)
                     rank = clicks[0][2]  # Get rank from first row
                     total_players = clicks[0][3]  # Get total players from first row
@@ -1263,8 +1253,6 @@ async def handle_message(message, bot, menu_timer):
                     game_session['timer_duration'],
                     game_session['timer_duration'],
                     game_session['game_id'],
-                    boundary_threshold_percent,
-                    boundary_threshold_percent,
                     boundary_threshold_percent,
                     boundary_threshold_percent,
                     boundary_threshold_percent,
