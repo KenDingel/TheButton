@@ -26,6 +26,11 @@ except Exception as e:
     logger.error(f"Failed to initialize Giphy API: {e}\n{traceback.format_exc()}")
     giphy_api = None
 
+# Global session cache for ultra-fast lookups
+_session_cache = {}
+_session_cache_time = {}
+SESSION_CACHE_DURATION = 300  # 5 minutes
+
 HARDCODED_GIFS = {
     "celebration": [
         "",
@@ -34,7 +39,6 @@ HARDCODED_GIFS = {
         "Purple": [
             "media.tenor.com/P6m9avOoaxYAAAPo/courage-cowardly.mp4",
             "https://media.tenor.com/gYw4XiQtMsUAAAPo/really-bruh.mp4",
-
             ],
         "Blue": [
             "https://media.tenor.com/29H5BxhNQgMAAAPo/qsad.mp4",
@@ -76,6 +80,7 @@ async def send_gif_enhanced(channel, keywords: list, color: str = None, timing: 
         if use_hardcoded:
             # Try to get context-specific hardcoded GIF
             gif_url = None
+            
             if color and color in HARDCODED_GIFS["colors"]:
                 gif_url = random.choice(HARDCODED_GIFS["colors"][color])
             else:
@@ -95,6 +100,7 @@ async def send_gif_enhanced(channel, keywords: list, color: str = None, timing: 
                 limit=20,
                 rating='r'
             )
+            
             if response.data:
                 gif = random.choice(response.data)
                 await channel.send(gif.images.original.url)
@@ -104,6 +110,7 @@ async def send_gif_enhanced(channel, keywords: list, color: str = None, timing: 
         logger.error(f"Giphy API error: {e}\n{traceback.format_exc()}")
     except Exception as e:
         logger.error(f"Error sending GIF: {e}\n{traceback.format_exc()}")
+    
     return False
 
 async def gather_comprehensive_context(game_id: int, user_id: int, current_timer_value: float, 
@@ -117,6 +124,7 @@ async def gather_comprehensive_context(game_id: int, user_id: int, current_timer
         timer_duration: Total timer duration
         color: Current button color
         bot: Discord bot instance
+    
     Returns:
         dict: Comprehensive context data
     """
@@ -242,6 +250,7 @@ async def gather_comprehensive_context(game_id: int, user_id: int, current_timer
                     "timestamp": click[2].isoformat() if click[2] else "",
                     "color": str(click[3]) if click[3] else "Unknown"
                 }
+                
                 # Add gap to previous click
                 if i < len(recent_result) - 1:
                     prev_click_time = recent_result[i + 1][2]
@@ -317,14 +326,12 @@ async def send_gif(channel, keywords: list) -> bool:
             await channel.send(gif.images.original.url)
             logger.info(f"Successfully sent GIF for keywords: {search_string}")
             return True
-            
     except ApiException as e:
         logger.error(f"Giphy API error: {e}\n{traceback.format_exc()}")
     except Exception as e:
         logger.error(f"Error sending GIF: {e}\n{traceback.format_exc()}")
     
     return False
-
 
 # TimerButton class for the button with Nextcord UI
 # This class creates a button that resets the timer when clicked.
@@ -338,7 +345,7 @@ class TimerButton(nextcord.ui.Button):
     _cache_cleanup_threshold = 1000  # Existing threshold
     _cooldown_messages = {}  # {user_id: (message, timestamp)}
     _MESSAGE_CACHE_DURATION = 300  # 5 minutes in seconds
-
+    
     @classmethod
     def _get_cached_cooldown_message(cls, user_id):
         """Get cached cooldown message if it exists and is not expired"""
@@ -347,7 +354,67 @@ class TimerButton(nextcord.ui.Button):
             if time.time() - timestamp < cls._MESSAGE_CACHE_DURATION:
                 return message
         return None
-
+    
+    @classmethod
+    async def _get_cached_session(cls, guild_id):
+        """Ultra-fast session lookup with aggressive caching"""
+        global _session_cache, _session_cache_time
+        now = time.time()
+        
+        # Check cache first
+        if guild_id in _session_cache:
+            if now - _session_cache_time.get(guild_id, 0) < SESSION_CACHE_DURATION:
+                return _session_cache[guild_id]
+        
+        # Cache miss - fetch and cache
+        query = """
+            SELECT id, timer_duration, cooldown_duration, button_channel_id, 
+                   game_chat_channel_id, COALESCE(sequential_click_requirement, 0)
+            FROM game_sessions 
+            WHERE guild_id = %s AND end_time IS NULL
+            ORDER BY start_time DESC LIMIT 1
+        """
+        result = execute_query(query, (guild_id,))
+        if result and result[0]:
+            session = {
+                'game_id': result[0][0],
+                'timer_duration': result[0][1],
+                'cooldown_duration': result[0][2],
+                'button_channel_id': result[0][3],
+                'game_chat_channel_id': result[0][4],
+                'sequential_requirement': result[0][5]
+            }
+            _session_cache[guild_id] = session
+            _session_cache_time[guild_id] = now
+            return session
+        return None
+    
+    @classmethod
+    async def _fast_cooldown_check(cls, user_id, game_id, cooldown_duration, click_time):
+        """Optimized cooldown check with caching"""
+        # Check memory cache first
+        cache_key = f"{user_id}_{game_id}"
+        cached_expiry = cls._cooldown_cache.get(cache_key, 0)
+        
+        if cached_expiry > click_time.timestamp():
+            return int(cached_expiry - click_time.timestamp())
+        
+        # Single query for last click
+        query = "SELECT click_time FROM button_clicks WHERE user_id = %s AND game_id = %s ORDER BY id DESC LIMIT 1"
+        result = execute_query(query, (user_id, game_id))
+        
+        if result and result[0][0]:
+            last_click = result[0][0].replace(tzinfo=timezone.utc)
+            cooldown_expiry = last_click + datetime.timedelta(hours=cooldown_duration)
+            remaining = int((cooldown_expiry - click_time).total_seconds())
+            
+            if remaining > 0:
+                # Update cache
+                cls._cooldown_cache[cache_key] = cooldown_expiry.timestamp()
+                return remaining
+        
+        return 0
+    
     @classmethod
     async def _check_double_click_prevention(cls, guild_id, user_id):
         """
@@ -361,11 +428,10 @@ class TimerButton(nextcord.ui.Button):
         try:
             # Get the sequential click requirement for this guild
             sequential_requirement = await cls._get_sequential_click_requirement(guild_id)
-            
             if sequential_requirement <= 0:
                 logger.info(f"Double-click prevention disabled for guild {guild_id} (requirement: {sequential_requirement})")
                 return True
-
+            
             # Get this user's most recent click time for this guild's game
             user_last_click_query = '''
                 SELECT MAX(bc.click_time)
@@ -381,7 +447,7 @@ class TimerButton(nextcord.ui.Button):
             if not user_result or not user_result[0] or user_result[0][0] is None:
                 logger.info(f"Double-click prevention: User {user_id} has no previous clicks, allowing")
                 return True
-                
+            
             user_last_click_time = user_result[0][0]
             
             # Count distinct users who clicked after this user's last click
@@ -414,7 +480,7 @@ class TimerButton(nextcord.ui.Button):
             logger.error(traceback.format_exc())
             # On error, allow the click to avoid blocking legitimate users
             return True
-
+    
     @classmethod
     async def _get_sequential_click_requirement(cls, guild_id):
         """
@@ -425,6 +491,10 @@ class TimerButton(nextcord.ui.Button):
             int: Number of different users required before repeat clicks (default: 1)
         """
         try:
+            # Check cache first
+            if guild_id in _session_cache:
+                return _session_cache[guild_id].get('sequential_requirement', 0)
+            
             query = '''
                 SELECT sequential_click_requirement 
                 FROM game_sessions 
@@ -433,15 +503,17 @@ class TimerButton(nextcord.ui.Button):
                 LIMIT 1
             '''
             result = execute_query(query, (guild_id,))
+            
             if result and result[0] and result[0][0] is not None:
                 requirement = int(result[0][0])
                 logger.info(f"Sequential click requirement for guild {guild_id}: {requirement}")
                 return requirement
+            
             return 0  # Default requirement
         except Exception as e:
             logger.error(f"Error getting sequential click requirement for guild {guild_id}: {e}")
             return 0  # Safe default
-
+    
     def __init__(self, bot, style=nextcord.ButtonStyle.primary, label="Click me!", timer_value=0, game_id=None):
         # Initialize with a custom_id based on game_id for persistence
         custom_id = f"button_game_{game_id}" if game_id else None
@@ -451,7 +523,7 @@ class TimerButton(nextcord.ui.Button):
         self.game_id = game_id
         global lock
         self._interaction_lock = lock
-
+    
     @classmethod
     def _cleanup_cache(cls):
         """Clean up old entries from the cooldown cache"""
@@ -459,304 +531,246 @@ class TimerButton(nextcord.ui.Button):
         # Remove entries older than 24 hours
         expired_users = [user_id for user_id, last_time in cls._cooldown_cache.items() 
                         if current_time - last_time > 86400]  # 24 hours in seconds
+        
         for user_id in expired_users:
             del cls._cooldown_cache[user_id]
-
+    
+    async def _handle_post_click_updates(self, interaction, game_id, user_id, display_name, 
+                                       current_timer_value, timer_duration, color_name, 
+                                       session, click_time):
+        """Handle all non-critical post-click updates in background"""
+        try:
+            # 1. Update user record
+            cooldown_expiration = click_time + datetime.timedelta(hours=session['cooldown_duration'])
+            user_manager.add_or_update_user(
+                user_id=user_id,
+                cooldown_expiration=cooldown_expiration,
+                color_rank=color_name,
+                timer_value=current_timer_value,
+                user_name=display_name,
+                game_id=game_id,
+                latest_click_var=click_time
+            )
+            
+            # 2. Try to add role (non-critical)
+            try:
+                guild = interaction.guild
+                color_role = nextcord.utils.get(guild.roles, name=color_name)
+                if color_role:
+                    await interaction.user.add_roles(color_role)
+                    logger.info(f'Role added to {interaction.user}: {color_role.name}')
+            except Exception as e:
+                logger.error(f'Error adding role: {e}')
+            
+            # 3. Create announcement embed
+            color_emoji = get_color_emoji(current_timer_value, timer_duration)
+            formatted_remaining_time = f"{format(int(current_timer_value)//3600, '02d')} hours {format(int(current_timer_value)%3600//60, '02d')} minutes and {format(round(int(current_timer_value)%60), '02d')} seconds"
+            color_state = get_color_state(current_timer_value, timer_duration)
+            
+            # 4. Calculate time claimed
+            time_claimed = timer_duration - current_timer_value
+            formatted_time_claimed = f"{format(int(time_claimed)//3600, '02d')} hours {format(int(time_claimed)%3600//60, '02d')} minutes and {format(round(int(time_claimed)%60), '02d')} seconds"
+            
+            # 5. Get user stats
+            query = '''
+                SELECT COUNT(*) as total_clicks
+                FROM button_clicks 
+                WHERE user_id = %s AND game_id = %s
+            '''
+            user_stats = execute_query(query, (user_id, game_id))
+            user_clicks_count = (user_stats[0][0] if user_stats and user_stats[0] else 0) + 1
+            
+            # 6. Get comprehensive context
+            comprehensive_context = await gather_comprehensive_context(
+                game_id=game_id,
+                user_id=user_id,
+                current_timer_value=current_timer_value,
+                timer_duration=timer_duration,
+                color=color_name,
+                bot=self.bot
+            )
+            
+            comprehensive_context.update({
+                'color': color_name,
+                'timer_value': current_timer_value,
+                'timer_duration': timer_duration,
+                'player_name': display_name,
+                'total_clicks': user_clicks_count,
+                'best_color': color_name
+            })
+            
+            # 7. Get chat context
+            try:
+                chat_channel = self.bot.get_channel(session['game_chat_channel_id'])
+                if chat_channel:
+                    chat_messages = []
+                    async for message in chat_channel.history(limit=20):
+                        if not message.author.bot:
+                            chat_messages.append({
+                                "player": message.author.display_name or message.author.name,
+                                "message": message.content,
+                                "timestamp": message.created_at.isoformat()
+                            })
+                    comprehensive_context["chat_context"] = chat_messages[:10]
+            except Exception as e:
+                logger.error(f"Error gathering chat context: {e}")
+            
+            # 8. Generate LLM response
+            handler = CharacterHandler.get_instance()
+            llm_response, gif_keywords = await handler.generate_click_response(comprehensive_context)
+            
+            # 9. Send announcement
+            embed = nextcord.Embed(title="", color=nextcord.Color.from_rgb(*color_state))
+            base_description = (
+                f"{color_emoji}! {display_name} ({interaction.user.mention}), "
+                f"the {color_name} rank warrior, has valiantly reset the timer "
+                f"with a mere {formatted_remaining_time} remaining!\n"
+                f"**Time Claimed: {formatted_time_claimed}**\n\n\n"
+                f"Let their bravery be celebrated throughout the realm!\n\n"
+                f"The Button Speaks: *{llm_response}*\n\n"
+            )
+            embed.description = base_description
+            
+            chat_channel = self.bot.get_channel(session['game_chat_channel_id'])
+            if chat_channel:
+                await chat_channel.send(embed=embed)
+                
+                # 10. Maybe send GIF
+                should_send_gif = random.random() < 0.25
+                if color_name in ['Red', 'Orange']:
+                    should_send_gif = random.random() < 0.7
+                
+                if should_send_gif and gif_keywords:
+                    timer_percentage = (current_timer_value / timer_duration) * 100
+                    timing_context = None
+                    if timer_percentage >= 70:
+                        timing_context = "early_click"
+                    elif timer_percentage <= 30:
+                        timing_context = "late_click"
+                    
+                    await send_gif_enhanced(chat_channel, gif_keywords, color_name, timing_context)
+            
+        except Exception as e:
+            logger.error(f'Error in post-click updates: {e}\n{traceback.format_exc()}')
+    
     # Callback method for the button, called when the button is clicked
     async def callback(self, interaction: nextcord.Interaction):
-        global game_cache, lock
-        handler = None
-        
-        # Capture the most accurate timestamp and start time immediately.
+        """OPTIMIZED FOR MAXIMUM SPEED"""
         click_time = interaction.created_at
-        task_run_time = datetime.datetime.now(timezone.utc)
-
+        user_id = interaction.user.id
+        guild_id = interaction.guild.id
+        
         try:
-            # First defer the interaction before acquiring the lock
-            logger.info(f"Button clicked by {interaction.user.id} at {click_time.isoformat()} - Component ID: {self.custom_id}")
-            try:
-                await interaction.response.defer(ephemeral=True, with_message=True)
-            except nextcord.errors.NotFound as e:
-                logger.error(f"Interaction expired before deferral: {e}")
-                return
-            except Exception as e:
-                logger.error(f"Error deferring interaction: {e}")
+            # 1. DEFER IMMEDIATELY
+            await interaction.response.defer(ephemeral=True)
+            
+            # Debug user blocking (keeping existing logic)
+            if user_id in [116341342430298115]:
                 return
             
-            # Acquire the lock to prevent concurrent processing of clicks
-            async with self._interaction_lock:
-                logger.info(f"Lock acquired for {interaction.user.id}")
+            # 2. GET CACHED SESSION (microseconds instead of milliseconds)
+            session = await self._get_cached_session(guild_id)
+            if not session:
+                await interaction.followup.send("Game not found!", ephemeral=True)
+                return
+            
+            game_id = session['game_id']
+            timer_duration = session['timer_duration']
+            cooldown_duration = session['cooldown_duration']
+            
+            # 3. FAST TIMER CHECK - Trust the timer value from when button was rendered
+            # This ensures consistency between what user sees and what gets recorded
+            if hasattr(self, 'timer_value') and self.timer_value is not None:
+                # Convert to float and ensure it's positive
+                current_timer_value = max(0, float(self.timer_value))
+                logger.info(f"Using button's embedded timer_value: {current_timer_value}")
                 
-                # Followup with user that the click is being processed
-                # Debug user blocking (keeping existing logic)
-                if interaction.user.id in [116341342430298115]: return
-
-                await interaction.followup.send("You attempt a click...", ephemeral=True)
-                
-                try:
-                    # Get the game session and button message
-                    game_session = await get_game_session_by_guild_id(interaction.guild.id)
-                    game_id = game_session['game_id']
-                    timer_duration = game_session['timer_duration']
-                    cooldown_duration = game_session['cooldown_duration']
-                    
-                    # Debug log the current state
-                    logger.info(f"Processing click for game {game_id} at {click_time}")
-                    cached_game = game_cache.get_game_cache(game_id)
-                    if cached_game:
-                        logger.info(f"Cache state - Last click: {cached_game['latest_click_time']}, Timer value: {cached_game['last_timer_value']}")
-                    
-                    button_message = await get_button_message(game_id, self.bot)
-                    embed = button_message.embeds[0]
-                    user_id = interaction.user.id
-                    
-                    is_expired, current_timer_value = await is_timer_expired(game_id)
-                    
-                    if is_expired:
-                        logger.error(f"Game {game_id} timer expired: {current_timer_value}")
-                        await interaction.followup.send("The timer has expired! Game over!", ephemeral=True)
-                        return
-                        
-                    logger.info(f"Processing click with timer value: {current_timer_value}")
-
-                    # Check double-click prevention using database
-                    if not await self._check_double_click_prevention(interaction.guild.id, user_id):
-                        sequential_requirement = await self._get_sequential_click_requirement(interaction.guild.id)
-                        logger.info(f'Double-click prevention: User {interaction.user} blocked, needs {sequential_requirement} different users to click first')
-                        await interaction.followup.send(
-                            f"Hold your horses, brave warrior! You must wait for {sequential_requirement} different adventurer{'s' if sequential_requirement != 1 else ''} to click before you can click again. "
-                            f"The button demands variety in its champions!", 
-                            ephemeral=True
-                        )
-                        return
-
-                    # Check if the user is on cooldown and alert them if they are
-                    try:
-                        # Always get the user's last click for this game
-                        query = '''
-                            SELECT MAX(click_time)
-                            FROM button_clicks
-                            WHERE user_id = %s
-                            AND game_id = %s
-                        '''
-                        params = (interaction.user.id, game_id)
-                        result = execute_query(query, params)
-                        
-                        if result and result[0][0] is not None:
-                            latest_click_time_user = result[0][0].replace(tzinfo=timezone.utc)
-                            cooldown_expiry = latest_click_time_user + datetime.timedelta(hours=cooldown_duration)
-                            cooldown_remaining = int((cooldown_expiry - click_time).total_seconds())
-                            if cooldown_remaining > 0:
-                                formatted_cooldown = f"{format(int(cooldown_remaining//3600), '02d')}:{format(int(cooldown_remaining%3600//60), '02d')}:{format(int(cooldown_remaining%60), '02d')}"
-                                display_name = interaction.user.display_name
-                                if not display_name:
-                                    display_name = interaction.user.name
-                                # Check for cached message
-                                cached_message = self._get_cached_cooldown_message(interaction.user.id)
-                                if cached_message:
-                                    cooldown_message = cached_message
-                                else:
-                                    handler = CharacterHandler.get_instance()
-                                    # Generate new message and cache it - FIX: properly handle tuple return
-                                    cooldown_response_tuple = await handler.generate_cooldown_message(
-                                        time_remaining=formatted_cooldown,
-                                        player_name=display_name
-                                    )
-                                    # Extract just the message text (first element of tuple)
-                                    cooldown_message = cooldown_response_tuple[0] if isinstance(cooldown_response_tuple, tuple) else cooldown_response_tuple
-                                    self._cooldown_messages[interaction.user.id] = (cooldown_message, time.time())
-                                await interaction.followup.send(cooldown_message, ephemeral=True)
-                                logger.info(f'Button click rejected. User {interaction.user} is on cooldown for {formatted_cooldown}')
-                                return
-                    except Exception as e:
-                        tb = traceback.format_exc()
-                        logger.error(f'Error processing cooldown check: {e}, {tb}')
-                        return
-
-                    await interaction.message.add_reaction("⏳")
-
-                    # Update user first
-                    display_name = interaction.user.display_name or interaction.user.name
-                    timer_color_name = get_color_name(current_timer_value, timer_duration)
-                    cooldown_expiration = click_time + datetime.timedelta(hours=cooldown_duration)
-                    
-                    success = user_manager.add_or_update_user(
-                        user_id=interaction.user.id,
-                        cooldown_expiration=cooldown_expiration,
-                        color_rank=timer_color_name,
-                        timer_value=current_timer_value,
-                        user_name=display_name,
-                        game_id=game_id,
-                        latest_click_var=click_time
-                    )
-                    
-                    if not success:
-                        logger.error(f'Failed to update user data for {interaction.user}')
-                        await interaction.followup.send("Error processing your click. Please try again.", ephemeral=True)
-                        return
-
-                    # Insert the button click data into the database
-                    query = 'INSERT INTO button_clicks (user_id, click_time, timer_value, game_id) VALUES (%s, %s, %s, %s)'
-                    params = (interaction.user.id, click_time, current_timer_value, game_id)
-                    success = execute_query(query, params, commit=True)
-                    if not success: 
-                        logger.error(f'Failed to insert button click data. User: {interaction.user}, Timer Value: {current_timer_value}, Game ID: {game_session["game_id"]}')
-                        return
-                    logger.info(f'Data inserted for {interaction.user}!')
-
-                    # Update the user's color rank and add the role to the user
-                    guild = interaction.guild
-                    timer_color_name = get_color_name(current_timer_value, timer_duration)
-                    color_role = nextcord.utils.get(guild.roles, name=timer_color_name)
-        
-                    if color_role:
-                        try:
-                            await interaction.user.add_roles(color_role)
-                            logger.info(f'Role added to {interaction.user}: {color_role.name}')
-                        except nextcord.errors.Forbidden:
-                            logger.error(f'Failed to add role to {interaction.user}: {color_role.name}')
-                            pass
-                        except Exception as e:
-                            tb = traceback.format_exc()
-                            logger.error(f'Error while adding role to {interaction.user}: {e}, {tb}')
-                            pass
-                    
-                    await interaction.followup.send("Button clicked! You have earned a " + timer_color_name + " click!", ephemeral=True)
-
-                    # Create an embed message that announces the button click in the game chat channel
-                    color_emoji = get_color_emoji(current_timer_value, timer_duration)
-                    current_timer_value = int(current_timer_value)
-                    formatted_remaining_time = f"{format(current_timer_value//3600, '02d')} hours {format(current_timer_value%3600//60, '02d')} minutes and {format(round(current_timer_value%60), '02d')} seconds"
-                    color_state = get_color_state(current_timer_value, timer_duration)
-                    embed = nextcord.Embed(title="", description=f"{color_emoji} {interaction.user.mention} just reset the timer at {formatted_remaining_time} left, for {timer_color_name} rank!", color=nextcord.Color.from_rgb(*color_state))
-                    chat_channel = self.bot.get_channel(game_session['game_chat_channel_id'])
-                    display_name = interaction.user.display_name
-                    if not display_name: display_name = interaction.user.name
-                    embed.description = f"{color_emoji}! {display_name} ({interaction.user.mention}), the {timer_color_name} rank warrior, has valiantly reset the timer with a mere {formatted_remaining_time} remaining!\nLet their bravery be celebrated throughout the realm!"
-
-                    # Get user's total clicks and best color
-                    query = '''
-                        SELECT 
-                            COUNT(*) as total_clicks,
-                            MIN(timer_value) as lowest_timer,
-                            (
-                                SELECT color_rank 
-                                FROM users 
-                                WHERE user_id = %s
-                            ) as best_color
-                        FROM button_clicks 
-                        WHERE user_id = %s 
-                        AND game_id = %s
-                    '''
-                    params = (interaction.user.id, interaction.user.id, game_id)
-                    user_stats = execute_query(query, params)
-
-                    if not user_stats or not user_stats[0]:
-                        user_clicks_count = 1  # First click
-                        user_best_color = timer_color_name  # Current color will be their best
+                # Still check if it's expired
+                if current_timer_value <= 0:
+                    await interaction.followup.send("The timer has expired! Game over!", ephemeral=True)
+                    return
+                else:
+                    # This should rarely happen - only if button was created without timer_value
+                    logger.warning(f"Button missing timer_value, calculating from database")
+                    # Quick DB fallback
+                    query = "SELECT click_time FROM button_clicks WHERE game_id = %s ORDER BY id DESC LIMIT 1"
+                    result = execute_query(query, (game_id,))
+                    if result and result[0]:
+                        last_click = result[0][0].replace(tzinfo=timezone.utc)
+                        elapsed = (click_time - last_click).total_seconds()
+                        current_timer_value = max(0, timer_duration - elapsed)
                     else:
-                        user_clicks_count = user_stats[0][0] + 1  # Add 1 for current click
-                        user_best_color = user_stats[0][2] or timer_color_name
-
-                    # Gather comprehensive context for LLM
-                    comprehensive_context = await gather_comprehensive_context(
-                        game_id=game_id,
-                        user_id=interaction.user.id,
-                        current_timer_value=current_timer_value,
-                        timer_duration=timer_duration,
-                        color=timer_color_name,
-                        bot=self.bot
+                        current_timer_value = timer_duration
+            
+            if current_timer_value <= 0:
+                await interaction.followup.send("The timer has expired! Game over!", ephemeral=True)
+                return
+            
+            # 4. FAST DOUBLE-CLICK CHECK
+            if not await self._check_double_click_prevention(guild_id, user_id):
+                sequential_requirement = session.get('sequential_requirement', 0)
+                await interaction.followup.send(
+                    f"Hold your horses, brave warrior! You must wait for {sequential_requirement} different adventurer{'s' if sequential_requirement != 1 else ''} to click before you can click again. "
+                    f"The button demands variety in its champions!", 
+                    ephemeral=True
+                )
+                return
+            
+            # 5. FAST COOLDOWN CHECK
+            cooldown_remaining = await self._fast_cooldown_check(user_id, game_id, cooldown_duration, click_time)
+            if cooldown_remaining > 0:
+                formatted_cooldown = f"{format(int(cooldown_remaining//3600), '02d')}:{format(int(cooldown_remaining%3600//60), '02d')}:{format(int(cooldown_remaining%60), '02d')}"
+                display_name = interaction.user.display_name or interaction.user.name
+                
+                # Check for cached message
+                cached_message = self._get_cached_cooldown_message(user_id)
+                if cached_message:
+                    cooldown_message = cached_message
+                else:
+                    handler = CharacterHandler.get_instance()
+                    cooldown_response_tuple = await handler.generate_cooldown_message(
+                        time_remaining=formatted_cooldown,
+                        player_name=display_name
                     )
-                    
-                    # Add current click context
-                    comprehensive_context.update({
-                        'color': timer_color_name,
-                        'timer_value': current_timer_value,
-                        'timer_duration': timer_duration,
-                        'player_name': display_name,
-                        'total_clicks': user_clicks_count,
-                        'best_color': user_best_color
-                    })
-                    
-                    # Get chat context from the chat channel
-                    try:
-                        chat_channel = self.bot.get_channel(game_session['game_chat_channel_id'])
-                        if chat_channel:
-                            chat_messages = []
-                            async for message in chat_channel.history(limit=20):
-                                if not message.author.bot:  # Skip bot messages
-                                    chat_messages.append({
-                                        "player": message.author.display_name or message.author.name,
-                                        "message": message.content,
-                                        "timestamp": message.created_at.isoformat()
-                                    })
-                            comprehensive_context["chat_context"] = chat_messages[:10]  # Last 10 human messages
-                    except Exception as e:
-                        logger.error(f"Error gathering chat context: {e}")
-                        comprehensive_context["chat_context"] = []
-                    
-                    
-                    if handler == None:
-                        handler = CharacterHandler.get_instance()
-                    
-                    # Generate LLM response with comprehensive context
-                    llm_response, gif_keywords = await handler.generate_click_response(comprehensive_context)
-
-
-                    # Calculate the time claimed - this is what we're adding
-                    time_claimed = timer_duration - current_timer_value
-                    formatted_time_claimed = f"{format(time_claimed//3600, '02d')} hours {format(time_claimed%3600//60, '02d')} minutes and {format(round(time_claimed%60), '02d')} seconds"
-
-                    # Then modify the embed description to include the time claimed
-                    embed = nextcord.Embed(title="", color=nextcord.Color.from_rgb(*color_state))
-                    base_description = (
-                        f"{color_emoji}! {display_name} ({interaction.user.mention}), "
-                        f"the {timer_color_name} rank warrior, has valiantly reset the timer "
-                        f"with a mere {formatted_remaining_time} remaining!\n"
-                        f"**Time Claimed: {formatted_time_claimed}**\n\n\n"
-                        f"Let their bravery be celebrated throughout the realm!\n\n"
-                        f"The Button Speaks: *{llm_response}*\n\n"
-                    )
-                    embed.description = base_description
-
-                    await chat_channel.send(embed=embed)
-
-                    # Determine if we should send a GIF based on color and random chance
-                    should_send_gif = random.random() < 0.25  # 25% chance
-                    if timer_color_name in ['Red', 'Orange']:
-                        should_send_gif = random.random() < 0.7  # 70% chance for red/orange
-                    
-                    if should_send_gif and gif_keywords:
-                        # Determine timing context for GIF selection
-                        timer_percentage = (current_timer_value / timer_duration) * 100
-                        timing_context = None
-                        if timer_percentage >= 70:
-                            timing_context = "early_click"
-                        elif timer_percentage <= 30:
-                            timing_context = "late_click"
-                        
-                        await send_gif_enhanced(chat_channel, gif_keywords, timer_color_name, timing_context)
-                    
-                    game_cache.update_game_cache(game_id, click_time, None, None, display_name, current_timer_value)
-
-                except Exception as e:
-                    tb = traceback.format_exc()
-                    logger.error(f'Error 1 processing button click: {e}, {tb}')
-                    await interaction.followup.send("Something went wrong. Please try again later.", ephemeral=True)
-            task_run_time = datetime.datetime.now(timezone.utc) - task_run_time
-            logger.info(f'Callback run time: {task_run_time.total_seconds()} seconds')
+                    cooldown_message = cooldown_response_tuple[0] if isinstance(cooldown_response_tuple, tuple) else cooldown_response_tuple
+                    self._cooldown_messages[user_id] = (cooldown_message, time.time())
+                
+                await interaction.followup.send(cooldown_message, ephemeral=True)
+                return
+            
+            # 6. INSERT CLICK (minimal query)
+            display_name = interaction.user.display_name or interaction.user.name
+            insert_query = "INSERT INTO button_clicks (user_id, click_time, timer_value, game_id) VALUES (%s, %s, %s, %s)"
+            success = execute_query(insert_query, (user_id, click_time, current_timer_value, game_id), commit=True)
+            
+            if not success:
+                await interaction.followup.send("Failed to record click! Please try again.", ephemeral=True)
+                return
+            
+            # 7. SEND SUCCESS (END OF CRITICAL PATH) 
+            color_name = get_color_name(current_timer_value, timer_duration)
+            await interaction.followup.send(f"✅ Button clicked! You have earned a **{color_name}** click!", ephemeral=True)
+            
+            # 8. UPDATE CACHE
+            game_cache.update_game_cache(game_id, click_time, None, None, display_name, current_timer_value)
+            
+            # Clear cooldown cache for this user
+            cache_key = f"{user_id}_{game_id}"
+            if cache_key in self._cooldown_cache:
+                del self._cooldown_cache[cache_key]
+            
+            # 9. EVERYTHING ELSE IN BACKGROUND
+            asyncio.create_task(self._handle_post_click_updates(
+                interaction, game_id, user_id, display_name, current_timer_value, 
+                timer_duration, color_name, session, click_time
+            ))
+            
         except Exception as e:
-            tb = traceback.format_exc()
-            logger.error(f'Error 2 processing button click: {e}, {tb}')
-        finally:
-            # if reaction is present from earlier, remove it
+            logger.error(f"Critical error in callback: {e}\n{traceback.format_exc()}")
             try:
-                await interaction.message.remove_reaction("⏳", self.bot.user)
-            except nextcord.errors.NotFound as e:
-                logger.error(f"Reaction not found: {e}")
-            except Exception as e:
-                logger.error(f"Error removing reaction: {e}")
-
+                await interaction.followup.send("Something went wrong! Please try again.", ephemeral=True)
+            except:
+                pass
 
 async def is_timer_expired(game_id):
     """
@@ -779,7 +793,7 @@ async def is_timer_expired(game_id):
         if not result or not result[0]:
             game_session = await get_game_session_by_id(game_id)
             return False, game_session['timer_duration']
-            
+        
         last_click_time, timer_value = result[0]
         current_time = datetime.datetime.now(timezone.utc)
         elapsed_time = (current_time - last_click_time.replace(tzinfo=timezone.utc)).total_seconds()
@@ -794,3 +808,33 @@ async def is_timer_expired(game_id):
         logger.error(f"Error checking timer expiration: {e}")
         logger.error(traceback.format_exc())
         return True, 0
+
+# Pre-warm cache function to be called on startup
+async def warm_session_cache(bot):
+    """Pre-load all game sessions into cache for maximum speed"""
+    global _session_cache, _session_cache_time
+    
+    query = """
+        SELECT guild_id, id, timer_duration, cooldown_duration, button_channel_id, 
+               game_chat_channel_id, COALESCE(sequential_click_requirement, 0)
+        FROM game_sessions 
+        WHERE end_time IS NULL
+    """
+    results = execute_query(query)
+    
+    if results:
+        now = time.time()
+        for row in results:
+            guild_id = row[0]
+            session = {
+                'game_id': row[1],
+                'timer_duration': row[2],
+                'cooldown_duration': row[3],
+                'button_channel_id': row[4],
+                'game_chat_channel_id': row[5],
+                'sequential_requirement': row[6]
+            }
+            _session_cache[guild_id] = session
+            _session_cache_time[guild_id] = now
+        
+        logger.info(f"Pre-warmed session cache with {len(results)} sessions")

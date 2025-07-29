@@ -20,6 +20,7 @@ try:
     from button.button_functions import setup_roles, MenuTimer, create_button_message  
     from button.button_view import ButtonView
     from game.game_cache import button_message_cache
+    from utils.timer_button import warm_session_cache
 except Exception as e:
     print(f"Error importing local modules: {e}")
     print(traceback.format_exc())
@@ -464,6 +465,8 @@ async def on_ready():
     if not setup_pool(): 
         logger.error(f"Failed to initialize database pools.")
         return
+
+    await warm_session_cache(bot)
         
     # Load all game sessions and guild data at once to reduce DB queries
     all_sessions = update_local_game_sessions()
