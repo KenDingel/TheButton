@@ -5,26 +5,11 @@ import uuid
 import logging
 import traceback
 from pathlib import Path
+from utils.utils import logger, config
 
-local_dir = os.path.dirname(os.path.abspath(__file__))
-os.chdir(local_dir)
-log_dir = os.path.join(local_dir, 'logs')
-os.makedirs(log_dir, exist_ok=True)
-log_dir = os.path.join(log_dir, 'eleven_labs_tts.log')
-# Set up logging
-logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s',
-    handlers=[
-        logging.FileHandler(log_dir),
-        logging.StreamHandler()
-    ]
-)
-logger = logging.getLogger("eleven_labs_tts")
-
-API_KEY = "sk_a4f459b72f91914c61d508319ff20ccf3732ff725a4a8374"
-OUTPUT_DIR = "audio_output"
-DEFAULT_VOICE_ID = "esy0r39YPLQjOczyOib8"
+API_KEY = config.ELEVEN_LABS_API_KEY
+OUTPUT_DIR = config.ELEVEN_LABS_OUTPUT_DIR
+DEFAULT_VOICE_ID = config.ELEVEN_LABS_DEFAULT_VOICE_ID
 
 class ElevenLabsTTS:
     """

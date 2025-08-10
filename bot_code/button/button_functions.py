@@ -129,12 +129,12 @@ def calculate_time_to_next_color(timer_value, timer_duration):
             break
     if next_threshold is None:
         return 0, "Red"  # Already at the last color
+    
     # Calculate seconds until next color
     current_seconds = timer_value
     seconds_at_next_threshold = (next_threshold / 100) * timer_duration
-    # The key fix: We need to subtract current timer from next threshold point
-    # not the other way around, since we're counting down toward the threshold
     seconds_to_next = seconds_at_next_threshold - current_seconds
+    
     # Ensure we return a non-negative value
     return max(0, seconds_to_next), next_color
 
