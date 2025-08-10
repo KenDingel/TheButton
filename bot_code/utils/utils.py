@@ -768,14 +768,14 @@ def generate_timer_image(timer_value, timer_duration=43200):
 
 print("Utils file loaded.")
 
-# if __name__ == "__main__":
-#     # Test the generate_timer_image function
-#     test_image = generate_timer_image(10000, 43200)
-#     if test_image:
-#         print("Timer image generated successfully.")
-#     else:
-#         print("Failed to generate timer image.")
+if __name__ == "__main__":
+    # Test the generate_timer_image function
+    test_image = generate_timer_image(10000, 43200)
+    if test_image:
+        print("Timer image generated successfully.")
+    else:
+        print("Failed to generate timer image.")
 
     # Save the gif result
-    # with open('test_timer.gif', 'wb') as f:
-    #     f.write(test_image.fp.getbuffer())
+    with open('test_timer.gif', 'wb') as f:
+        f.write(test_image.fp.getbuffer())
