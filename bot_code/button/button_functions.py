@@ -18,6 +18,8 @@ from text.full_text import generate_explaination_text
 from game.end_game import get_end_game_embed
 from button.button_utils import get_button_message, Failed_Interactions
 from button.button_view import ButtonView
+from redis_lib.redis_cache import game_state_cache
+from redis_lib.redis_locks import RedisLock
 
 async def setup_roles(guild_id, bot):
     guild = bot.get_guild(guild_id)
@@ -292,71 +294,112 @@ class MenuTimer(nextcord.ui.View):
                 return
             
             # Use cached button message instead of fetching every time
-            button_message = await self.get_cached_button_message(game_id)
+            button_message = await get_button_message(game_id, self.bot)
             if not button_message:
                 logger.error(f'Could not get button message for game {game_id}')
                 Failed_Interactions.increment()
                 return
             
-            # Update the timer for the button game
+            # Update the timer for the button game using Redis cache with fallback
             try:
                 game_id = str(game_id)
-                cache_data = game_cache.get_game_cache(game_id)
-                last_update_time = None
                 
-                # Check if we have cached data
-                if cache_data:
-                    latest_click_time_overall = cache_data['latest_click_time']
-                    total_clicks = cache_data['total_clicks']
-                    last_update_time = cache_data['last_update_time']
-                    total_players = cache_data['total_players']
-                    user_name = cache_data['latest_player_name']
-                    last_timer_value = cache_data['last_timer_value']
-                else:
-                    logger.info(f'Cache miss for game {game_id}')
-                    # Query database
-                    query = f'''
-                        SELECT users.user_name, button_clicks.click_time, button_clicks.timer_value,
-                            (SELECT COUNT(*) FROM button_clicks WHERE game_id = {game_id}) AS total_clicks,
-                            (SELECT COUNT(DISTINCT user_id) FROM button_clicks WHERE game_id = {game_id}) AS total_players
-                        FROM button_clicks
-                        INNER JOIN users ON button_clicks.user_id = users.user_id
-                        WHERE button_clicks.game_id = {game_id}
-                        ORDER BY button_clicks.id DESC
-                        LIMIT 1
-                    '''
-                    params = ()
-                    result = execute_query(query, params, is_timer=True)
+                # Try Redis cache first for better performance
+                redis_state = await game_state_cache.get_game_state(int(game_id))
+                
+                if redis_state:
+                    logger.debug(f'Redis cache hit for game {game_id}')
+                    latest_click_time_overall = redis_state.get('last_click_time')
+                    total_clicks = redis_state.get('total_clicks', 0)
+                    total_players = redis_state.get('total_players', 0)
+                    user_name = redis_state.get('latest_player_name', 'Unknown')
+                    last_timer_value = redis_state.get('timer_value', game_session['timer_duration'])
+                    last_update_time = datetime.datetime.now(timezone.utc)
                     
-                    # Handle case when no clicks exist yet
-                    if not result or len(result) == 0: 
-                        logger.info(f'No clicks found for game {game_id}, using initial state')
-                        # Use initial state based on game session
-                        user_name = "Game Initialized"
+                    # Ensure timezone awareness
+                    if latest_click_time_overall and hasattr(latest_click_time_overall, 'tzinfo'):
+                        if latest_click_time_overall.tzinfo is None:
+                            latest_click_time_overall = latest_click_time_overall.replace(tzinfo=timezone.utc)
+                    elif latest_click_time_overall is None:
                         latest_click_time_overall = game_session['start_time']
-                        last_timer_value = game_session['timer_duration']
-                        total_clicks = 0
-                        total_players = 0
-                        last_update_time = datetime.datetime.now(timezone.utc)
-                        # Update cache with initial values
-                        game_cache.update_game_cache(game_id, latest_click_time_overall, 
-                                                    total_clicks, total_players, 
-                                                    user_name, last_timer_value)
+                        
+                else:
+                    logger.info(f'Redis cache miss for game {game_id}, checking local cache')
+                    # Fallback to local cache
+                    cache_data = game_cache.get_game_cache(game_id)
+                    
+                    if cache_data:
+                        latest_click_time_overall = cache_data['latest_click_time']
+                        total_clicks = cache_data['total_clicks']
+                        last_update_time = cache_data['last_update_time']
+                        total_players = cache_data['total_players']
+                        user_name = cache_data['latest_player_name']
+                        last_timer_value = cache_data['last_timer_value']
                     else:
-                        # Process normal result with existing clicks
-                        result = result[0]
-                        user_name, latest_click_time_overall, last_timer_value, total_clicks, total_players = result
-                        latest_click_time_overall = latest_click_time_overall.replace(tzinfo=timezone.utc) if latest_click_time_overall.tzinfo is None else latest_click_time_overall
+                        logger.info(f'Local cache miss for game {game_id}, querying database')
+                        # Final fallback to database
+                        query = f'''
+                            SELECT users.user_name, button_clicks.click_time, button_clicks.timer_value,
+                                (SELECT COUNT(*) FROM button_clicks WHERE game_id = {game_id}) AS total_clicks,
+                                (SELECT COUNT(DISTINCT user_id) FROM button_clicks WHERE game_id = {game_id}) AS total_players
+                            FROM button_clicks
+                            INNER JOIN users ON button_clicks.user_id = users.user_id
+                            WHERE button_clicks.game_id = {game_id}
+                            ORDER BY button_clicks.id DESC
+                            LIMIT 1
+                        '''
+                        params = ()
+                        result = execute_query(query, params, is_timer=True)
+                        
+                        # Handle case when no clicks exist yet
+                        if not result or len(result) == 0: 
+                            logger.info(f'No clicks found for game {game_id}, using initial state')
+                            # Use initial state based on game session
+                            user_name = "Game Initialized"
+                            latest_click_time_overall = game_session['start_time']
+                            last_timer_value = game_session['timer_duration']
+                            total_clicks = 0
+                            total_players = 0
+                            last_update_time = datetime.datetime.now(timezone.utc)
+                            # Update both caches with initial values
+                            game_cache.update_game_cache(game_id, latest_click_time_overall, 
+                                                        total_clicks, total_players, 
+                                                        user_name, last_timer_value)
+                            # Update Redis cache
+                            try:
+                                await game_state_cache.update_game_state(
+                                    game_id=int(game_id),
+                                    last_click_time=latest_click_time_overall,
+                                    timer_value=last_timer_value,
+                                    total_clicks=total_clicks,
+                                    total_players=total_players,
+                                    latest_player_name=user_name,
+                                    is_active=True
+                                )
+                            except Exception as cache_error:
+                                logger.error(f"Failed to update Redis cache for game {game_id}: {cache_error}")
+                        else:
+                            # Process normal result with existing clicks
+                            result = result[0]
+                            user_name, latest_click_time_overall, last_timer_value, total_clicks, total_players = result
+                            latest_click_time_overall = latest_click_time_overall.replace(tzinfo=timezone.utc) if latest_click_time_overall.tzinfo is None else latest_click_time_overall
                         last_update_time = datetime.datetime.now(timezone.utc)
                         game_cache.update_game_cache(game_id, latest_click_time_overall, total_clicks, total_players, user_name, last_timer_value)
                 
-                # Calculate elapsed time and current timer value
-                # Ensure both datetime objects are timezone-aware
-                now = datetime.datetime.now(timezone.utc)
-                if latest_click_time_overall.tzinfo is None:
-                    latest_click_time_overall = latest_click_time_overall.replace(tzinfo=timezone.utc)
-                elapsed_time = (now - latest_click_time_overall).total_seconds()
-                timer_value = max(game_session['timer_duration'] - elapsed_time, 0)
+                # Calculate elapsed time and current timer value using Redis cache method
+                try:
+                    is_expired, timer_value = await game_state_cache.calculate_current_timer(int(game_id))
+                    if is_expired:
+                        timer_value = 0
+                    logger.debug(f"Timer calculation for game {game_id}: {timer_value:.1f}s, expired={is_expired}")
+                except Exception as timer_error:
+                    logger.error(f"Redis timer calculation failed for game {game_id}: {timer_error}")
+                    # Fallback to manual calculation
+                    now = datetime.datetime.now(timezone.utc)
+                    if latest_click_time_overall.tzinfo is None:
+                        latest_click_time_overall = latest_click_time_overall.replace(tzinfo=timezone.utc)
+                    elapsed_time = (now - latest_click_time_overall).total_seconds()
+                    timer_value = max(game_session['timer_duration'] - elapsed_time, 0)
                 
                 # Clear cache if last update was too long ago
                 if last_update_time is None or not last_update_time: 
@@ -366,6 +409,8 @@ class MenuTimer(nextcord.ui.View):
                     game_cache.clear_game_cache(game_id)
                 
                 # Only update if embed content actually changed
+                total_clicks = total_clicks if total_clicks is not None else 0
+                total_players = total_players if total_players is not None else 0
                 embed_key = f"{int(timer_value)}_{total_clicks}_{user_name}_{int(latest_click_time_overall.timestamp())}"
                 if game_id in self.last_embed_cache and self.last_embed_cache[game_id] == embed_key:
                     return  # Skip update if nothing changed
@@ -379,7 +424,6 @@ class MenuTimer(nextcord.ui.View):
                 formatted_timer_value = f'{hours_remaining:02d}:{minutes_remaining:02d}:{seconds_remaining:02d}'
                 
                 # Format latest click info depending on whether we have any clicks
-                #logger.info(f'DEBUG BUTTON: Game {game_id} display logic - total_clicks={total_clicks}, condition result={total_clicks is not None and total_clicks > 0}')
                 if total_clicks is not None and total_clicks > 0:
                     formatted_time = f'<t:{int(latest_click_time_overall.timestamp())}:R>'
                     latest_user_info = f'{formatted_time} {user_name} clicked {color_emoji} {color_name} with {formatted_timer_value} left on the clock!'
@@ -436,7 +480,7 @@ class MenuTimer(nextcord.ui.View):
                 elapsed_time_str = f'{elapsed_days} days, {elapsed_hours} hours, {elapsed_minutes} minutes, {elapsed_seconds} seconds'
                 
                 # Add fields to embed
-                if total_clicks > 0:
+                if total_clicks is not None and total_clicks > 0:
                     embed.add_field(
                         name='🗺️ The Saga Unfolds',
                         value=f'Valiant clickers in the pursuit of glory, have kept the button alive for...\n**{elapsed_time_str}**!\n**{total_clicks} clicks** have been made by **{total_players} adventurers**! 🛡️🗡️🏰',
@@ -466,16 +510,29 @@ class MenuTimer(nextcord.ui.View):
                 
                 # Update the message
                 try:
-                    async with lock:
+                    # Prefer a short Redis-based image lock to avoid colliding with clicks
+                    img_lock = None
+                    try:
+                        img_lock = RedisLock(key=f"game:{game_id}:image_lock", timeout=1.0)
+                    except Exception:
+                        img_lock = None
+
+                    if img_lock is None:
+                        # No Redis available - perform edit without Redis lock but still safe
                         button_view = ButtonView(timer_value, self.bot, game_id)
                         if file_buffer:
                             await button_message.edit(embed=embed, file=file_buffer, view=button_view)
                         else:
                             await button_message.edit(embed=embed, view=button_view)
-                        
-                        # Cache the embed key to avoid redundant updates
                         self.last_embed_cache[game_id] = embed_key
-                        
+                    else:
+                        async with img_lock:
+                            button_view = ButtonView(timer_value, self.bot, game_id)
+                            if file_buffer:
+                                await button_message.edit(embed=embed, file=file_buffer, view=button_view)
+                            else:
+                                await button_message.edit(embed=embed, view=button_view)
+                            self.last_embed_cache[game_id] = embed_key
                 except nextcord.NotFound:
                     logger.warning(f'Message was deleted, clearing cache for game {game_id}')
                     self.clear_message_cache(game_id)

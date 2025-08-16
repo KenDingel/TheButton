@@ -20,6 +20,8 @@ try:
     from button.button_functions import setup_roles, MenuTimer, create_button_message  
     from button.button_view import ButtonView
     from game.game_cache import button_message_cache
+    from redis_lib.redis_client import redis_client
+    from redis_lib.redis_cache import game_state_cache
 except Exception as e:
     print(f"Error importing local modules: {e}")
     print(traceback.format_exc())
@@ -176,6 +178,25 @@ async def on_ready():
     for guild in bot.guilds:
         logger.info(f'Connected to guild: {guild.name}')
     
+    # Initialize Redis client
+    logger.info("Initializing Redis...")
+    redis_success = await redis_client.initialize()
+    if redis_success:
+        logger.info("Redis initialized successfully")
+        # Warm cache for active games
+        try:
+            await game_state_cache.warm_cache_for_active_games()
+        except Exception as e:
+            logger.error(f"Error warming Redis cache: {e}")
+        # Start the background sync worker
+        try:
+            from redis_lib.sync_worker import sync_worker
+            await sync_worker.start()
+        except Exception as e:
+            logger.error(f"Failed to start sync worker: {e}")
+    else:
+        logger.warning("Redis initialization failed - falling back to MySQL only")
+    
     # Initialize database pool if needed
     if not setup_pool(): 
         logger.error(f"Failed to initialize database pools.")
@@ -301,6 +322,18 @@ async def close_bot():
         
         # Wait briefly for tasks to clean up
         await asyncio.sleep(1)
+        
+        # Close Redis connections and stop sync worker
+        try:
+            try:
+                from redis_lib.sync_worker import sync_worker
+                await sync_worker.stop()
+            except Exception:
+                pass
+            await redis_client.close()
+            logger.info("Redis connections closed")
+        except Exception as e:
+            logger.error(f"Error closing Redis: {e}")
         
         # Close database connections
         close_disconnect_database()

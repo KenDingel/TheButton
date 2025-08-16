@@ -19,6 +19,9 @@ from button.button_utils import get_button_message, Failed_Interactions
 from game.game_cache import game_cache
 from database.database import execute_query, get_game_session_by_guild_id, get_game_session_by_id
 from game.character_handler import CharacterHandler
+from redis_lib.redis_cache import game_state_cache
+from redis_lib.redis_locks import RedisLock
+from redis_lib.redis_queues import push_click_to_queue, push_user_update
 
 try:
     giphy_api = giphy_client.DefaultApi()
@@ -547,9 +550,32 @@ class TimerButton(nextcord.ui.Button):
                 logger.warning(f"EARLY RETURN: User {interaction.user.id} - deferral failed")
                 return
             
-            # Acquire the lock to prevent concurrent processing of clicks
-            async with self._interaction_lock:
-                logger.info(f"Lock acquired for {interaction.user.id}")
+            # Acquire a per-game Redis lock (falls back to local lock if Redis unavailable)
+            game_id = None
+            try:
+                game_session_tmp = await get_game_session_by_guild_id(interaction.guild.id)
+                if game_session_tmp:
+                    game_id = game_session_tmp['game_id']
+            except Exception:
+                game_id = None
+
+            lock_ctx = None
+            if game_id is not None:
+                try:
+                    lock_ctx = RedisLock(game_id=game_id, timeout=5.0)
+                except Exception:
+                    lock_ctx = None
+
+            # If Redis lock not available, use local asyncio lock
+            if lock_ctx is None:
+                lock_ctx = self._interaction_lock
+
+            async with lock_ctx:
+                # Logging for which lock was used
+                if isinstance(lock_ctx, RedisLock):
+                    logger.info(f"Redis lock acquired for game {game_id} by {interaction.user.id}")
+                else:
+                    logger.info(f"Local lock acquired for {interaction.user.id}")
                 
                 # Followup with user that the click is being processed
                 # Debug user blocking (keeping existing logic)
@@ -687,14 +713,32 @@ class TimerButton(nextcord.ui.Button):
                         await interaction.followup.send("Error processing your click. Please try again.", ephemeral=True)
                         return
 
-                    # Insert the button click data into the database
-                    query = 'INSERT INTO button_clicks (user_id, click_time, timer_value, game_id) VALUES (%s, %s, %s, %s)'
-                    params = (interaction.user.id, click_time, current_timer_value, game_id)
-                    success = execute_query(query, params, commit=True)
-                    if not success: 
-                        logger.error(f'Failed to insert button click data. User: {interaction.user}, Timer Value: {current_timer_value}, Game ID: {game_session["game_id"]}')
-                        return
-                    logger.info(f'Data inserted for {interaction.user}!')
+                    # Enqueue the button click for background DB sync via Redis stream
+                    try:
+                        click_time_str = click_time.isoformat() if hasattr(click_time, 'isoformat') else str(click_time)
+                        await push_click_to_queue(
+                            game_id=game_id,
+                            user_id=interaction.user.id,
+                            click_time=click_time_str,
+                            timer_value=current_timer_value,
+                            user_name=display_name,
+                            old_timer=None
+                        )
+                        logger.info(f'Click enqueued for user {interaction.user.id} in game {game_id}')
+                    except Exception as e:
+                        # If enqueue fails (Redis unavailable or other), fallback to direct DB insert
+                        logger.error(f'Failed to enqueue click, falling back to direct DB insert: {e}')
+                        try:
+                            query = 'INSERT INTO button_clicks (user_id, click_time, timer_value, game_id) VALUES (%s, %s, %s, %s)'
+                            params = (interaction.user.id, click_time, current_timer_value, game_id)
+                            success = execute_query(query, params, commit=True)
+                            if not success:
+                                logger.error(f'Failed to insert button click data (fallback). User: {interaction.user}, Timer Value: {current_timer_value}, Game ID: {game_session["game_id"]}')
+                                return
+                            logger.info(f'Data inserted for {interaction.user} (fallback)!')
+                        except Exception as db_e:
+                            logger.error(f'Fallback DB insert failed: {db_e}')
+                            return
 
                     # Update the user's color rank and add the role to the user
                     guild = interaction.guild
@@ -830,6 +874,21 @@ class TimerButton(nextcord.ui.Button):
                         await send_gif_enhanced(chat_channel, gif_keywords, timer_color_name, timing_context)
                     
                     game_cache.update_game_cache(game_id, click_time, None, None, display_name, current_timer_value)
+                    
+                    # Update Redis cache with the new click data
+                    try:
+                        await game_state_cache.update_game_state(
+                            game_id=game_id,
+                            last_click_time=click_time,
+                            timer_value=current_timer_value,
+                            latest_player_name=display_name,
+                            total_clicks=None,  # Will be incremented in background
+                            is_active=True
+                        )
+                        logger.debug(f"Updated Redis cache for game {game_id} after click")
+                    except Exception as cache_error:
+                        logger.error(f"Failed to update Redis cache for game {game_id}: {cache_error}")
+                        # Don't fail the click operation if cache update fails
 
                 except Exception as e:
                     tb = traceback.format_exc()
@@ -852,37 +911,49 @@ class TimerButton(nextcord.ui.Button):
 
 async def is_timer_expired(game_id):
     """
-    Check if the timer for a given game has expired
+    Check if the timer for a given game has expired using Redis cache with MySQL fallback
     Args:
         game_id: The game ID to check
     Returns:
         tuple: (is_expired: bool, current_timer_value: float)
     """
     try:
-        query = '''
-            SELECT click_time, timer_value
-            FROM button_clicks 
-            WHERE game_id = %s
-            ORDER BY click_time DESC
-            LIMIT 1
-        '''
-        result = execute_query(query, (game_id,))
-        
-        if not result or not result[0]:
-            game_session = await get_game_session_by_id(game_id)
-            return False, game_session['timer_duration']
-            
-        last_click_time, timer_value = result[0]
-        current_time = datetime.datetime.now(timezone.utc)
-        elapsed_time = (current_time - last_click_time.replace(tzinfo=timezone.utc)).total_seconds()
-        
-        # Use the full timer_duration from game_session as the start point
-        game_session = await get_game_session_by_id(game_id)
-        current_timer = max(0, float(game_session['timer_duration']) - elapsed_time)
-        
-        return current_timer <= 0, current_timer
+        # Try Redis cache first for much faster response
+        is_expired, current_timer = await game_state_cache.calculate_current_timer(game_id)
+        logger.debug(f"Timer check for game {game_id}: expired={is_expired}, value={current_timer:.1f}s (Redis)")
+        return is_expired, current_timer
         
     except Exception as e:
-        logger.error(f"Error checking timer expiration: {e}")
-        logger.error(traceback.format_exc())
-        return True, 0
+        logger.error(f"Redis timer calculation failed for game {game_id}: {e}")
+        # Fallback to original MySQL method
+        logger.warning(f"Falling back to MySQL timer calculation for game {game_id}")
+        
+        try:
+            query = '''
+                SELECT click_time, timer_value
+                FROM button_clicks 
+                WHERE game_id = %s
+                ORDER BY click_time DESC
+                LIMIT 1
+            '''
+            result = execute_query(query, (game_id,))
+            
+            if not result or not result[0]:
+                game_session = await get_game_session_by_id(game_id)
+                return False, game_session['timer_duration']
+                
+            last_click_time, timer_value = result[0]
+            current_time = datetime.datetime.now(timezone.utc)
+            elapsed_time = (current_time - last_click_time.replace(tzinfo=timezone.utc)).total_seconds()
+            
+            # Use the full timer_duration from game_session as the start point
+            game_session = await get_game_session_by_id(game_id)
+            current_timer = max(0, float(game_session['timer_duration']) - elapsed_time)
+            
+            logger.debug(f"Timer check for game {game_id}: expired={current_timer <= 0}, value={current_timer:.1f}s (MySQL fallback)")
+            return current_timer <= 0, current_timer
+            
+        except Exception as fallback_error:
+            logger.error(f"MySQL fallback timer calculation also failed for game {game_id}: {fallback_error}")
+            logger.error(traceback.format_exc())
+            return True, 0

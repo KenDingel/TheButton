@@ -68,6 +68,13 @@ def get_config():
         
         with open(config_path, 'r') as f:
             config = json.load(f)
+        
+        # Override Redis host from environment variable if running in Docker
+        if 'redis' in config:
+            redis_host = os.environ.get('REDIS_HOST', config['redis'].get('host', 'localhost'))
+            config['redis']['host'] = redis_host
+            logger.info(f"Redis host set to: {redis_host}")
+        
         logger.info("Configuration loaded successfully")
         return config
     except Exception as e:
