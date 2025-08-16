@@ -7,9 +7,9 @@ import traceback
 from pathlib import Path
 from utils.utils import logger, config
 
-API_KEY = config.ELEVEN_LABS_API_KEY
-OUTPUT_DIR = config.ELEVEN_LABS_OUTPUT_DIR
-DEFAULT_VOICE_ID = config.ELEVEN_LABS_DEFAULT_VOICE_ID
+API_KEY = config['ELEVEN_LABS_API_KEY']
+OUTPUT_DIR = config['ELEVEN_LABS_OUTPUT_DIR']
+DEFAULT_VOICE_ID = config['DEFAULT_VOICE_ID']
 
 class ElevenLabsTTS:
     """
