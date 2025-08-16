@@ -379,7 +379,8 @@ class MenuTimer(nextcord.ui.View):
                 formatted_timer_value = f'{hours_remaining:02d}:{minutes_remaining:02d}:{seconds_remaining:02d}'
                 
                 # Format latest click info depending on whether we have any clicks
-                if total_clicks != None and total_clicks > 0:
+                #logger.info(f'DEBUG BUTTON: Game {game_id} display logic - total_clicks={total_clicks}, condition result={total_clicks is not None and total_clicks > 0}')
+                if total_clicks is not None and total_clicks > 0:
                     formatted_time = f'<t:{int(latest_click_time_overall.timestamp())}:R>'
                     latest_user_info = f'{formatted_time} {user_name} clicked {color_emoji} {color_name} with {formatted_timer_value} left on the clock!'
                 else:

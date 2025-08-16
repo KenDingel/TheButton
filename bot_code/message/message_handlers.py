@@ -172,6 +172,25 @@ def is_brain_rot(message_text = ""):
             
     return 0
 
+
+async def get_message_history(channel, limit=100):
+    """
+    Fetch the message history from a Discord channel.
+    Args:
+        channel: The Discord channel to fetch messages from.
+        limit: The maximum number of messages to retrieve.
+    Returns:
+        list: A list of message content from the channel.
+    """
+    messages = []
+    try:
+        async for message in channel.history(limit=limit):
+            messages.append(message.content)
+    except Exception as e:
+        logger.error(f"Error fetching message history: {e}")
+    return messages
+
+
 logger = logging.getLogger(__name__)
 
 def is_brain_rot(message_text = ""): 

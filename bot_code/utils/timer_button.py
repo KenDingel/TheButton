@@ -349,6 +349,68 @@ class TimerButton(nextcord.ui.Button):
         return None
 
     @classmethod
+    async def _check_double_click_prevention_redis(cls, guild_id, user_id):
+        """
+        Check double-click prevention using Redis for real-time validation
+        """
+        try:
+            # Get the sequential click requirement for this guild
+            sequential_requirement = await cls._get_sequential_click_requirement(guild_id)
+            
+            if sequential_requirement <= 0:
+                logger.info(f"Double-click prevention disabled for guild {guild_id} (requirement: {sequential_requirement})")
+                return True
+
+            redis_client_instance = await redis_client.get_client()
+            if not redis_client_instance:
+                # Fallback to database method if Redis unavailable
+                return await cls._check_double_click_prevention(guild_id, user_id)
+
+            # Check Redis list of recent clickers for this guild
+            recent_clickers_key = f"guild:{guild_id}:recent_clickers"
+            try:
+                # Get the list of recent clickers (most recent first)
+                recent_clickers = await redis_client_instance.lrange(recent_clickers_key, 0, -1)
+                
+                if not recent_clickers:
+                    # No recent clicks, user can click
+                    logger.info(f"Double-click prevention (Redis): No recent clickers for guild {guild_id}, allowing user {user_id}")
+                    return True
+                
+                # Check if the last clicker was this user
+                if recent_clickers and recent_clickers[0] == str(user_id):
+                    # Count how many different users have clicked since this user's last click
+                    different_users = set()
+                    for clicker_id in recent_clickers[1:]:  # Skip the first (most recent) which is this user
+                        if clicker_id != str(user_id):
+                            different_users.add(clicker_id)
+                        else:
+                            # Found another click by this user, stop counting
+                            break
+                    
+                    different_users_count = len(different_users)
+                    can_click = different_users_count >= sequential_requirement
+                    
+                    logger.info(f"Double-click prevention (Redis) for user {user_id} in guild {guild_id}: "
+                               f"Need {sequential_requirement} different users, found {different_users_count}, "
+                               f"can_click={can_click}")
+                    
+                    return can_click
+                else:
+                    # User is not the last clicker, they can click
+                    logger.info(f"Double-click prevention (Redis): User {user_id} was not the last clicker, allowing")
+                    return True
+                    
+            except Exception as redis_e:
+                logger.warning(f"Redis double-click check failed: {redis_e}, falling back to database")
+                return await cls._check_double_click_prevention(guild_id, user_id)
+            
+        except Exception as e:
+            logger.error(f"Error in Redis double-click prevention check for user {user_id}, guild {guild_id}: {e}")
+            # Fallback to database method
+            return await cls._check_double_click_prevention(guild_id, user_id)
+
+    @classmethod
     async def _check_double_click_prevention(cls, guild_id, user_id):
         """
         Check if user can click based on double-click prevention rules using database
@@ -478,9 +540,11 @@ class TimerButton(nextcord.ui.Button):
                 await interaction.response.defer(ephemeral=True, with_message=True)
             except nextcord.errors.NotFound as e:
                 logger.error(f"Interaction expired before deferral: {e}")
+                logger.warning(f"EARLY RETURN: User {interaction.user.id} - interaction expired")
                 return
             except Exception as e:
                 logger.error(f"Error deferring interaction: {e}")
+                logger.warning(f"EARLY RETURN: User {interaction.user.id} - deferral failed")
                 return
             
             # Acquire the lock to prevent concurrent processing of clicks
@@ -489,7 +553,9 @@ class TimerButton(nextcord.ui.Button):
                 
                 # Followup with user that the click is being processed
                 # Debug user blocking (keeping existing logic)
-                if interaction.user.id in [116341342430298115]: return
+                if interaction.user.id in [116341342430298115]: 
+                    logger.warning(f"DEBUG: User {interaction.user.id} blocked by debug list - bypassing all validation")
+                    return
 
                 await interaction.followup.send("You attempt a click...", ephemeral=True)
                 
@@ -514,13 +580,82 @@ class TimerButton(nextcord.ui.Button):
                     
                     if is_expired:
                         logger.error(f"Game {game_id} timer expired: {current_timer_value}")
+                        logger.warning(f"EARLY RETURN: User {user_id} - timer expired")
                         await interaction.followup.send("The timer has expired! Game over!", ephemeral=True)
                         return
                         
                     logger.info(f"Processing click with timer value: {current_timer_value}")
 
-                    # Check double-click prevention using database
-                    if not await self._check_double_click_prevention(interaction.guild.id, user_id):
+                    # Check cooldown using Redis cache for real-time validation
+                    logger.info(f"Starting cooldown check for user {user_id}, game {game_id}")
+                    try:
+                        # Get user's last click from Redis cache or database
+                        user_cooldown_key = f"user:{user_id}:game:{game_id}:cooldown"
+                        redis_client_instance = await redis_client.get_client()
+                        
+                        latest_click_time_user = None
+                        if redis_client_instance:
+                            logger.info(f"Redis client available - checking cooldown cache")
+                            try:
+                                # Try Redis first for real-time data
+                                cached_last_click = await redis_client_instance.get(user_cooldown_key)
+                                if cached_last_click:
+                                    latest_click_time_user = datetime.datetime.fromisoformat(cached_last_click)
+                                    logger.debug(f"Found user cooldown in Redis: {latest_click_time_user}")
+                                else:
+                                    logger.info(f"No cooldown data in Redis for user {user_id}")
+                            except Exception as redis_e:
+                                logger.warning(f"Redis cooldown check failed: {redis_e}")
+                        else:
+                            logger.warning(f"Redis client not available - cache not initialized!")
+                        
+                        # Fallback to database if Redis not available or no cached data
+                        if latest_click_time_user is None:
+                            query = '''
+                                SELECT MAX(click_time)
+                                FROM button_clicks
+                                WHERE user_id = %s
+                                AND game_id = %s
+                            '''
+                            params = (interaction.user.id, game_id)
+                            result = execute_query(query, params)
+                            
+                            if result and result[0][0] is not None:
+                                latest_click_time_user = result[0][0].replace(tzinfo=timezone.utc)
+                                logger.debug(f"Found user cooldown in database: {latest_click_time_user}")
+                        
+                        # Check cooldown
+                        if latest_click_time_user is not None:
+                            cooldown_expiry = latest_click_time_user + datetime.timedelta(hours=cooldown_duration)
+                            cooldown_remaining = int((cooldown_expiry - click_time).total_seconds())
+                            if cooldown_remaining > 0:
+                                formatted_cooldown = f"{format(int(cooldown_remaining//3600), '02d')}:{format(int(cooldown_remaining%3600//60), '02d')}:{format(int(cooldown_remaining%60), '02d')}"
+                                display_name = interaction.user.display_name or interaction.user.name
+                                
+                                # Check for cached message
+                                cached_message = self._get_cached_cooldown_message(interaction.user.id)
+                                if cached_message:
+                                    cooldown_message = cached_message
+                                else:
+                                    handler = CharacterHandler.get_instance()
+                                    cooldown_response_tuple = await handler.generate_cooldown_message(
+                                        time_remaining=formatted_cooldown,
+                                        player_name=display_name
+                                    )
+                                    cooldown_message = cooldown_response_tuple[0] if isinstance(cooldown_response_tuple, tuple) else cooldown_response_tuple
+                                    self._cooldown_messages[interaction.user.id] = (cooldown_message, time.time())
+                                
+                                await interaction.followup.send(cooldown_message, ephemeral=True)
+                                logger.info(f'Button click rejected. User {interaction.user} is on cooldown for {formatted_cooldown}')
+                                return
+                                
+                    except Exception as e:
+                        tb = traceback.format_exc()
+                        logger.error(f'Error processing cooldown check: {e}, {tb}')
+                        return
+
+                    # Check double-click prevention using Redis for real-time validation
+                    if not await self._check_double_click_prevention_redis(interaction.guild.id, user_id):
                         sequential_requirement = await self._get_sequential_click_requirement(interaction.guild.id)
                         logger.info(f'Double-click prevention: User {interaction.user} blocked, needs {sequential_requirement} different users to click first')
                         await interaction.followup.send(
@@ -528,49 +663,6 @@ class TimerButton(nextcord.ui.Button):
                             f"The button demands variety in its champions!", 
                             ephemeral=True
                         )
-                        return
-
-                    # Check if the user is on cooldown and alert them if they are
-                    try:
-                        # Always get the user's last click for this game
-                        query = '''
-                            SELECT MAX(click_time)
-                            FROM button_clicks
-                            WHERE user_id = %s
-                            AND game_id = %s
-                        '''
-                        params = (interaction.user.id, game_id)
-                        result = execute_query(query, params)
-                        
-                        if result and result[0][0] is not None:
-                            latest_click_time_user = result[0][0].replace(tzinfo=timezone.utc)
-                            cooldown_expiry = latest_click_time_user + datetime.timedelta(hours=cooldown_duration)
-                            cooldown_remaining = int((cooldown_expiry - click_time).total_seconds())
-                            if cooldown_remaining > 0:
-                                formatted_cooldown = f"{format(int(cooldown_remaining//3600), '02d')}:{format(int(cooldown_remaining%3600//60), '02d')}:{format(int(cooldown_remaining%60), '02d')}"
-                                display_name = interaction.user.display_name
-                                if not display_name:
-                                    display_name = interaction.user.name
-                                # Check for cached message
-                                cached_message = self._get_cached_cooldown_message(interaction.user.id)
-                                if cached_message:
-                                    cooldown_message = cached_message
-                                else:
-                                    handler = CharacterHandler.get_instance()
-                                    # Generate new message and cache it - FIX: properly handle tuple return
-                                    cooldown_response_tuple = await handler.generate_cooldown_message(
-                                        time_remaining=formatted_cooldown,
-                                        player_name=display_name
-                                    )
-                                    # Extract just the message text (first element of tuple)
-                                    cooldown_message = cooldown_response_tuple[0] if isinstance(cooldown_response_tuple, tuple) else cooldown_response_tuple
-                                    self._cooldown_messages[interaction.user.id] = (cooldown_message, time.time())
-                                await interaction.followup.send(cooldown_message, ephemeral=True)
-                                logger.info(f'Button click rejected. User {interaction.user} is on cooldown for {formatted_cooldown}')
-                                return
-                    except Exception as e:
-                        tb = traceback.format_exc()
-                        logger.error(f'Error processing cooldown check: {e}, {tb}')
                         return
 
                     await interaction.message.add_reaction("⏳")

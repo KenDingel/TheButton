@@ -320,6 +320,39 @@ def terminate_handler(signal, frame):
     asyncio.create_task(close_bot())
 
 
+async def clear_game_cache():
+    """Clear Redis cache for all games"""
+    try:
+        client = await redis_client.get_client()
+        if not client:
+            print("❌ Redis client not available")
+            return
+        
+        # Get all game state keys
+        keys = await client.keys("game:*:state")
+        if keys:
+            print(f"🗑️  Found {len(keys)} game cache keys to delete")
+            deleted = await client.delete(*keys)
+            print(f"✅ Deleted {deleted} cache keys")
+        else:
+            print("ℹ️  No game cache keys found")
+            
+        # Also clear any other game-related keys
+        other_keys = await client.keys("game:*")
+        if other_keys:
+            print(f"🗑️  Found {len(other_keys)} other game keys to delete")
+            deleted = await client.delete(*other_keys)
+            print(f"✅ Deleted {deleted} other keys")
+            
+        print("🎯 Redis cache cleared! The bot will reload fresh data from the database.")
+        
+    except Exception as e:
+        print(f"❌ Error clearing cache: {e}")
+
+
+asyncio.run(clear_game_cache())
+
+
 print("Starting bot...")
 try:
     logger.info(f"""
