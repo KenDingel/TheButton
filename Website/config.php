@@ -3,7 +3,7 @@
 define('DB_HOST', 'moonstorage.moondev.dreamhosters.com');
 define('DB_NAME', 'thebutton');
 define('DB_USER', 'stinky_admin');
-define('DB_PASS', 'Disagree5-Goon-Anyplace');
+define('DB_PASS', 'xxx');
 define('DB_PORT', 3306);
 
 // Color constants matching Python thresholds
